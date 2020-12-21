@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
-}
+/*--- Bootstrap Mobile Gutter Fix --*/
+.row, .container-fluid {
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    }
+    
+    /*--- Fixed Video Background iOS/Mobile Style--*/
+    .video-wrap {
+      clip: rect(0, auto, auto, 0);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #video {
+      position: fixed;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      will-change: transform;
+      z-index: -1000;
+    }
+    video { 
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -100;
+      transform: translateX(-50%) translateY(-50%);
+      background: url('https://www.youtube.com/watch?v=c1GGTZhWK-A') no-repeat;
+      background-size: cover;
+      transition: 1s opacity;
+    }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+     
+    .card{
+        list-style: none;
+        position: relative;
+      }
+      
+      /* .card:before{
+        content: '';
+        display: block;
+        padding-bottom: 150%;
+        width: 100%;
+      } */
+      
+      .card__background{
+        background-size: cover;
+        background-position: center;
+        /* border-radius: var(--spacing-l); */
+        bottom: 0;
+        filter: brightness(0.75) saturate(1.2) contrast(0.85);
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform-origin: center;
+        trsnsform: scale(1) translateZ(0);
+        transition: 
+          filter 200ms linear,
+          transform 200ms linear;
+      }
+      
+      .card:hover .card__background{
+        transform: scale(1.05) translateZ(0);
+        filter: saturate(0.2);
+      }
+      
+      .card-grid:hover > .card:not(:hover) .card__background{
+        filter: brightness(0.5) saturate(0) contrast(1.2) blur(20px) ;
+      }
+      
+      .card__content{
+        display: none;
+        left: 0;
+        width: inherit;
+        padding: var(--spacing-l);
+        position: absolute;
+        bottom: 0;
+      }
+      .card:hover .card__content{
+        display: inline;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+      
+      .card__category{
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing-s);
+        text-transform: uppercase;
+      }
+      
+      .card__heading{
+        color: var(--text-lighter);
+        font-size: 1.9rem;
+        text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+        line-height: 1.4;
+        word-spacing: 100vw;
+      }
+      .card__content h3{
+        background-color: black;
+      }
+  
+      /* ---------------------------------------------------------------------------------------------- */
+      .card__button {
+        font-family: "Roboto", sans-serif;
+        text-transform: uppercase;
+        outline: 0;
+        background: #FF9900;
+        width: 100%;
+        border: 0;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+      }
+      .card__button:hover {
+        background: #bd7100;
+      }
