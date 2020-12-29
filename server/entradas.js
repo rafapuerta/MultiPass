@@ -19,7 +19,6 @@ router.get("/conciertos", function (req, res) {
 
 router.post("/comprar", function (req, res) {
   let db = req.app.locals.db;
-  console.log(req.body.id);
 
   db.collection("conciertos")
     .find({ _id: objectID(req.body.id) })

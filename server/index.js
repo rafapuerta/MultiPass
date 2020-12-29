@@ -16,7 +16,10 @@ app.use(cors());
 app.use("/entradas", entradas)
 
 
-MongoClient.connect("mongodb+srv://rafa:6of4snMMtcW1p2YJ@cluster0.31n0c.mongodb.net/festival?retryWrites=true&w=majority", function( error, client){
+MongoClient.connect("mongodb+srv://rafa:6of4snMMtcW1p2YJ@cluster0.31n0c.mongodb.net/festival?retryWrites=true&w=majority",{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}, function( error, client){
     if (error !== null) {
         console.log(error);
       } else {
@@ -83,7 +86,7 @@ passport.deserializeUser(function (id, done) {
 app.post(
   "/user/login",
   passport.authenticate("local", {
-    successRedirect: "/user",
+    successRedirect: "/user/info",
     failureRedirect: "/user/fail",
   })
 );

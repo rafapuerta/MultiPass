@@ -1,14 +1,15 @@
-import Navbar from "react-bootstrap/Navbar"
-import Nav from "react-bootstrap/Nav"
+import { Navbar, Nav } from "react-bootstrap"
 
 const Footer = () => {
     return (
         <>
         <Navbar fixed="bottom" bg="dark" variant="dark">
-            <Nav className="w-100 clearfix">
-            <p className="float-left">Copyright © 2020 - Todos los derechos reservados - MultiPass S.L.</p>
-            <p className="float-right">Trabajo para Code4Jobs</p>
+            <Nav>
+            <Navbar.Text>Copyright © 2020 - Todos los derechos reservados - MultiPass S.L.</Navbar.Text>
             </Nav>
+            <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>Trabajo para <a href="https://www.code4jobs.com/">Code4Jobs</a></Navbar.Text>
+          </Navbar.Collapse>
       </Navbar>
       </>
     )

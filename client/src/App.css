@@ -134,3 +134,7 @@
       .card__button:hover {
         background: #bd7100;
       }
+
+      #cardImg {
+        width: 200px;
+      }
