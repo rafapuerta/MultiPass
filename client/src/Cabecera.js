@@ -112,7 +112,7 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
             <Nav.Link href="/conciertos">Conciertos</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>Hola, <Link style={{textDecoration:"underline"}} to="/usuario">{usuario.nombre}!</Link></Navbar.Text>
+          <Navbar.Text>Hola, <Link to="/usuario">{usuario.nombre}!</Link></Navbar.Text>
           </Navbar.Collapse>
       
     </Navbar>
@@ -127,7 +127,7 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
             <Nav.Link href="/conciertos">Conciertos</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text><a nohref style={{textDecoration:"underline",cursor:"pointer"}} onClick={() => setModalShow(true)}>Iniciar sesión</a></Navbar.Text>
+          <Navbar.Text><Link><a nohref onClick={() => setModalShow(true)}>Iniciar sesión</a></Link> o <Link to="/registro">Registrar</Link></Navbar.Text>
           </Navbar.Collapse>
           <MyVerticallyCenteredModal
             show={modalShow}

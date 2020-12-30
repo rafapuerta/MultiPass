@@ -4,6 +4,7 @@ const app = express ()
 const cors = require("cors");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const config = require("./config.json")
 
 /* let user = require("./user") */
 let entradas = require("./entradas")
@@ -16,7 +17,7 @@ app.use(cors());
 app.use("/entradas", entradas)
 
 
-MongoClient.connect("mongodb+srv://rafa:6of4snMMtcW1p2YJ@cluster0.31n0c.mongodb.net/festival?retryWrites=true&w=majority",{
+MongoClient.connect(config.mongoPath,{
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, function( error, client){
@@ -107,6 +108,43 @@ app.get("/user", function (req, res) {
     return res.status(401).send({ error: true, mensaje: "No logueado" });
   }
   res.send({ error: false, mensaje: "Login correcto" });
+});
+
+app.post("/user/registrar", function (req, res) {
+  let email = req.body.email;
+  app.locals.db.collection("usuarios")
+    .find({ email: email })
+    .toArray(function (error, datos) {
+      if (error !== null) {
+        res.send({ mensaje: "Ha habido un error. " + error });
+      } else {
+        if (datos.length != 0) {
+          res.send({ unico: false, mensaje: "Email ya registrado." });
+        } else {
+          app.locals.db.collection("usuarios").insertOne(
+            {
+              nombre: req.body.nombre,
+              apellido1: req.body.apellido1,
+              apellido2: req.body.apellido2,
+              dni: req.body.dni,
+              telf: req.body.telf,
+              email: req.body.email,
+              password: bcrypt.hashSync(req.body.password, 10),
+            },
+            function (error, datos) {
+              if (error !== null) {
+                res.send({ mensaje: "Ha habido un error. " + error });
+              } else {
+                res.send({
+                  unico: true,
+                  mensaje: "Cliente registrado correctamente.",
+                });
+              }
+            }
+          );
+        }
+      }
+    });
 });
 
 app.post("/user/register", function (req, res) {

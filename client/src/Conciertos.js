@@ -47,7 +47,7 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
   const conciertosMostrar = conciertos.map((concierto) => {
     if (sesion) {
     return (
-      <Card key={concierto._id} style={{ width: "18rem" }}>
+      <Card key={concierto._id}>
         <Card.Img variant="top" src={concierto.cartel} />
         <Card.Body>
           <Card.Title>{concierto.artista}</Card.Title>
@@ -61,7 +61,7 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
       </Card>
     )} else {
       return (
-        <Card key={concierto._id} style={{ width: "18rem" }}>
+        <Card key={concierto._id}>
         <Card.Img variant="top" src={concierto.cartel} />
         <Card.Body>
           <Card.Title>{concierto.artista}</Card.Title>
@@ -77,7 +77,7 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
   });
 
   return (
-    <Container style={{padding:60}}>
+    <Container style={{paddingBottom:60, paddingTop:60}}>
       <CardColumns>{conciertosMostrar}</CardColumns>
     </Container>
   );

@@ -10,6 +10,13 @@ import Inicio from "./Inicio"
 import Usuario from "./Usuario"
 import Footer from "./Footer"
 import Conciertos from "./Conciertos"
+import Registro from './Registro';
+
+//TODO: 
+// - Moments.js Fechas
+// - Edición datos usuario
+// - Ordenar conciertos fecha (Moments.js?)
+// - Eliminar entrada del MultiPass
 
 function App() {
   const [loged, setLoged] = useState(false)
@@ -20,6 +27,9 @@ function App() {
     <Cabecera usuario={usuario} setUsuario={setUsuario} sesion={loged} setSesion={sesion}/>
     <Route exact path="/">
       <Inicio />
+    </Route>
+    <Route exact path="/registro">
+      <Registro />
     </Route>
     <Route exact path="/usuario">
       <Usuario usuario={usuario} setUsuario={setUsuario} sesion={loged} setSesion={sesion}/>

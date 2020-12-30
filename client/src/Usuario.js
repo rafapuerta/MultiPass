@@ -5,11 +5,13 @@ import {
   Card,
   Button,
   Jumbotron,
+  Col,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+const QRCode = require("qrcode.react");
 
 export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
-  console.log(usuario);
+  console.log(usuario.entradas);
   const logout = () => {
     fetch("/user/logout")
       .then((response) => response.json())
@@ -23,22 +25,65 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
       });
   };
 
-  const entradasMostrar = usuario.entradas.map((entrada) => {
+  const DatosUsuario = () => {
     return (
-      <Card style={{ width: "18rem" }} key={entrada._id}>
+      <Row>
+        <Card style={{ width: "100%" }}>
+          <Card.Header>
+            {usuario.nombre} {usuario.apellido1} {usuario.apellido2}
+          </Card.Header>
+          <Card.Body>
+            <Card.Subtitle className="mb-2 text-muted">
+              {usuario.email}
+            </Card.Subtitle>
+            <Card.Text>
+              <strong>Dni:</strong> {usuario.dni} <br />
+              <strong>teléfono:</strong> {usuario.telf}
+            </Card.Text>
+            <Button variant="warning" onClick={logout}>
+              Cerrar sesion
+            </Button>
+          </Card.Body>
+        </Card>
+      </Row>
+    );
+  };
+
+  const entradasMostrar = usuario.entradas.map((entrada) => {
+    var qr = JSON.stringify({
+      email: usuario.email,
+      dni: usuario.dni,
+      entrada: {
+        id: entrada.id,
+        artista: entrada.grupo,
+        entrada: entrada.numero,
+        lugar: entrada.sala,
+        fecha: entrada.fecha,
+      },
+    });
+    return (
+      <Card key={entrada._id}>
         <Card.Img variant="top" src={entrada.cartel} />
         <Card.Body>
           <Card.Title>{entrada.grupo}</Card.Title>
           <Card.Text>
-            {entrada.fecha}
-            <br />
-            {entrada.sala}
+            <Row>
+              <Col>
+                Fecha: <br />
+                <strong>{entrada.fecha}</strong>
+                <br />
+                Lugar: <br />
+                <strong>{entrada.sala}</strong>
+              </Col>
+              <Col>
+                <QRCode value={qr} />
+              </Col>
+            </Row>
           </Card.Text>
         </Card.Body>
       </Card>
-  )});
-  
-  
+    );
+  });
 
   if (!sesion) {
     return (
@@ -53,29 +98,24 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
       </Jumbotron>
     );
   } else {
-    if (usuario.entradas === undefined) {
+    if (usuario.entradas !== undefined) {
       return (
         <Container>
           <Row>⠀</Row>
+          <DatosUsuario />
+          <Row>⠀</Row>
           <Row>
-            <Card style={{ width: "100%" }}>
-              <Card.Header>
-                {usuario.nombre} {usuario.apellido1} {usuario.apellido2}
-              </Card.Header>
-              <Card.Body>
-                <Card.Subtitle className="mb-2 text-muted">
-                  {usuario.email}
-                </Card.Subtitle>
-                <Card.Text>
-                  <strong>Dni:</strong> {usuario.dni} <br />
-                  <strong>teléfono:</strong> {usuario.telf}
-                </Card.Text>
-                <Button variant="warning" onClick={logout}>
-                  Cerrar sesion
-                </Button>
-              </Card.Body>
-            </Card>
+            <CardColumns style={{ paddingBottom: 60 }}>
+              {entradasMostrar}
+            </CardColumns>
           </Row>
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          <Row>⠀</Row>
+          <DatosUsuario />
           <Row>⠀</Row>
           <Row>
             <Jumbotron style={{ width: "100%" }}>
@@ -87,37 +127,6 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
                 </p>
               </Container>
             </Jumbotron>
-          </Row>
-        </Container>
-      );
-    } else {
-      return (
-        <Container>
-          <Row>⠀</Row>
-          <Row>
-            <Card style={{ width: "100%" }}>
-              <Card.Header>
-                {usuario.nombre} {usuario.apellido1} {usuario.apellido2}
-              </Card.Header>
-              <Card.Body>
-                <Card.Subtitle className="mb-2 text-muted">
-                  {usuario.email}
-                </Card.Subtitle>
-                <Card.Text>
-                  <strong>Dni:</strong> {usuario.dni} <br />
-                  <strong>teléfono:</strong> {usuario.telf}
-                </Card.Text>
-                <Button variant="warning" onClick={logout}>
-                  Cerrar sesion
-                </Button>
-              </Card.Body>
-            </Card>
-          </Row>
-          <Row>⠀</Row>
-          <Row>
-            <CardColumns>
-              {entradasMostrar}
-            </CardColumns>
           </Row>
         </Container>
       );
