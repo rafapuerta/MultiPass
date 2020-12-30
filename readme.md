@@ -1,4 +1,4 @@
-![GitHub package.json version](https://img.shields.io/github/package-json/v/rafapuerta/MultiPass/client)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/rafapuerta/MultiPass/tree/master/client)
 
 # Multi-Pass
 
