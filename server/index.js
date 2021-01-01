@@ -169,6 +169,36 @@ app.post("/user/register", function (req, res) {
   );
 });
 
+app.put("/user/editar", function (req, res) {
+
+  let email = req.body.email;
+  let nombre = req.body.nombre;
+  let apellido1 = req.body.apellido1;
+  let apellido2 = req.body.apellido2;
+  let dni = req.body.dni;
+  let telf = req.body.telf;
+
+  app.locals.db.collection("usuarios").updateOne(
+    { email: email },
+    {
+      $set: {
+        nombre: nombre,
+        apellido1: apellido1,
+        apellido2: apellido2,
+        dni: dni,
+        telf: telf,
+      },
+    },
+    function (error, datos) {
+      if (error !== null) {
+        res.send({ error: true, mensaje: "Ha habido un error. " + error });
+      } else {
+        res.send({ error: false, mensaje: "Usuario editado correctamente" });
+      }
+    }
+  );
+});
+
 app.get("/user/info", function (req, res) {
   if (req.isAuthenticated()) {
     return res.send(req.user);

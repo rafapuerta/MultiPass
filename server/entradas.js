@@ -69,5 +69,30 @@ router.post("/comprar", function (req, res) {
     });
 });
 
+router.post("/eliminar", function (req, res) {
+  let db = req.app.locals.db;
+
+  db.collection("usuarios").findOneAndUpdate(
+    { email: req.body.email },
+    { $pull: { entradas: {id: objectID(req.body.id)} } },
+    function (error, datos) {
+      if (error !== null) {
+        res.send({ mensaje: "Ha habido un error. " + error });
+      } else {
+        db.collection("conciertos").updateOne(
+          { _id: objectID(req.body.id) },
+          { $inc: { entradas: 1 } },
+          function (error, datos) {
+            if (error !== null) {
+              res.send({ mensaje: "Ha habido un error. " + error });
+            } else {
+              res.send({ datos, mensaje: "Eliminada Correctamente" });
+            }
+          }
+        );
+      }
+    }
+  );
+});
 
 module.exports = router;

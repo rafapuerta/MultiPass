@@ -13,10 +13,7 @@ import Conciertos from "./Conciertos"
 import Registro from './Registro';
 
 //TODO: 
-// - Moments.js Fechas
-// - Edición datos usuario
-// - Ordenar conciertos fecha (Moments.js?)
-// - Eliminar entrada del MultiPass
+// - Landing
 
 function App() {
   const [loged, setLoged] = useState(false)
@@ -28,7 +25,7 @@ function App() {
     <Route exact path="/">
       <Inicio />
     </Route>
-    <Route exact path="/registro">
+    <Route exact path="/usuario/registrar">
       <Registro />
     </Route>
     <Route exact path="/usuario">

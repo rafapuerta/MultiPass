@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import { Card, Button, CardColumns, Container, } from "react-bootstrap";
+import { Card, Button, CardColumns, Container, Row, Col } from "react-bootstrap";
+const { DateTime } = require("luxon");
 
 const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
-  console.log(usuario.entradas)
   const [conciertos, setConciertos] = useState([]);
   useEffect(() => {
     fetch("/entradas/conciertos")
       .then((res) => res.json())
       .then((datos) => {
         setConciertos(datos);
-        console.log(datos);
       });
   }, []);
 
   const comprar = (e) => {
-    console.log(`Comprar: ${e.target.value}`);
     fetch("/entradas/comprar", {
       method: "POST",
       headers: {
@@ -31,13 +29,13 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
   const yaComprada = (id) => {
     if (usuario.entradas.some(e => e.id === id)) {
       return (
-        <Button variant="success" disabled>
+        <Button size="sm" variant="success" disabled>
           Ya añadido
         </Button>
       );
     } else {
       return (
-        <Button value={id} variant="warning" onClick={comprar}>
+        <Button size="sm" value={id} variant="warning" onClick={comprar}>
           Añadir
         </Button>
       );
@@ -45,18 +43,33 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
   };
 
   const conciertosMostrar = conciertos.map((concierto) => {
+    let fecha = DateTime.fromISO(concierto.fecha)
+    console.log(fecha)
     if (sesion) {
     return (
       <Card key={concierto._id}>
         <Card.Img variant="top" src={concierto.cartel} />
         <Card.Body>
-          <Card.Title>{concierto.artista}</Card.Title>
+          <Card.Title><Row><Col>{concierto.artista}</Col><Col>{yaComprada(concierto._id)}</Col></Row></Card.Title>
           <Card.Text>
-            {concierto.fecha}
-            <br />
-            {concierto.sala}
+          <Row style={{backgroundColor:"#EEEEEE", padding: 10}}>
+              <Col>
+                Fecha: <br />
+                <strong>{`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}</strong>
+                {fecha.DATE_SHORT}
+                <br />
+                Lugar: <br />
+                <strong>{concierto.sala}</strong>
+              </Col>
+              <Col>
+              Quedan: <br />
+                <h3>{concierto.entradas}</h3>
+              </Col>
+            </Row>
           </Card.Text>
-          {yaComprada(concierto._id)}
+          <Row>
+          
+          </Row>
         </Card.Body>
       </Card>
     )} else {
@@ -66,9 +79,19 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
         <Card.Body>
           <Card.Title>{concierto.artista}</Card.Title>
           <Card.Text>
-            {concierto.fecha}
-            <br />
-            {concierto.sala}
+          <Row style={{backgroundColor:"#EEEEEE", padding: 10}}>
+              <Col>
+                Fecha: <br />
+                <strong>{`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}</strong>
+                <br />
+                Lugar: <br />
+                <strong>{concierto.sala}</strong>
+              </Col>
+              <Col>
+              Quedan: <br />
+                <h3>{concierto.entradas}</h3>
+              </Col>
+            </Row>
           </Card.Text>
         </Card.Body>
       </Card>

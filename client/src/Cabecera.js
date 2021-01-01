@@ -8,13 +8,6 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
   const [pass, setPass] = useState("");
   const [feedback, setFeedback] = useState(false);
 
-  const manageChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const manageChangePass = (e) => {
-    setPass(e.target.value);
-  };
-
   useEffect(() => {
     fetch("/user/info")
       .then((respuesta) => respuesta.json())
@@ -58,7 +51,7 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
       });
   };
 
-  function MyVerticallyCenteredModal(props) {
+  function LoginForm(props) {
     setFeedback("");
     return (
       <Modal
@@ -80,7 +73,7 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
                 type="email"
                 placeholder="Introduzca email"
                 value={email}
-                onChange={manageChangeEmail}
+                onChange={(e)=>setEmail(e.target.value)}
               />
             </Form.Group>
 
@@ -90,7 +83,7 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
                 type="password"
                 placeholder="Password"
                 value={pass}
-                onChange={manageChangePass}
+                onChange={(e)=>setPass(e.target.value)}
               />
             </Form.Group>
             <Form.Text className="text-muted">{feedback}</Form.Text>
@@ -127,9 +120,9 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
             <Nav.Link href="/conciertos">Conciertos</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text><Link><a nohref onClick={() => setModalShow(true)}>Iniciar sesión</a></Link> o <Link to="/registro">Registrar</Link></Navbar.Text>
+          <Navbar.Text><Link><a nohref onClick={() => setModalShow(true)}>Iniciar sesión</a></Link> o <Link to="/usuario/registrar">Registrar</Link></Navbar.Text>
           </Navbar.Collapse>
-          <MyVerticallyCenteredModal
+          <LoginForm
             show={modalShow}
             onHide={() => setModalShow(false)}
           />
