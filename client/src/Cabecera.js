@@ -114,13 +114,16 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
   } else {
     return (
       <>
-        <Navbar bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
           <Navbar.Brand href="/">MultiPass</Navbar.Brand>
-          <Nav className="justify-content-end">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
             <Nav.Link href="/conciertos">Conciertos</Nav.Link>
           </Nav>
-          <Navbar.Collapse className="justify-content-end">
+          <Nav>
           <Navbar.Text><Link><a nohref onClick={() => setModalShow(true)}>Iniciar sesión</a></Link> o <Link to="/usuario/registrar">Registrar</Link></Navbar.Text>
+          </Nav>
           </Navbar.Collapse>
           <LoginForm
             show={modalShow}

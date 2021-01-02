@@ -14,6 +14,8 @@ import Registro from './Registro';
 
 //TODO: 
 // - Landing
+// -- Centrar el rótulo
+// encapsular vídeo y poner "noticias" debajo
 
 function App() {
   const [loged, setLoged] = useState(false)
