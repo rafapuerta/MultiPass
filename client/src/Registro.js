@@ -38,38 +38,43 @@ export default function Registro() {
   );
   const registrar = () => {
     if (emailIsValid(email)) {
-        if(passIsValid(pass1)){
-            if(passIsEqual(pass1, pass2)){
-                fetch("/user/registrar", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      nombre: nombre,
-                      apellido1: apellido1,
-                      apellido2: apellido2,
-                      dni: dni,
-                      telf: telf,
-                      email: email,
-                      password: pass1,
-                    }),
-                  })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.unico) {
-                        setFeedback(<Alert variant="success">Usuario registrado correctamente</Alert>)
-                        }else {
-                            setFeedback(<Alert variant="danger">{data.mensaje}</Alert>)
-                        }
-                    }) 
-            }else{
-                setFeedback(<Alert variant="danger">Las contraseñas no coinciden</Alert>);
-            }
-
-        }else{
-            setFeedback(<Alert variant="danger">La contraseña no es válida</Alert>);
+      if (passIsValid(pass1)) {
+        if (passIsEqual(pass1, pass2)) {
+          fetch("/user/registrar", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              nombre: nombre,
+              apellido1: apellido1,
+              apellido2: apellido2,
+              dni: dni,
+              telf: telf,
+              email: email,
+              password: pass1,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.unico) {
+                setFeedback(
+                  <Alert variant="success">
+                    Usuario registrado correctamente
+                  </Alert>
+                );
+              } else {
+                setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
+              }
+            });
+        } else {
+          setFeedback(
+            <Alert variant="danger">Las contraseñas no coinciden</Alert>
+          );
         }
+      } else {
+        setFeedback(<Alert variant="danger">La contraseña no es válida</Alert>);
+      }
     } else {
       setFeedback(<Alert variant="danger">El email no es válido</Alert>);
     }
@@ -92,7 +97,14 @@ export default function Registro() {
           <Form.Row>
             <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email</Form.Label>
-              <Form.Control value={email} onChange={(e)=>{setEmail(e.target.value)}} type="email" placeholder="Introduce tu email" />
+              <Form.Control
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                type="email"
+                placeholder="Introduce tu email"
+              />
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridPassword">
@@ -103,7 +115,10 @@ export default function Registro() {
                 overlay={passAyuda}
               >
                 <Form.Control
-                value={pass1} onChange={(e)=>{setPass1(e.target.value)}}
+                  value={pass1}
+                  onChange={(e) => {
+                    setPass1(e.target.value);
+                  }}
                   type="password"
                   placeholder="Introduce tu contraseña"
                 />
@@ -112,7 +127,10 @@ export default function Registro() {
             <Form.Group as={Col} controlId="formGridPassword2">
               <Form.Label>Repite Contraseña</Form.Label>
               <Form.Control
-              value={pass2} onChange={(e)=>{setPass2(e.target.value)}}
+                value={pass2}
+                onChange={(e) => {
+                  setPass2(e.target.value);
+                }}
                 type="password"
                 placeholder="Repite tu contraseña"
               />
@@ -121,28 +139,87 @@ export default function Registro() {
           <Form.Row>
             <Form.Group as={Col} controlId="formGridName">
               <Form.Label>Nombre</Form.Label>
-              <Form.Control value={nombre} onChange={(e)=>{setNombre(e.target.value)}} type="input" />
+              <Form.Control
+                value={nombre}
+                onChange={(e) => {
+                  setNombre(e.target.value);
+                }}
+                type="input"
+              />
             </Form.Group>
             <Form.Group as={Col} controlId="formGrid1Apellido">
               <Form.Label>1º Apellido</Form.Label>
-              <Form.Control value={apellido1} onChange={(e)=>{setApellido1(e.target.value)}} type="input" />
+              <Form.Control
+                value={apellido1}
+                onChange={(e) => {
+                  setApellido1(e.target.value);
+                }}
+                type="input"
+              />
             </Form.Group>
             <Form.Group as={Col} controlId="formGrid2Apellido">
               <Form.Label>2º Apellido</Form.Label>
-              <Form.Control value={apellido2} onChange={(e)=>{setApellido2(e.target.value)}} type="input" />
+              <Form.Control
+                value={apellido2}
+                onChange={(e) => {
+                  setApellido2(e.target.value);
+                }}
+                type="input"
+              />
             </Form.Group>
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridTelf">
               <Form.Label>Telefono:</Form.Label>
-              <Form.Control value={telf} onChange={(e)=>{setTelf(e.target.value)}} type="input" />
+              <Form.Control
+                value={telf}
+                onChange={(e) => {
+                  setTelf(e.target.value);
+                }}
+                type="input"
+              />
             </Form.Group>
             <Form.Group as={Col} controlId="formGridDNI">
               <Form.Label>DNI</Form.Label>
-              <Form.Control value={dni} onChange={(e)=>{setDni(e.target.value)}} type="input" />
+              <Form.Control
+                value={dni}
+                onChange={(e) => {
+                  setDni(e.target.value);
+                }}
+                type="input"
+              />
             </Form.Group>
           </Form.Row>
-          <Button onClick={registrar} variant="primary">Registrar</Button>
+          <fieldset>
+            <Form.Group as={Row}>
+              <Form.Label as="legend" column sm={2}>
+                Nivel de suscripción:
+              </Form.Label>
+              <Col sm={10}>
+                <Form.Check
+                  type="radio"
+                  label="Groupie - 49.99€ / mes"
+                  name="formHorizontalRadios"
+                  id="tierGroupie"
+                />
+                <Form.Check
+                  type="radio"
+                  label="Fan - 29.99€ / mes"
+                  name="formHorizontalRadios"
+                  id="tierFan"
+                />
+                <Form.Check
+                  type="radio"
+                  label="Aficionado - 19.99€ / mes"
+                  name="formHorizontalRadios"
+                  id="tierAficionado"
+                />
+              </Col>
+            </Form.Group>
+          </fieldset>
+          <Button onClick={registrar} variant="primary">
+            Registrar
+          </Button>
           <Row>⠀</Row>
           {feedback}
         </Form>

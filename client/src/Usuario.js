@@ -9,8 +9,8 @@ import {
   Form,
   Alert,
 } from "react-bootstrap";
-import { useState } from "react";
-import { BrowserRouter, Link, Route } from "react-router-dom";
+import { useState, } from "react";
+import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
 const { DateTime } = require("luxon");
 const QRCode = require("qrcode.react");
 
@@ -197,7 +197,10 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
     );
   };
 
-  const entradasMostrar = usuario.entradas.map((entrada) => {
+ let entradasMostrar
+  if (usuario.entradas) {
+
+ entradasMostrar = usuario.entradas.map((entrada) => {
     var fecha = DateTime.fromISO(entrada.fecha);
     var qr = JSON.stringify({
       email: usuario.email,
@@ -210,13 +213,14 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
         fecha: entrada.fecha,
       },
     });
+  
     return (
       <Card key={entrada.id}>
         <Card.Img variant="top" src={entrada.cartel} />
         <Card.Body>
           <Card.Title>
             <Row>
-              <Col>{entrada.grupo}</Col>
+              <Col>{entrada.grupo} {entrada.categoria}</Col>
               <Col>
                 <Button
                   size="sm"
@@ -250,19 +254,13 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario }) {
       </Card>
     );
   });
+}
 
   if (!sesion) {
+    console.log(sesion)
     return (
-      <Jumbotron className="d-flex align-items-center">
-        <Container>
-          <h1>Usuario no encontrado</h1>
-          <p>
-            Por favor, inicia sesión pinchando en la esquina superior derecha de
-            la web para poder acceder a tu perfil de usuario.
-          </p>
-        </Container>
-      </Jumbotron>
-    );
+      <Redirect to="/" />
+      );
   } else {
     if (usuario.entradas !== undefined && usuario.entradas.length > 0) {
       return (

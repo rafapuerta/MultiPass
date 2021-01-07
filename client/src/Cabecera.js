@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Nav, Navbar, Modal, Form, Alert,} from "react-bootstrap";
+import { Button, Nav, Navbar, Modal, Form, Alert } from "react-bootstrap";
 
-const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
+const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -14,19 +14,27 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
       .then((data) => {
         if (data.error) {
           console.log({ status: "Denegado", data });
-          setUsuario(data)
-          setSesion(false)
+          setUsuario(data);
+          setSesion(false);
           return;
         } else {
           console.log({ status: "Logueado", data });
-          setUsuario(data)
-          setSesion(true)
+          setUsuario(data);
+          setSesion(true);
         }
       });
-  },[]);
+  }, []);
+  const handleFeedback = () => {
+    setFeedback("");
+  };
+  const handleMail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePass = (e) => {
+    setPass(e.target.value);
+  };
 
   const login = () => {
-    console.log("usuario: " + email + " contraseña: " + pass);
     fetch("/user/login", {
       method: "POST",
       headers: {
@@ -42,74 +50,28 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
         if (data.error) {
           console.log({ status: "Denegado", data });
           setFeedback(<Alert variant="danger">Datos incorrectos</Alert>);
+          setSesion(false)
         } else {
           console.log({ status: "Logueado", data });
-          setUsuario(data)
-          setFeedback(<Alert variant="success">Login correcto.</Alert>);
-          setSesion(true)
+          setUsuario(data);
+          setSesion(true);
         }
       });
   };
 
-  function LoginForm(props) {
-    setFeedback("");
-    return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Inicio Sesión
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Introduzca email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={pass}
-                onChange={(e)=>setPass(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Text className="text-muted">{feedback}</Form.Text>
-            <Button variant="primary" size="sm" onClick={login}>
-              Log In
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
   if (sesion) {
     return (
-
       <Navbar bg="dark" variant="dark">
-          <Navbar.Brand href="/">MultiPass</Navbar.Brand>
-          <Nav className="justify-content-end">
-            <Nav.Link href="/conciertos">Conciertos</Nav.Link>
-          </Nav>
-          <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>Hola, <Link to="/usuario">{usuario.nombre}!</Link></Navbar.Text>
-          </Navbar.Collapse>
-      
-    </Navbar>
-
+        <Navbar.Brand href="/">MultiPass</Navbar.Brand>
+        <Nav className="justify-content-end">
+          <Nav.Link href="/conciertos">Conciertos</Nav.Link>
+        </Nav>
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            Hola, <Link to="/usuario">{usuario.nombre}!</Link>
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Navbar>
     );
   } else {
     return (
@@ -118,15 +80,29 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
           <Navbar.Brand href="/">MultiPass</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/conciertos">Conciertos</Nav.Link>
-          </Nav>
-          <Nav>
-          <Navbar.Text><Link><a nohref onClick={() => setModalShow(true)}>Iniciar sesión</a></Link> o <Link to="/usuario/registrar">Registrar</Link></Navbar.Text>
-          </Nav>
+            <Nav className="mr-auto">
+              <Nav.Link href="/conciertos">Conciertos</Nav.Link>
+            </Nav>
+            <Nav>
+              <Navbar.Text>
+                <Link>
+                  <a nohref onClick={() => setModalShow(true)}>
+                    Iniciar sesión
+                  </a>
+                </Link>{" "}
+                o <Link to="/usuario/registrar">Registrar</Link>
+              </Navbar.Text>
+            </Nav>
           </Navbar.Collapse>
           <LoginForm
+            feedback={feedback}
+            handleFeedback={handleFeedback}
+            email={email}
+            pass={pass}
+            handleMail={handleMail}
+            handlePass={handlePass}
             show={modalShow}
+            login={login}
             onHide={() => setModalShow(false)}
           />
         </Navbar>
@@ -134,5 +110,50 @@ const Cabecera = ({sesion, setSesion, usuario, setUsuario}) => {
     );
   }
 };
+
+function LoginForm(props) {
+  props.handleFeedback();
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Inicio Sesión
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Introduzca email"
+              value={props.email}
+              onChange={props.handleMail}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={props.pass}
+              onChange={props.handlePass}
+            />
+          </Form.Group>
+          <Form.Text className="text-muted">{props.feedback}</Form.Text>
+          <Button variant="primary" size="sm" onClick={props.login}>
+            Log In
+          </Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  );
+}
 
 export default Cabecera;

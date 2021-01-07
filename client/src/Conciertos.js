@@ -44,7 +44,6 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
 
   const conciertosMostrar = conciertos.map((concierto) => {
     let fecha = DateTime.fromISO(concierto.fecha)
-    console.log(fecha)
     if (sesion) {
     return (
       <Card key={concierto._id}>
@@ -64,6 +63,8 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
               <Col>
               Quedan: <br />
                 <h3>{concierto.entradas}</h3>
+              Categoría:
+                
               </Col>
             </Row>
           </Card.Text>

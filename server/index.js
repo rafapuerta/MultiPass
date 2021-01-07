@@ -52,7 +52,8 @@ passport.use(
         .find({ email: email })
         .toArray(function (err, users) {
           if (users.length === 0) {
-            done(null, false);
+            return done(null, false);
+
           }
           const user = users[0];
           if (bcrypt.compareSync(password, user.password)) {
@@ -148,7 +149,6 @@ app.post("/user/registrar", function (req, res) {
 });
 
 app.post("/user/register", function (req, res) {
-  console.log(req.body)
   app.locals.db.collection("usuarios").insertOne(
     {
       nombre: req.body.nombre,
