@@ -20,6 +20,8 @@ export default function Registro() {
   const [dni, setDni] = useState("");
   const [telf, setTelf] = useState("");
   const [feedback, setFeedback] = useState("");
+  const [categoria, setCategoria] = useState("");
+
   function emailIsValid(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
@@ -53,6 +55,7 @@ export default function Registro() {
               telf: telf,
               email: email,
               password: pass1,
+              categoria: categoria,
             }),
           })
             .then((response) => response.json())
@@ -73,7 +76,7 @@ export default function Registro() {
           );
         }
       } else {
-        setFeedback(<Alert variant="danger">La contraseña no es válida</Alert>);
+        setFeedback(<Alert variant="danger">La contraseña no cumple los requisitos</Alert>);
       }
     } else {
       setFeedback(<Alert variant="danger">El email no es válido</Alert>);
@@ -198,21 +201,33 @@ export default function Registro() {
               <Col sm={10}>
                 <Form.Check
                   type="radio"
-                  label="Groupie - 49.99€ / mes"
+                  label="Gold - 49.99€ / mes"
                   name="formHorizontalRadios"
                   id="tierGroupie"
+                  value="a"
+                  onClick={(e) => {
+                    setCategoria(e.target.value);
+                  }}
                 />
                 <Form.Check
                   type="radio"
-                  label="Fan - 29.99€ / mes"
+                  label="Silver - 29.99€ / mes"
                   name="formHorizontalRadios"
                   id="tierFan"
+                  value="b"
+                  onClick={(e) => {
+                    setCategoria(e.target.value);
+                  }}
                 />
                 <Form.Check
                   type="radio"
-                  label="Aficionado - 19.99€ / mes"
+                  label="Bronze - 19.99€ / mes"
                   name="formHorizontalRadios"
                   id="tierAficionado"
+                  value="c"
+                  onClick={(e) => {
+                    setCategoria(e.target.value);
+                  }}
                 />
               </Col>
             </Form.Group>

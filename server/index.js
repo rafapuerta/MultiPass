@@ -131,6 +131,8 @@ app.post("/user/registrar", function (req, res) {
               telf: req.body.telf,
               email: req.body.email,
               password: bcrypt.hashSync(req.body.password, 10),
+              categoria: req.body.categoria,
+              entradas: [], 
             },
             function (error, datos) {
               if (error !== null) {

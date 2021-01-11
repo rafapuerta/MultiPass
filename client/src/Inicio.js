@@ -1,5 +1,5 @@
 import "./App.css";
-import fondo from "./videoplayback.mp4";
+import fondo from "./img/videoplayback.mp4";
 import {Container} from "react-bootstrap"
 export default function Inicio() {
   return (

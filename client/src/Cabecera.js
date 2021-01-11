@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Nav, Navbar, Modal, Form, Alert } from "react-bootstrap";
 
+import logo from "./img/logo.svg"
+import logo2 from "./img/logo2.svg"
+
 const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
@@ -13,12 +16,12 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
       .then((respuesta) => respuesta.json())
       .then((data) => {
         if (data.error) {
-          console.log({ status: "Denegado", data });
+          console.log({ status: "Denegado"});
           setUsuario(data);
           setSesion(false);
           return;
         } else {
-          console.log({ status: "Logueado", data });
+          console.log({ status: "Logueado"});
           setUsuario(data);
           setSesion(true);
         }
@@ -48,11 +51,11 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.log({ status: "Denegado", data });
+          console.log({ status: "Denegado"});
           setFeedback(<Alert variant="danger">Datos incorrectos</Alert>);
           setSesion(false)
         } else {
-          console.log({ status: "Logueado", data });
+          console.log({ status: "Logueado"});
           setUsuario(data);
           setSesion(true);
         }
@@ -62,7 +65,19 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
   if (sesion) {
     return (
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="/">MultiPass</Navbar.Brand>
+        <Navbar.Brand href="/"><img
+        src={logo}
+        width="30"
+        height="30"
+        className="d-inline-block align-top"
+        alt="React Bootstrap logo"
+      />
+      <img
+      src={logo2}
+      height="30"
+      className="d-inline-block align-top"
+      alt="React Bootstrap logo"
+    /></Navbar.Brand>
         <Nav className="justify-content-end">
           <Nav.Link href="/conciertos">Conciertos</Nav.Link>
         </Nav>
