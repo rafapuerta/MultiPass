@@ -1,6 +1,12 @@
 import "./App.css";
 import fondo from "./img/videoplayback.mp4";
 import {Container} from "react-bootstrap"
+
+import logo from "./img/logo.svg"
+import logo2 from "./img/logo2.svg"
+
+
+
 export default function Inicio() {
   return (
       <>
@@ -10,7 +16,16 @@ export default function Inicio() {
       </video>
       <Container className="horizontal-center">
           <Container className="vertical-center">
-          <h1 style={{color:"#FF9900"}} >MultiPass</h1>
+          <img
+        src={logo}
+        width="150"
+        height="150"
+        alt="React Bootstrap logo"
+      /><br /><img
+      src={logo2}
+      height="100"
+      alt="React Bootstrap logo"
+    />
           <p>Si no tenemos entrada, el concierto es en casa del Artista.</p>
           </Container>
       </Container>

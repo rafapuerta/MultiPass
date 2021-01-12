@@ -2,14 +2,21 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Nav, Navbar, Modal, Form, Alert } from "react-bootstrap";
 
-import logo from "./img/logo.svg"
-import logo2 from "./img/logo2.svg"
+import logo from "./img/logo.svg";
+import logo2 from "./img/logo2.svg";
 
-const Cabecera = ({ sesion, setSesion, usuario, setUsuario, login, feedback, setFeedback }) => {
+const Cabecera = ({
+  sesion,
+  setSesion,
+  usuario,
+  setUsuario,
+  login,
+  feedback,
+  setFeedback,
+}) => {
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
 
   const handleFeedback = () => {
     setFeedback("");
@@ -23,39 +30,69 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario, login, feedback, set
 
   if (sesion) {
     return (
-      <Navbar fixed="top" bg="dark" variant="dark">
-        <Navbar.Brand href="/"><img
-        src={logo}
-        width="30"
-        height="30"
-        className="d-inline-block align-top"
-        alt="React Bootstrap logo"
-      />
-      <img
-      src={logo2}
-      height="30"
-      className="d-inline-block align-top"
-      alt="React Bootstrap logo"
-    /></Navbar.Brand>
-        <Nav className="justify-content-end">
-          <Link to="/conciertos">Conciertos</Link>
-        </Nav>
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            Hola, <Link to="/usuario">{usuario.nombre}!</Link>
-          </Navbar.Text>
+      <Navbar fixed="top" collapseOnSelect
+      expand="sm" bg="dark" variant="dark">
+        <Navbar.Brand href="/">
+          <img
+            src={logo}
+            width="40"
+            height="40"
+            className="d-inline-block align-top"
+            alt="MultiPass logo"
+          />
+          <img
+            src={logo2}
+            height="40"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Navbar.Text>
+              <Link to="/conciertos">Conciertos</Link>
+            </Navbar.Text>
+          </Nav>
+          <Nav>
+            <Navbar.Text>
+              Hola, <Link to="/usuario">{usuario.nombre}!</Link>
+            </Navbar.Text>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
   } else {
     return (
       <>
-        <Navbar fixed="top" collapseOnSelect expand="sm" bg="dark" variant="dark">
-          <Navbar.Brand href="/">MultiPass</Navbar.Brand>
+        <Navbar
+          fixed="top"
+          collapseOnSelect
+          expand="sm"
+          bg="dark"
+          variant="dark"
+        >
+          <Navbar.Brand href="/">
+            <img
+              src={logo}
+              width="40"
+              height="40"
+              className="d-inline-block align-top"
+              alt="MultiPass logo"
+            />
+            <img
+              src={logo2}
+              height="40"
+              className="d-inline-block align-top"
+              alt="React Bootstrap logo"
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/conciertos">Conciertos</Nav.Link>
+              <Navbar.Text>
+                <Link to="/conciertos">Conciertos</Link>
+              </Navbar.Text>
             </Nav>
             <Nav>
               <Navbar.Text>
@@ -121,7 +158,13 @@ function LoginForm(props) {
             />
           </Form.Group>
           <Form.Text className="text-muted">{props.feedback}</Form.Text>
-          <Button variant="primary" size="sm" onClick={()=>{props.login(props.email, props.pass)}}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => {
+              props.login(props.email, props.pass);
+            }}
+          >
             Log In
           </Button>
         </Form>
