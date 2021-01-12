@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {BrowserRouter, Route} from "react-router-dom"
+import {Alert} from "react-bootstrap"
 import {useState} from "react"
 
 import Cabecera from "./Cabecera"
@@ -18,12 +19,54 @@ import Registro from './Registro';
 // encapsular vídeo y poner "noticias" debajo
 
 function App() {
-  const [loged, setLoged] = useState(false)
+  const [sesion, setSesion] = useState(false)
   const [usuario, setUsuario] =useState({})
-  const sesion = (estado) => {setLoged(estado)}
+  const [feedback, setFeedback] = useState("")
+
+
+  const login = (email, pass) => {
+    fetch("/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: pass,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log({ status: "Denegado"});
+          setFeedback(<Alert variant="danger">Datos incorrectos</Alert>);
+          setSesion(false)
+        } else {
+          console.log({ status: "Logueado"});
+          setUsuario(data);
+          setSesion(true);
+        }
+      });
+  };
+
+  const logout = () => {
+    fetch("/user/logout")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log(data);
+        } else {
+          setUsuario({});
+          setSesion(false);
+        }
+      });
+  };
+
+
+
   return (
     <BrowserRouter>
-    <Cabecera usuario={usuario} setUsuario={setUsuario} sesion={loged} setSesion={sesion}/>
+    <Cabecera login={login} usuario={usuario} sesion={sesion}feedback={feedback} setFeedback={setFeedback}/>
     <Route exact path="/">
       <Inicio />
     </Route>
@@ -31,10 +74,10 @@ function App() {
       <Registro />
     </Route>
     <Route exact path="/usuario">
-      <Usuario usuario={usuario} setUsuario={setUsuario} sesion={loged} setSesion={sesion}/>
+      <Usuario usuario={usuario} setUsuario={setUsuario} sesion={sesion} setSesion={setSesion} logout={logout}/>
     </Route>
     <Route exact path="/conciertos">
-      <Conciertos usuario={usuario} setUsuario={setUsuario} sesion={loged} setSesion={sesion}/>
+      <Conciertos usuario={usuario} sesion={sesion}/>
     </Route>
     <Footer />
     </BrowserRouter>

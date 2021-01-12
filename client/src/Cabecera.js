@@ -5,28 +5,12 @@ import { Button, Nav, Navbar, Modal, Form, Alert } from "react-bootstrap";
 import logo from "./img/logo.svg"
 import logo2 from "./img/logo2.svg"
 
-const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
+const Cabecera = ({ sesion, setSesion, usuario, setUsuario, login, feedback, setFeedback }) => {
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [feedback, setFeedback] = useState(false);
 
-  useEffect(() => {
-    fetch("/user/info")
-      .then((respuesta) => respuesta.json())
-      .then((data) => {
-        if (data.error) {
-          console.log({ status: "Denegado"});
-          setUsuario(data);
-          setSesion(false);
-          return;
-        } else {
-          console.log({ status: "Logueado"});
-          setUsuario(data);
-          setSesion(true);
-        }
-      });
-  }, []);
+
   const handleFeedback = () => {
     setFeedback("");
   };
@@ -37,34 +21,9 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
     setPass(e.target.value);
   };
 
-  const login = () => {
-    fetch("/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: pass,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.log({ status: "Denegado"});
-          setFeedback(<Alert variant="danger">Datos incorrectos</Alert>);
-          setSesion(false)
-        } else {
-          console.log({ status: "Logueado"});
-          setUsuario(data);
-          setSesion(true);
-        }
-      });
-  };
-
   if (sesion) {
     return (
-      <Navbar bg="dark" variant="dark">
+      <Navbar fixed="top" bg="dark" variant="dark">
         <Navbar.Brand href="/"><img
         src={logo}
         width="30"
@@ -79,7 +38,7 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
       alt="React Bootstrap logo"
     /></Navbar.Brand>
         <Nav className="justify-content-end">
-          <Nav.Link href="/conciertos">Conciertos</Nav.Link>
+          <Link to="/conciertos">Conciertos</Link>
         </Nav>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
@@ -91,7 +50,7 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
   } else {
     return (
       <>
-        <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+        <Navbar fixed="top" collapseOnSelect expand="sm" bg="dark" variant="dark">
           <Navbar.Brand href="/">MultiPass</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -100,7 +59,7 @@ const Cabecera = ({ sesion, setSesion, usuario, setUsuario }) => {
             </Nav>
             <Nav>
               <Navbar.Text>
-                <Link>
+                <Link to="">
                   <a nohref onClick={() => setModalShow(true)}>
                     Iniciar sesión
                   </a>
@@ -162,7 +121,7 @@ function LoginForm(props) {
             />
           </Form.Group>
           <Form.Text className="text-muted">{props.feedback}</Form.Text>
-          <Button variant="primary" size="sm" onClick={props.login}>
+          <Button variant="primary" size="sm" onClick={()=>{props.login(props.email, props.pass)}}>
             Log In
           </Button>
         </Form>

@@ -194,3 +194,9 @@
       .horizontal-center {
         text-align: center;
       }
+
+      /* ------------------------------------------------------- */
+
+      #videoContainer {
+        height: 100%;
+      }

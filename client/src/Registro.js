@@ -204,7 +204,7 @@ export default function Registro() {
                   label="Gold - 49.99€ / mes"
                   name="formHorizontalRadios"
                   id="tierGroupie"
-                  value="a"
+                  value={15}
                   onClick={(e) => {
                     setCategoria(e.target.value);
                   }}
@@ -214,7 +214,7 @@ export default function Registro() {
                   label="Silver - 29.99€ / mes"
                   name="formHorizontalRadios"
                   id="tierFan"
-                  value="b"
+                  value={10}
                   onClick={(e) => {
                     setCategoria(e.target.value);
                   }}
@@ -224,7 +224,7 @@ export default function Registro() {
                   label="Bronze - 19.99€ / mes"
                   name="formHorizontalRadios"
                   id="tierAficionado"
-                  value="c"
+                  value={5}
                   onClick={(e) => {
                     setCategoria(e.target.value);
                   }}

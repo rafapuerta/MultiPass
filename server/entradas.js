@@ -32,6 +32,8 @@ router.post("/comprar", function (req, res) {
         let sala = datos[0].sala;
         let id = datos[0]._id;
         let cartel = datos[0].cartel;
+        let categoria = datos[0].categoria;
+        let peso = datos[0].peso;
 
         db.collection("conciertos").updateOne(
           { _id: objectID(req.body.id) },
@@ -51,6 +53,8 @@ router.post("/comprar", function (req, res) {
                       grupo: grupo,
                       sala: sala,
                       cartel: cartel,
+                      categoria: categoria,
+                      peso: peso,
                     },
                   },
                 },

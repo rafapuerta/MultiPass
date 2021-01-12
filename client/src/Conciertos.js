@@ -22,7 +22,14 @@ import bronze from "./img/microphone_bronze.png";
 
 const { DateTime } = require("luxon");
 
-const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
+const Conciertos = ({ sesion, usuario}) => {
+
+  /* var peso = 0
+  console.log(usuario)
+  let usado = usuario.entradas.map((entrada) => {peso += entrada.peso}) */
+  
+
+
   const [conciertos, setConciertos] = useState([]);
   useEffect(() => {
     fetch("/entradas/conciertos")
@@ -47,28 +54,30 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
   };
 
   const botonEntrada = (id, categoria) => {
+
     if (usuario.entradas.some((e) => e.id === id)) {
       return (
         <Button size="sm" variant="success" block disabled>
           Ya añadido
         </Button>
       );
-    } else if (usuario.categoria === "a") {
+
+    } else if (usuario.categoria === 15) {
       return (
         <Button size="sm" value={id} variant="warning" block onClick={comprar}>
           Añadir
         </Button>
       );
-    } else if (usuario.categoria === "b" && categoria !== "a") {
+    } else if (usuario.categoria === 10 && categoria !== 15) {
       return (
         <Button size="sm" value={id} variant="warning" block onClick={comprar}>
           Añadir
         </Button>
       );
     } else if (
-      usuario.categoria === "c" &&
-      categoria !== "a" &&
-      categoria !== "b"
+      usuario.categoria === 5 &&
+      categoria !== 10 &&
+      categoria !== 15
     ) {
       return (
         <Button size="sm" value={id} variant="warning" block onClick={comprar}>
@@ -86,12 +95,12 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
 
   const tier = (categoria) => {
     switch (categoria) {
-      case "c":
-        return <Tooltip id="tier-help">Gold</Tooltip>;
-      case "b":
-        return <Tooltip id="tier-help">Silver</Tooltip>;
-      case "a":
+      case 5:
         return <Tooltip id="tier-help">Bronze</Tooltip>;
+      case 10:
+        return <Tooltip id="tier-help">Silver</Tooltip>;
+      case 15:
+        return <Tooltip id="tier-help">Gold</Tooltip>;
       default:
         return <p>FALLO!</p>;
     }
@@ -100,12 +109,12 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
 
   const categoria = (categoria) => {
     switch (categoria) {
-      case "c":
-        return <Image style={{ width: 30 }} src={gold} />;
-      case "b":
-        return <Image style={{ width: 30 }} src={silver} />;
-      case "a":
+      case 5:
         return <Image style={{ width: 30 }} src={bronze} />;
+      case 10:
+        return <Image style={{ width: 30 }} src={silver} />;
+      case 15:
+        return <Image style={{ width: 30 }} src={gold} />;
       default:
         return <p>FALLO!</p>;
     }
@@ -139,19 +148,23 @@ const Conciertos = ({ sesion, setSesion, usuario, setUsuario }) => {
                 </Col>
               </Row>
             </Card.Title>
-            <Card.Text>
-              <Row>
+            <Card.Text> <Row>
                 <Col>
-                  Fecha: <br />
-                  <strong>{`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}</strong>
-                  {fecha.DATE_SHORT}
-                  <br />
-                  Lugar: <br />
-                  <strong>{concierto.sala}</strong>
+                  <strong>Fecha:</strong> <br />
+                  {`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}
                 </Col>
                 <Col>
-                  Quedan: <br />
-                  <h3>{concierto.entradas}</h3>
+                  <strong>Slots:</strong> <br />
+                  <h4>{concierto.peso}</h4>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <strong>Lugar:</strong> {concierto.sala}
+                </Col>
+                <Col>
+                  <strong>Quedan:</strong> <br />
+                  <h4 style={{ color: "#FF9900" }}>{concierto.entradas}</h4>
                 </Col>
               </Row>
             </Card.Text>
