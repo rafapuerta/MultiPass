@@ -42,7 +42,6 @@ function App() {
           setFeedback(<Alert variant="danger">Datos incorrectos</Alert>);
           setSesion(false)
         } else {
-          console.log({ status: "Logueado"});
           setUsuario(data);
           setSesion(true);
         }

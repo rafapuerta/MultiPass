@@ -13,7 +13,7 @@ import {
   OverlayTrigger,
   ProgressBar,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
 
 //-----MEDIA------
@@ -29,12 +29,24 @@ const QRCode = require("qrcode.react");
 
 export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout}) {
   let peso = 0;
-
   const [feedback, setFeedback] = useState("");
+  const [refresh, setRefresh] = useState([])
 
+  useEffect(()=>{
+      fetch("/user/info")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.log({ status: "Denegado"});
+            setSesion(false)
+          } else {
+            setUsuario(data);
+            setSesion(true);
+          }
+        });
+  },[refresh])
 
   const eliminarEntrada = (e) => {
-    console.log(e.target.value);
     fetch("/entradas/eliminar", {
       method: "POST",
       headers: {
@@ -44,6 +56,7 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
     })
       .then((res) => res.json())
       .then(function (datos) {
+        setRefresh([])
         setFeedback(<Alert variant="success">{datos.mensaje}</Alert>);
       });
   };
@@ -60,10 +73,6 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
         default:
           return <p>FALLO!</p>;
       }
-    };
-
-    const usoPase = (categoria, peso) => {
-      return (100 * peso) / categoria;
     };
 
     return (
@@ -139,10 +148,8 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
     const [telf, setTelf] = useState(usuario.telf);
     const [categoria, setCategoria] = useState(usuario.categoria);
 
-    const handleNombre = (e) => { setNombre(e.target.value)}
-
     const editar = () => {
-      fetch("/user/editar", {
+      fetch("/user/edit", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -161,11 +168,13 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
         .then((data) => {
           if (!data.error) {
             setFeedback(<Alert variant="success">{data.mensaje}</Alert>);
+            setRefresh([])
           } else {
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
           }
         });
     };
+    
 
     return (
       <Container style={{ backgroundColor: "#EEEEEE", padding: 10 }}>
@@ -175,7 +184,9 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 value={nombre}
-                onChange={handleNombre}
+                onChange={(e) => {
+                  setNombre(e.target.value);
+                }}
                 type="input"
               />
             </Form.Group>
@@ -238,7 +249,7 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
                     onClick={(e) => {
                       setCategoria(e.target.value);
                     }}
-                    checked=""
+                    defaultChecked={usuario.categoria === 15}
                   />
                   <Form.Check
                     type="radio"
@@ -249,7 +260,8 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
                     onClick={(e) => {
                       setCategoria(e.target.value);
                     }}
-                  />
+                    defaultChecked={usuario.categoria === 10}
+                    />
                   <Form.Check
                     type="radio"
                     label="Bronze - 19.99€ / mes"
@@ -259,23 +271,31 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
                     onClick={(e) => {
                       setCategoria(e.target.value);
                     }}
+                    defaultChecked={usuario.categoria === 5}
                   />
                 </Col>
               </Form.Group>
             </fieldset>
           </Form.Row>
+          <Form.Row>
+          <Col sm={6}>
           <Button size="sm" onClick={editar} variant="success">
             Guardar
           </Button>
+          </Col>
+          <Col sm={6}>
           <Link to="/usuario">
             <Button size="sm" variant="danger">
               Descartar
             </Button>
           </Link>
+          </Col>
+          </Form.Row>
         </Form>
         <Row>⠀</Row>
         {feedback}
       </Container>
+      
     );
   };
 
@@ -389,7 +409,6 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
   }
 
   if (!sesion) {
-    console.log(sesion);
     return <Redirect to="/" />;
   } else {
     if (usuario.entradas !== undefined && usuario.entradas.length > 0) {

@@ -3,7 +3,7 @@ import { Navbar, Nav } from "react-bootstrap"
 const Footer = () => {
     return (
         <>
-        <Navbar bg="dark" variant="dark">
+        <Navbar sticky="bottom" bg="dark" variant="dark">
             <Nav>
             <Navbar.Text>Copyright © 2020 - Todos los derechos reservados - MultiPass S.L.</Navbar.Text>
             </Nav>

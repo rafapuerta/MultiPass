@@ -24,20 +24,22 @@ const { DateTime } = require("luxon");
 
 const Conciertos = ({ sesion, usuario}) => {
 
-  /* var peso = 0
-  console.log(usuario)
-  let usado = usuario.entradas.map((entrada) => {peso += entrada.peso}) */
+  var peso = 0
+  if(sesion){let usado = usuario.entradas.map((entrada) => {peso += entrada.peso})}
   
 
 
   const [conciertos, setConciertos] = useState([]);
+  const [refresh, setRefresh] = useState([])
+
+
   useEffect(() => {
     fetch("/entradas/conciertos")
       .then((res) => res.json())
       .then((datos) => {
         setConciertos(datos);
       });
-  }, []);
+  }, [refresh]);
 
   const comprar = (e) => {
     fetch("/entradas/comprar", {
@@ -49,20 +51,31 @@ const Conciertos = ({ sesion, usuario}) => {
     })
       .then((res) => res.json())
       .then(function (datos) {
-        console.log(datos);
+        setRefresh([])
       });
   };
 
-  const botonEntrada = (id, categoria) => {
+
+  const botonEntrada = (id, categoria, conciertoPeso) => {
 
     if (usuario.entradas.some((e) => e.id === id)) {
       return (
-        <Button size="sm" variant="success" block disabled>
+        <Button size="sm" variant="dark" block disabled>
           Ya añadido
         </Button>
       );
-
-    } else if (usuario.categoria === 15) {
+    }else if(usuario.categoria < categoria){
+      return (
+        <Button size="sm" variant="danger" block disabled>
+          Suscríbete a un plan mayor!
+        </Button>)
+    }else if((usuario.categoria - peso) < conciertoPeso){
+        return (
+          <Button size="sm" variant="info" block disabled>
+            No queda espacio en tu pase!
+          </Button>
+        );
+    }else if (usuario.categoria === 15) {
       return (
         <Button size="sm" value={id} variant="warning" block onClick={comprar}>
           Añadir
@@ -82,12 +95,6 @@ const Conciertos = ({ sesion, usuario}) => {
       return (
         <Button size="sm" value={id} variant="warning" block onClick={comprar}>
           Añadir
-        </Button>
-      );
-    } else {
-      return (
-        <Button size="sm" variant="danger" block disabled>
-          Suscríbete a un plan mayor!
         </Button>
       );
     }
@@ -168,7 +175,7 @@ const Conciertos = ({ sesion, usuario}) => {
                 </Col>
               </Row>
             </Card.Text>
-            <Row>{botonEntrada(concierto._id, concierto.categoria)}</Row>
+            <Row>{botonEntrada(concierto._id, concierto.categoria, concierto.peso)}</Row>
           </Card.Body>
         </Card>
       );

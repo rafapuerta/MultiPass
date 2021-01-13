@@ -7,9 +7,7 @@ import logo2 from "./img/logo2.svg";
 
 const Cabecera = ({
   sesion,
-  setSesion,
   usuario,
-  setUsuario,
   login,
   feedback,
   setFeedback,
@@ -30,9 +28,10 @@ const Cabecera = ({
 
   if (sesion) {
     return (
-      <Navbar fixed="top" collapseOnSelect
+      <Navbar sticky="top" collapseOnSelect
       expand="sm" bg="dark" variant="dark">
-        <Navbar.Brand href="/">
+        <Navbar.Brand>
+          <Link to="/">
           <img
             src={logo}
             width="40"
@@ -46,6 +45,7 @@ const Cabecera = ({
             className="d-inline-block align-top"
             alt="React Bootstrap logo"
           />
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -66,13 +66,14 @@ const Cabecera = ({
     return (
       <>
         <Navbar
-          fixed="top"
+          sticky="top"
           collapseOnSelect
           expand="sm"
           bg="dark"
           variant="dark"
         >
-          <Navbar.Brand href="/">
+          <Navbar.Brand>
+            <Link to="/">
             <img
               src={logo}
               width="40"
@@ -86,6 +87,7 @@ const Cabecera = ({
               className="d-inline-block align-top"
               alt="React Bootstrap logo"
             />
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">

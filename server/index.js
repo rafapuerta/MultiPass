@@ -171,7 +171,7 @@ app.post("/user/register", function (req, res) {
   );
 });
 
-app.put("/user/editar", function (req, res) {
+app.put("/user/edit", function (req, res) {
 
   let email = req.body.email;
   let nombre = req.body.nombre;
@@ -179,6 +179,7 @@ app.put("/user/editar", function (req, res) {
   let apellido2 = req.body.apellido2;
   let dni = req.body.dni;
   let telf = req.body.telf;
+  let categoria = parseInt(req.body.categoria);
 
   app.locals.db.collection("usuarios").updateOne(
     { email: email },
@@ -189,6 +190,7 @@ app.put("/user/editar", function (req, res) {
         apellido2: apellido2,
         dni: dni,
         telf: telf,
+        categoria: categoria
       },
     },
     function (error, datos) {
@@ -208,37 +210,6 @@ app.get("/user/info", function (req, res) {
   res.send({ error: true, mensaje: "No logueado" });
 });
 
-app.put("/user/edit", function (req, res) {
-  if (req.isAuthenticated() === false) {
-    return res.status(401).send({ error: true, mensaje: "No logueado" });
-  }
-  let email = req.body.email;
-  let nombre = req.body.nombre;
-  let apellido1 = req.body.apellido1;
-  let apellido2 = req.body.apellido2;
-  let dni = req.body.dni;
-  let telf = req.body.telf;
-
-  req.app.locals.db.collection("usuarios").updateOne(
-    { email: email },
-    {
-      $set: {
-        nombre: nombre,
-        apellido1: apellido1,
-        apellido2: apellido2,
-        dni: dni,
-        telf: telf,
-      },
-    },
-    function (error, datos) {
-      if (error !== null) {
-        res.send({ mensaje: "Ha habido un error. " + error });
-      } else {
-        res.send({ mensaje: "Editado correctamente" });
-      }
-    }
-  );
-});
 
 app.delete("/user/delete", function(req, res){
   if (req.isAuthenticated() === false) {
