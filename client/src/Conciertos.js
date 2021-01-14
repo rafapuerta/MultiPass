@@ -225,6 +225,7 @@ const Conciertos = ({ sesion, usuario}) => {
       );
     }
   });
+  
 
   return (
     <Container style={{ paddingBottom: 60, paddingTop: 60 }}>

@@ -1,6 +1,6 @@
 import "./App.css";
 import fondo from "./img/videoplayback.mp4";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col, Accordion, Card } from "react-bootstrap";
 
 import logo from "./img/logo.svg";
 import logo2 from "./img/logo2.svg";
@@ -8,78 +8,150 @@ import logo2 from "./img/logo2.svg";
 export default function Inicio() {
   return (
     <>
-    <header>
-     <div class="overlay"></div>
-  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-  <source src={fondo} type="video/mp4" />
-  </video>
-  <div class="container h-100">
-    <div class="d-flex h-100 text-center align-items-center">
-      <div class="w-100 text-white">
-      <img
-              src={logo}
-              width="150"
-              height="150"
-              alt="React Bootstrap logo"
-            />
-            <br />
-            <img src={logo2} height="100" alt="React Bootstrap logo" />
-            <p>Si no tenemos entrada, el concierto es en casa del Artista.</p>
-      </div>
-    </div>
-  </div>
-</header>
-
-<section class="my-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 mx-auto">
-        <p>The HTML5 video element uses an mp4 video as a source. Change the source video to add in your own background! The header text is vertically centered using flex utilities that are build into Bootstrap 4.</p>
-        <p>The overlay color can be changed by changing the <code>background-color</code> of the <code>.overlay</code> class in the CSS.</p>
-        <p>Set the mobile fallback image in the CSS by changing the background image of the header element within the media query at the bottom of the CSS snippet.</p>
-        <p class="mb-0">
-          Created by <a href="https://startbootstrap.com">Start Bootstrap</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-      {/* <div id="videoContainer">
+      <header>
+        <div class="overlay"></div>
         <video
-          style={{ marginTop: 60 }}
-          className="videoTag"
-          autoPlay
-          loop
-          muted
+          playsinline="playsinline"
+          autoplay="autoplay"
+          muted="muted"
+          loop="loop"
         >
           <source src={fondo} type="video/mp4" />
         </video>
-        <Container className="horizontal-center">
-          <Container className="vertical-center">
-            <img
-              src={logo}
-              width="150"
-              height="150"
-              alt="React Bootstrap logo"
-            />
-            <br />
-            <img src={logo2} height="100" alt="React Bootstrap logo" />
-            <p>Si no tenemos entrada, el concierto es en casa del Artista.</p>
-          </Container>
-        </Container>
-      </div>
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Fluid jumbotron</h1>
-          <p class="lead">
-            This is a modified jumbotron that occupies the entire horizontal
-            space of its parent.
-          </p>
+        <div class="container h-100">
+          <div class="d-flex h-100 text-center align-items-center">
+            <div class="w-100 text-white">
+              <img
+                src={logo}
+                width="150"
+                height="150"
+                alt="React Bootstrap logo"
+              />
+              <br />
+              <img src={logo2} height="100" alt="React Bootstrap logo" />
+              <p>Si no tenemos entrada, el concierto es en casa del Artista.</p>
+            </div>
+          </div>
         </div>
-      </div> */}
+      </header>
+
+      <section class="py-5 tarjeta">
+        <Container>
+          <Row>
+            <Col md={8}>
+              <h1>Cientos de conciertos disponibles</h1>
+              <h4>
+                Tenemos todos los géneros músicales, artistas de todas las
+                categorías y eventos de todos los tamaños
+              </h4>
+            </Col>
+            <Col>
+              <img
+                src={logo}
+                width="150"
+                height="150"
+                alt="React Bootstrap logo"
+              />
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      <section class="py-5 tarjeta-par">
+        <Container>
+          <Row>
+            <Col md={2}>
+              <img
+                src={logo}
+                width="150"
+                height="150"
+                alt="React Bootstrap logo"
+              />
+            </Col>
+            <Col>
+              <h1>Un único pase siempre al alcance de tu mano</h1>
+              <h4>
+                Con MultiPass, podrás tener en tu mano cientos de entradas
+                siempre accesibles para enseñar a la entrada de los conciertos
+              </h4>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      <section class="py-5 tarjeta">
+        <Container>
+          <Row>
+            <Col md={8}>
+              <h1>Una tarifa plana del tamaño que mejor se ajuste a ti</h1>
+              <h4>
+                MultiPass tiene diferentes tamaños para diferentes personas.
+                ¡Elige el tamaño más adecuado para ti!
+              </h4>
+            </Col>
+            <Col>
+              <img
+                src={logo}
+                width="150"
+                height="150"
+                alt="React Bootstrap logo"
+              />
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      <section class="py-5">
+        <Container>
+          <Row class="text-center align-items-center">
+            <Col lg={10}>
+              <h1>Preguntas Frecuentes</h1>
+              <Accordion defaultActiveKey="0">
+                <Card>
+                  <Accordion.Toggle as={Card.Header} eventKey="0">
+                    <h3>¿Qué es MultiPass?</h3>
+                  </Accordion.Toggle>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>MultiPass es un sistema de suscripción mensual que te permite acceder a todos los conciertos que quieras.</Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+                <Card>
+                  <Accordion.Toggle as={Card.Header} eventKey="1">
+                    <h3>¿Cuánto cuesta MultiPass?</h3>
+                  </Accordion.Toggle>
+                  <Accordion.Collapse eventKey="1">
+                    <Card.Body>MultiPass tiene tamaños para todo tipo de personas, desde 19.99€ a 49.99€ al mes. !Elige el que mejor se adapte a ti!</Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+                <Card>
+                  <Accordion.Toggle as={Card.Header} eventKey="2">
+                    <h3>¿Dónde puedo usar MultiPass?</h3>
+                  </Accordion.Toggle>
+                  <Accordion.Collapse eventKey="2">
+                    <Card.Body>Puedes usar MultiPass en cualquiera de los conciertos que te ofrecemos. <br />De momento ofrecemos sólo concierto en territorio español, pero esperamos poder ofrecerte conciertos fuera muy pronto.</Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+                <Card>
+                  <Accordion.Toggle as={Card.Header} eventKey="3">
+                    <h3>¿Tengo que comprometerme a algo?</h3>
+                  </Accordion.Toggle>
+                  <Accordion.Collapse eventKey="3">
+                    <Card.Body>Puedes cancelar tu suscripción en cualquier momento. Tu MultiPass seguirá activo hasta el final del mes en el que estemos. <br /> !Te estaremos esperando cuando quieras para que vuelvas! :)</Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     </>
   );
 }
+
+/* FAQ
+
+- Qué es MultiPass?
+- Puedo darme de baja cuando quiera?
+- Puedo acumular slots de un mes para otro?
+- Cuánto cuesta MultiPass?
+- Dónde puedo usar MultiPass?
+- Qué puedo ver con MultiPass?
+
+*/

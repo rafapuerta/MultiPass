@@ -80,3 +80,13 @@
           display: none;
         }
       }
+
+      /* ---------------------------- */
+
+      .tarjeta {
+        background-color: darkgray
+      }
+
+      .tarjeta-par {
+        text-align: right;
+      }

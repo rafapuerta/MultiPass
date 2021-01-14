@@ -167,7 +167,7 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
         .then((response) => response.json())
         .then((data) => {
           if (!data.error) {
-            setFeedback(<Alert variant="success">{data.mensaje}</Alert>);
+            setFeedback(<Alert variant="success">{data.mensaje}</Alert>)
             setRefresh([])
           } else {
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
