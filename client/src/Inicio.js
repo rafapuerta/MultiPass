@@ -100,16 +100,23 @@ export default function Inicio() {
       </section>
       <section class="py-5">
         <Container>
-          <Row class="text-center align-items-center">
-            <Col lg={10}>
+          <Row class="align-items-center">
+            <Col class="py-4 text-center">
               <h1>Preguntas Frecuentes</h1>
+            </Col>
+          </Row>
+          <Row class="align-items-center">
+            <Col lg={8}>
               <Accordion defaultActiveKey="0">
                 <Card>
                   <Accordion.Toggle as={Card.Header} eventKey="0">
                     <h3>¿Qué es MultiPass?</h3>
                   </Accordion.Toggle>
                   <Accordion.Collapse eventKey="0">
-                    <Card.Body>MultiPass es un sistema de suscripción mensual que te permite acceder a todos los conciertos que quieras.</Card.Body>
+                    <Card.Body>
+                      MultiPass es un sistema de suscripción mensual que te
+                      permite acceder a todos los conciertos que quieras.
+                    </Card.Body>
                   </Accordion.Collapse>
                 </Card>
                 <Card>
@@ -117,7 +124,11 @@ export default function Inicio() {
                     <h3>¿Cuánto cuesta MultiPass?</h3>
                   </Accordion.Toggle>
                   <Accordion.Collapse eventKey="1">
-                    <Card.Body>MultiPass tiene tamaños para todo tipo de personas, desde 19.99€ a 49.99€ al mes. !Elige el que mejor se adapte a ti!</Card.Body>
+                    <Card.Body>
+                      MultiPass tiene tamaños para todo tipo de personas, desde
+                      19.99€ a 49.99€ al mes. !Elige el que mejor se adapte a
+                      ti!
+                    </Card.Body>
                   </Accordion.Collapse>
                 </Card>
                 <Card>
@@ -125,7 +136,13 @@ export default function Inicio() {
                     <h3>¿Dónde puedo usar MultiPass?</h3>
                   </Accordion.Toggle>
                   <Accordion.Collapse eventKey="2">
-                    <Card.Body>Puedes usar MultiPass en cualquiera de los conciertos que te ofrecemos. <br />De momento ofrecemos sólo concierto en territorio español, pero esperamos poder ofrecerte conciertos fuera muy pronto.</Card.Body>
+                    <Card.Body>
+                      Puedes usar MultiPass en cualquiera de los conciertos que
+                      te ofrecemos. <br />
+                      De momento ofrecemos sólo concierto en territorio español,
+                      pero esperamos poder ofrecerte conciertos fuera muy
+                      pronto.
+                    </Card.Body>
                   </Accordion.Collapse>
                 </Card>
                 <Card>
@@ -133,7 +150,12 @@ export default function Inicio() {
                     <h3>¿Tengo que comprometerme a algo?</h3>
                   </Accordion.Toggle>
                   <Accordion.Collapse eventKey="3">
-                    <Card.Body>Puedes cancelar tu suscripción en cualquier momento. Tu MultiPass seguirá activo hasta el final del mes en el que estemos. <br /> !Te estaremos esperando cuando quieras para que vuelvas! :)</Card.Body>
+                    <Card.Body>
+                      Puedes cancelar tu suscripción en cualquier momento. Tu
+                      MultiPass seguirá activo hasta el final del mes en el que
+                      estemos. <br /> !Te estaremos esperando cuando quieras
+                      para que vuelvas!
+                    </Card.Body>
                   </Accordion.Collapse>
                 </Card>
               </Accordion>
@@ -144,14 +166,3 @@ export default function Inicio() {
     </>
   );
 }
-
-/* FAQ
-
-- Qué es MultiPass?
-- Puedo darme de baja cuando quiera?
-- Puedo acumular slots de un mes para otro?
-- Cuánto cuesta MultiPass?
-- Dónde puedo usar MultiPass?
-- Qué puedo ver con MultiPass?
-
-*/
