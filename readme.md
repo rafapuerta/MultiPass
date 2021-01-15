@@ -1,6 +1,6 @@
-# Multi-Pass
+# MultiPass
 
-MultiPass is a web application concept of a Monthly Subscription Business based on **MERN**
+MultiPass is a website concept of a Monthly Subscription Business based on **MERN**
 
 ## Usage
 
