@@ -37,7 +37,7 @@ export default function Inicio() {
 
       <section class="py-5 tarjeta">
         <Container>
-          <Row>
+          <Row class="d-flex justify-content-between">
             <Col md={8}>
               <h1>Cientos de conciertos disponibles</h1>
               <h4>
@@ -45,7 +45,7 @@ export default function Inicio() {
                 categorías y eventos de todos los tamaños
               </h4>
             </Col>
-            <Col>
+            <Col class="d-flex justify-content-end" md={4}>
               <img
                 src={logo}
                 width="150"
@@ -58,8 +58,8 @@ export default function Inicio() {
       </section>
       <section class="py-5 tarjeta-par">
         <Container>
-          <Row>
-            <Col md={2}>
+          <Row class="d-flex justify-content-between">
+            <Col class="d-flex justify-content-start"md={4}>
               <img
                 src={logo}
                 width="150"
@@ -67,7 +67,7 @@ export default function Inicio() {
                 alt="React Bootstrap logo"
               />
             </Col>
-            <Col>
+            <Col md={8}>
               <h1>Un único pase siempre al alcance de tu mano</h1>
               <h4>
                 Con MultiPass, podrás tener en tu mano cientos de entradas
@@ -79,7 +79,7 @@ export default function Inicio() {
       </section>
       <section class="py-5 tarjeta">
         <Container>
-          <Row>
+          <Row class="d-flex justify-content-between">
             <Col md={8}>
               <h1>Una tarifa plana del tamaño que mejor se ajuste a ti</h1>
               <h4>
@@ -87,7 +87,7 @@ export default function Inicio() {
                 ¡Elige el tamaño más adecuado para ti!
               </h4>
             </Col>
-            <Col>
+            <Col class="d-flex justify-content-end" md={4}>
               <img
                 src={logo}
                 width="150"
@@ -100,12 +100,12 @@ export default function Inicio() {
       </section>
       <section class="py-5">
         <Container>
-          <Row class="align-items-center">
-            <Col class="py-4 text-center">
+          <Row class="d-flex justify-content-center">
+            <Col class="py-4">
               <h1>Preguntas Frecuentes</h1>
             </Col>
           </Row>
-          <Row class="align-items-center">
+          <Row class="d-flex justify-content-center">
             <Col lg={8}>
               <Accordion defaultActiveKey="0">
                 <Card>
