@@ -84,9 +84,13 @@
       /* ---------------------------- */
 
       .tarjeta {
-        background-color: darkgray
+        color: white;
+        background-color: black;
+        text-align: justify;
       }
 
       .tarjeta-par {
-        text-align: right;
+        color: white;
+        background-color: #252627;
+        text-align: justify;
       }

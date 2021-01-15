@@ -37,7 +37,7 @@ export default function Inicio() {
 
       <section class="py-5 tarjeta">
         <Container>
-          <Row class="d-flex justify-content-between">
+          <Row className="d-flex justify-content-between">
             <Col md={8}>
               <h1>Cientos de conciertos disponibles</h1>
               <h4>
@@ -45,7 +45,7 @@ export default function Inicio() {
                 categorías y eventos de todos los tamaños
               </h4>
             </Col>
-            <Col class="d-flex justify-content-end" md={4}>
+            <Col className="d-flex justify-content-end" md={4}>
               <img
                 src={logo}
                 width="150"
@@ -58,8 +58,8 @@ export default function Inicio() {
       </section>
       <section class="py-5 tarjeta-par">
         <Container>
-          <Row class="d-flex justify-content-between">
-            <Col class="d-flex justify-content-start"md={4}>
+          <Row className="d-flex justify-content-between">
+            <Col className="d-flex justify-content-start"md={4}>
               <img
                 src={logo}
                 width="150"
@@ -68,10 +68,9 @@ export default function Inicio() {
               />
             </Col>
             <Col md={8}>
-              <h1>Un único pase siempre al alcance de tu mano</h1>
+              <h1>Un único pase siempre a mano</h1>
               <h4>
-                Con MultiPass, podrás tener en tu mano cientos de entradas
-                siempre accesibles para enseñar a la entrada de los conciertos
+                Con MultiPass, tendrás cientos de entradas en la palma de tu mano
               </h4>
             </Col>
           </Row>
@@ -79,15 +78,15 @@ export default function Inicio() {
       </section>
       <section class="py-5 tarjeta">
         <Container>
-          <Row class="d-flex justify-content-between">
+          <Row className="d-flex justify-content-between">
             <Col md={8}>
-              <h1>Una tarifa plana del tamaño que mejor se ajuste a ti</h1>
+              <h1>Una tarifa plana de tu tamaño</h1>
               <h4>
-                MultiPass tiene diferentes tamaños para diferentes personas.
+                MultiPass tiene diferentes tamaños para diferentes personas <br/>
                 ¡Elige el tamaño más adecuado para ti!
               </h4>
             </Col>
-            <Col class="d-flex justify-content-end" md={4}>
+            <Col className="d-flex justify-content-end" md={4}>
               <img
                 src={logo}
                 width="150"
@@ -98,14 +97,14 @@ export default function Inicio() {
           </Row>
         </Container>
       </section>
-      <section class="py-5">
+      <section className="py-5">
         <Container>
-          <Row class="d-flex justify-content-center">
-            <Col class="py-4">
+          <Row className="d-flex justify-content-center">
+            <Col className="py-4 text-center">
               <h1>Preguntas Frecuentes</h1>
             </Col>
           </Row>
-          <Row class="d-flex justify-content-center">
+          <Row className="d-flex justify-content-center">
             <Col lg={8}>
               <Accordion defaultActiveKey="0">
                 <Card>
