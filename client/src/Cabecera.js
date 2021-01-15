@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Nav, Navbar, Modal, Form, Alert } from "react-bootstrap";
+import { Button, Nav, Navbar, Modal, Form, Image } from "react-bootstrap";
 
 import logo from "./img/logo.svg";
 import logo2 from "./img/logo2.svg";
@@ -56,7 +56,7 @@ const Cabecera = ({
           </Nav>
           <Nav>
             <Navbar.Text>
-              Hola, <Link to="/usuario">{usuario.nombre}!</Link>
+              <Link to="/usuario"><Image style={{width:30}} src={usuario.img} roundedCircle /></Link>
             </Navbar.Text>
           </Nav>
         </Navbar.Collapse>
@@ -102,8 +102,7 @@ const Cabecera = ({
                   <a nohref onClick={() => setModalShow(true)}>
                     Iniciar sesión
                   </a>
-                </Link>{" "}
-                o <Link to="/usuario/registrar">Registrar</Link>
+                </Link>
               </Navbar.Text>
             </Nav>
           </Navbar.Collapse>
@@ -145,6 +144,7 @@ function LoginForm(props) {
             <Form.Control
               type="email"
               placeholder="Introduzca email"
+              required autoFocus
               value={props.email}
               onChange={props.handleMail}
             />
@@ -155,12 +155,14 @@ function LoginForm(props) {
             <Form.Control
               type="password"
               placeholder="Password"
+              required
               value={props.pass}
               onChange={props.handlePass}
             />
           </Form.Group>
           <Form.Text className="text-muted">{props.feedback}</Form.Text>
-          <Button
+          <Form.Group>
+          <Button block
             variant="primary"
             size="sm"
             onClick={() => {
@@ -169,6 +171,12 @@ function LoginForm(props) {
           >
             Log In
           </Button>
+          </Form.Group>
+          <Form.Group>
+            <Form.Text>
+              ¿No tienes cuenta? <Link to="/usuario/registrar" onClick={props.onHide}>Regístrate en MultiPass</Link>
+            </Form.Text>
+          </Form.Group>
         </Form>
       </Modal.Body>
     </Modal>
