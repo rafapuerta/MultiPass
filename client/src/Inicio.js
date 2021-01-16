@@ -2,8 +2,13 @@ import "./App.css";
 import fondo from "./img/videoplayback.mp4";
 import { Container, Row, Col, Accordion, Card } from "react-bootstrap";
 
+/* --------------------MEDIA-------------------- */
 import logo from "./img/logo.svg";
 import logo2 from "./img/logo2.svg";
+import list from "./img/list.png"
+import pass from "./img/pass.png"
+import size from "./img/size.png"
+/* --------------------------------------------- */
 
 export default function Inicio() {
   return (
@@ -45,9 +50,9 @@ export default function Inicio() {
                 categorías y eventos de todos los tamaños
               </h4>
             </Col>
-            <Col className="d-flex justify-content-end" md={4}>
+            <Col className="d-flex justify-content-center" md={4}>
               <img
-                src={logo}
+                src={list}
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
@@ -59,9 +64,9 @@ export default function Inicio() {
       <section class="py-5 tarjeta-par">
         <Container>
           <Row className="d-flex justify-content-between">
-            <Col className="d-flex justify-content-start"md={4}>
+            <Col className="d-flex justify-content-center"md={4}>
               <img
-                src={logo}
+                src={pass}
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
@@ -86,9 +91,9 @@ export default function Inicio() {
                 ¡Elige el tamaño más adecuado para ti!
               </h4>
             </Col>
-            <Col className="d-flex justify-content-end" md={4}>
+            <Col className="d-flex justify-content-center" md={4}>
               <img
-                src={logo}
+                src={size}
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
