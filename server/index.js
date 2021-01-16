@@ -6,15 +6,16 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const config = require("./config.json")
 
-/* let user = require("./user") */
 let entradas = require("./entradas")
+let noticias = require("./noticias")
 
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 app.use(cors());
-/* app.use("/user", user) */
+
 app.use("/entradas", entradas)
+app.use("/noticias", noticias)
 
 
 MongoClient.connect(config.mongoPath,{
@@ -28,6 +29,8 @@ MongoClient.connect(config.mongoPath,{
       }
 })
 
+
+//----------------PASSPORT------------------- //
 const session = require("express-session");
 
 app.use(
@@ -81,9 +84,10 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+//------------------------------------------------------//
 
 
-//User routes -> Moving with router in future
+//------------------- User routes ---------------------//
 
 app.post(
   "/user/login",
@@ -96,20 +100,21 @@ app.post(
 app.get('/user/logout', function (req, res){
   req.session.destroy(function (err) {
     res.send({ mensaje: "Logout correcto" });
-    /* res.redirect('/user'); */
+    res.redirect('/user/info');
   });
+});
+
+app.get("/user/info", function (req, res) {
+  if (req.isAuthenticated()) {
+    return res.send(req.user);
+  }
+  res.send({ error: true, mensaje: "No logueado" });
 });
 
 app.get("/user/fail", function (req, res) {
   res.status(401).send({ error: true, mensaje: "Denegado" });
 });
 
-app.get("/user", function (req, res) {
-  if (req.isAuthenticated() === false) {
-    return res.status(401).send({ error: true, mensaje: "No logueado" });
-  }
-  res.send({ error: false, mensaje: "Login correcto" });
-});
 
 app.post("/user/registrar", function (req, res) {
   let email = req.body.email;
@@ -150,26 +155,6 @@ app.post("/user/registrar", function (req, res) {
     });
 });
 
-app.post("/user/register", function (req, res) {
-  app.locals.db.collection("usuarios").insertOne(
-    {
-      nombre: req.body.nombre,
-      apellido1: req.body.apellido1,
-      apellido2: req.body.apellido2,
-      dni: req.body.dni,
-      telf: req.body.telf,
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 10),
-    },
-    function (err, datos) {
-      if (err !== null) {
-        res.send(err);
-      } else {
-        res.send({ mensaje: "Registrado" });
-      }
-    }
-  );
-});
 
 app.put("/user/edit", function (req, res) {
 
@@ -203,13 +188,6 @@ app.put("/user/edit", function (req, res) {
   );
 });
 
-app.get("/user/info", function (req, res) {
-  if (req.isAuthenticated()) {
-    return res.send(req.user);
-  }
-  res.send({ error: true, mensaje: "No logueado" });
-});
-
 
 app.delete("/user/delete", function(req, res){
   if (req.isAuthenticated() === false) {
@@ -224,5 +202,33 @@ app.delete("/user/delete", function(req, res){
     }
   })
 })
+
+/* app.get("/user", function (req, res) {
+  if (req.isAuthenticated() === false) {
+    return res.status(401).send({ error: true, mensaje: "No logueado" });
+  }
+  res.send({ error: false, mensaje: "Login correcto" });
+}); */
+
+/* app.post("/user/register", function (req, res) {
+  app.locals.db.collection("usuarios").insertOne(
+    {
+      nombre: req.body.nombre,
+      apellido1: req.body.apellido1,
+      apellido2: req.body.apellido2,
+      dni: req.body.dni,
+      telf: req.body.telf,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 10),
+    },
+    function (err, datos) {
+      if (err !== null) {
+        res.send(err);
+      } else {
+        res.send({ mensaje: "Registrado" });
+      }
+    }
+  );
+}); */
 
 app.listen(3001)
