@@ -52,6 +52,7 @@ const Cabecera = ({
           <Nav className="mr-auto">
             <Navbar.Text>
               <Link to="/conciertos">Conciertos</Link>
+              <Link to="/noticias">Noticias</Link>
             </Navbar.Text>
           </Nav>
           <Nav>
@@ -94,15 +95,12 @@ const Cabecera = ({
             <Nav className="mr-auto">
               <Navbar.Text>
                 <Link to="/conciertos">Conciertos</Link>
+                <Link to="/noticias">Noticias</Link>
               </Navbar.Text>
             </Nav>
             <Nav>
               <Navbar.Text>
-                <Link to="">
-                  <a nohref onClick={() => setModalShow(true)}>
-                    Iniciar sesión
-                  </a>
-                </Link>
+                <Button onClick={() => setModalShow(true)} variant="warning">Iniciar sesión</Button>
               </Navbar.Text>
             </Nav>
           </Navbar.Collapse>
@@ -163,7 +161,7 @@ function LoginForm(props) {
           <Form.Text className="text-muted">{props.feedback}</Form.Text>
           <Form.Group>
           <Button block
-            variant="primary"
+            variant="warning"
             size="sm"
             onClick={() => {
               props.login(props.email, props.pass);

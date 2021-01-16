@@ -12,6 +12,7 @@ import Usuario from "./Usuario"
 import Footer from "./Footer"
 import Conciertos from "./Conciertos"
 import Registro from './Registro';
+import Noticias from './Noticias'
 
 //TODO: 
 // - Landing
@@ -69,14 +70,18 @@ function App() {
     <Route exact path="/">
       <Inicio />
     </Route>
-    <Route exact path="/usuario/registrar">
-      <Registro />
-    </Route>
+    
     <Route exact path="/usuario">
       <Usuario usuario={usuario} setUsuario={setUsuario} sesion={sesion} setSesion={setSesion} logout={logout}/>
     </Route>
+    <Route exact path="/usuario/registrar">
+      <Registro />
+    </Route>
     <Route exact path="/conciertos">
       <Conciertos usuario={usuario} sesion={sesion}/>
+    </Route>
+    <Route exact path="/noticias">
+      <Noticias />
     </Route>
     <Footer />
     </BrowserRouter>
