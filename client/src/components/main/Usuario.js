@@ -18,9 +18,9 @@ import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
 
 //-----MEDIA------
 
-import gold from "./img/microphone_gold.png";
-import silver from "./img/microphone_silver.png";
-import bronze from "./img/microphone_bronze.png";
+import gold from "../../img/microphone_gold.png";
+import silver from "../../img/microphone_silver.png";
+import bronze from "../../img/microphone_bronze.png";
 
 //---------------
 

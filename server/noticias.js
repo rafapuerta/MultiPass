@@ -9,9 +9,9 @@ router.get("/posts", function (req, res) {
         "page": 1,
         "page_size": 10,
         "exclude_body": false,
-        "author_slug": 'rafa-puerta',
+       /*  "author_slug": 'rafa-puerta',
         "category_slug": 'example-category',
-        "tag_slug": 'example-tag'
+        "tag_slug": 'example-tag' */
    })
      .then(function(resp) {
        console.log(resp.data)

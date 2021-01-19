@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Card,
   Button,
@@ -14,9 +13,9 @@ import {
 
 //-----MEDIA------
 
-import gold from "./img/microphone_gold.png";
-import silver from "./img/microphone_silver.png";
-import bronze from "./img/microphone_bronze.png";
+import gold from "../../img/microphone_gold.png";
+import silver from "../../img/microphone_silver.png";
+import bronze from "../../img/microphone_bronze.png";
 
 //---------------
 
@@ -39,6 +38,8 @@ const Conciertos = ({ sesion, usuario}) => {
       .then((datos) => {
         setConciertos(datos);
       });
+
+      
   }, [refresh]);
 
   const comprar = (e) => {

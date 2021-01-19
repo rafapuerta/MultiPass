@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Nav, Navbar, Modal, Form, Image } from "react-bootstrap";
+import { Button, Nav, Navbar, Modal, Form, Image, NavLink } from "react-bootstrap";
 
 import logo from "./img/logo.svg";
 import logo2 from "./img/logo2.svg";
@@ -50,10 +50,8 @@ const Cabecera = ({
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Navbar.Text>
-              <Link to="/conciertos">Conciertos</Link>
-              <Link to="/noticias">Noticias</Link>
-            </Navbar.Text>
+              <Nav.Link as={Link} to="/conciertos">Conciertos</Nav.Link>
+              <Nav.Link as={Link} to="/noticias">Noticias</Nav.Link>
           </Nav>
           <Nav>
             <Navbar.Text>
@@ -93,10 +91,8 @@ const Cabecera = ({
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Navbar.Text>
-                <Link to="/conciertos">Conciertos</Link>
-                <Link to="/noticias">Noticias</Link>
-              </Navbar.Text>
+              <Nav.Link as={Link} to="/conciertos">Conciertos</Nav.Link>
+              <Nav.Link as={Link} to="/noticias">Noticias</Nav.Link>
             </Nav>
             <Nav>
               <Navbar.Text>

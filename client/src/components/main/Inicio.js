@@ -1,31 +1,30 @@
-import "./App.css";
-import fondo from "./img/videoplayback.mp4";
+import fondo from "../../img/videoplayback.mp4";
 import { Container, Row, Col, Accordion, Card } from "react-bootstrap";
 
 /* --------------------MEDIA-------------------- */
-import logo from "./img/logo.svg";
-import logo2 from "./img/logo2.svg";
-import list from "./img/list.png"
-import pass from "./img/pass.png"
-import size from "./img/size.png"
+import logo from "../../img/logo.svg";
+import logo2 from "../../img/logo2.svg";
+import list from "../../img/list.png"
+import pass from "../../img/pass.png"
+import size from "../../img/size.png"
 /* --------------------------------------------- */
 
 export default function Inicio() {
   return (
     <>
       <header>
-        <div class="overlay"></div>
+        <div className="overlay"></div>
         <video
-          playsinline="playsinline"
-          autoplay="autoplay"
+          playsInline="playsinline"
+          autoPlay="autoplay"
           muted="muted"
           loop="loop"
         >
           <source src={fondo} type="video/mp4" />
         </video>
-        <div class="container h-100">
-          <div class="d-flex h-100 text-center align-items-center">
-            <div class="w-100 text-white">
+        <div className="container h-100">
+          <div className="d-flex h-100 text-center align-items-center">
+            <div className="w-100 text-white">
               <img
                 src={logo}
                 width="150"
@@ -40,7 +39,7 @@ export default function Inicio() {
         </div>
       </header>
 
-      <section class="py-5 tarjeta">
+      <section className="py-5 tarjeta">
         <Container>
           <Row className="d-flex justify-content-between">
             <Col md={8}>
@@ -61,7 +60,7 @@ export default function Inicio() {
           </Row>
         </Container>
       </section>
-      <section class="py-5 tarjeta-par">
+      <section className="py-5 tarjeta-par">
         <Container>
           <Row className="d-flex justify-content-between">
             <Col className="d-flex justify-content-center"md={4}>
@@ -81,7 +80,7 @@ export default function Inicio() {
           </Row>
         </Container>
       </section>
-      <section class="py-5 tarjeta">
+      <section className="py-5 tarjeta">
         <Container>
           <Row className="d-flex justify-content-between">
             <Col md={8}>

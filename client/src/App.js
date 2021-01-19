@@ -6,13 +6,9 @@ import {BrowserRouter, Route} from "react-router-dom"
 import {Alert} from "react-bootstrap"
 import {useState} from "react"
 
+import {Conciertos, Inicio, Registro, Usuario, Noticias, Post} from "./components"
 import Cabecera from "./Cabecera"
-import Inicio from "./Inicio"
-import Usuario from "./Usuario"
 import Footer from "./Footer"
-import Conciertos from "./Conciertos"
-import Registro from './Registro';
-import Noticias from './Noticias'
 
 //TODO: 
 // - Landing
