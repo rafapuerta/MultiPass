@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Nav, Navbar, Modal, Form, Image, NavLink } from "react-bootstrap";
+import { Button, Nav, Navbar, Modal, Form, Image, } from "react-bootstrap";
 
-import logo from "./img/logo.svg";
-import logo2 from "./img/logo2.svg";
+import logo from "../../img/logo.svg";
+import logo2 from "../../img/logo2.svg";
 
 const Cabecera = ({
   sesion,

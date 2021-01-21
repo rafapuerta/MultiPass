@@ -6,9 +6,7 @@ import {BrowserRouter, Route} from "react-router-dom"
 import {Alert} from "react-bootstrap"
 import {useState} from "react"
 
-import {Conciertos, Inicio, Registro, Usuario, Noticias, Post} from "./components"
-import Cabecera from "./Cabecera"
-import Footer from "./Footer"
+import {Cabecera, Footer, Conciertos, Inicio, Registro, Usuario, Noticias, Post} from "./components"
 
 //TODO: 
 // - Landing
@@ -79,6 +77,9 @@ function App() {
     <Route exact path="/noticias">
       <Noticias />
     </Route>
+    <Route exact path="/post/:slug">
+      <Post />
+      </Route>
     <Footer />
     </BrowserRouter>
   );
