@@ -8,7 +8,8 @@ import {
   Col,
   Image,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
+  Spinner,
 } from "react-bootstrap";
 
 //-----MEDIA------
@@ -21,28 +22,49 @@ import bronze from "../../img/microphone_bronze.png";
 
 const { DateTime } = require("luxon");
 
-const Conciertos = ({ sesion, usuario}) => {
+const Conciertos = (props) => {
+  const [usuario, setUsuario] = useState(props.usuario);
+  const [sesion, setSesion] = useState(props.sesion);
+  const [conciertos, setConciertos] = useState([]);
+  const [refresh, setRefresh] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  var peso = 0
-  if(sesion){let usado = usuario.entradas.map((entrada) => {peso += entrada.peso})}
+  var peso = 0;
+  if (sesion) {
+    for (let i = 0; i < usuario.entradas.length; i++) {
+      peso += usuario.entradas[i].peso;
+    }
+  }
+  
   
 
 
-  const [conciertos, setConciertos] = useState([]);
-  const [refresh, setRefresh] = useState([])
-
-
   useEffect(() => {
+    setLoading(true);
     fetch("/entradas/conciertos")
       .then((res) => res.json())
       .then((datos) => {
         setConciertos(datos);
+        setLoading(false);
       });
-
-      
+    if (props.sesion) {
+      fetch("/user/info")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.log({ status: "Denegado" });
+            setSesion(false);
+          } else {
+            setUsuario(data);
+            setSesion(true);
+            setLoading(false);
+          }
+        });
+    }
   }, [refresh]);
 
   const comprar = (e) => {
+    setLoading(true);
     fetch("/entradas/comprar", {
       method: "POST",
       headers: {
@@ -52,52 +74,86 @@ const Conciertos = ({ sesion, usuario}) => {
     })
       .then((res) => res.json())
       .then(function (datos) {
-        setRefresh([])
+        setRefresh([]);
+        setLoading(false);
       });
   };
 
-
   const botonEntrada = (id, categoria, conciertoPeso) => {
-
-    if (usuario.entradas.some((e) => e.id === id)) {
-      return (
-        <Button size="sm" variant="dark" block disabled>
-          Ya añadido
-        </Button>
-      );
-    }else if(usuario.categoria < categoria){
-      return (
-        <Button size="sm" variant="danger" block disabled>
-          Suscríbete a un plan mayor!
-        </Button>)
-    }else if((usuario.categoria - peso) < conciertoPeso){
+    if (loading) {
+      return <div>Loading</div>;
+    } else {
+      if (usuario.entradas.length === 0) {
+        return (
+          <Button
+            size="sm"
+            value={id}
+            variant="warning"
+            block
+            onClick={comprar}
+          >
+            Añadir
+          </Button>
+        );
+      } else if (usuario.entradas.some((e) => e.id === id)) {
+        return (
+          <Button size="sm" variant="dark" block disabled>
+            Ya añadido
+          </Button>
+        );
+      } else if (usuario.categoria < categoria) {
+        return (
+          <Button size="sm" variant="danger" block disabled>
+            Suscríbete a un plan mayor!
+          </Button>
+        );
+      } else if (usuario.categoria - peso < conciertoPeso) {
         return (
           <Button size="sm" variant="info" block disabled>
             No queda espacio en tu pase!
           </Button>
         );
-    }else if (usuario.categoria === 15) {
-      return (
-        <Button size="sm" value={id} variant="warning" block onClick={comprar}>
-          Añadir
-        </Button>
-      );
-    } else if (usuario.categoria === 10 && categoria !== 15) {
-      return (
-        <Button size="sm" value={id} variant="warning" block onClick={comprar}>
-          Añadir
-        </Button>
-      );
-    } else if (
-      usuario.categoria === 5 &&
-      categoria !== 10 &&
-      categoria !== 15
-    ) {
-      return (
-        <Button size="sm" value={id} variant="warning" block onClick={comprar}>
-          Añadir
-        </Button>
-      );
+      } else if (usuario.categoria === "15") {
+        return (
+          <Button
+            size="sm"
+            value={id}
+            variant="warning"
+            block
+            onClick={comprar}
+          >
+            Añadir
+          </Button>
+        );
+      } else if (usuario.categoria === 10 && categoria !== 15) {
+        return (
+          <Button
+            size="sm"
+            value={id}
+            variant="warning"
+            block
+            onClick={comprar}
+          >
+            Añadir
+          </Button>
+        );
+      } else if (
+        usuario.categoria === 5 &&
+        categoria !== 10 &&
+        categoria !== 15
+      ) {
+        return (
+          <Button
+            size="sm"
+            value={id}
+            variant="warning"
+            block
+            onClick={comprar}
+          >
+            Añadir
+          </Button>
+        );
+      }
     }
   };
 
@@ -112,8 +168,7 @@ const Conciertos = ({ sesion, usuario}) => {
       default:
         return <p>FALLO!</p>;
     }
-  }
-    
+  };
 
   const categoria = (categoria) => {
     switch (categoria) {
@@ -156,7 +211,9 @@ const Conciertos = ({ sesion, usuario}) => {
                 </Col>
               </Row>
             </Card.Title>
-            <Card.Text> <Row>
+            <Card.Text>
+              {" "}
+              <Row>
                 <Col>
                   <strong>Fecha:</strong> <br />
                   {`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}
@@ -176,7 +233,9 @@ const Conciertos = ({ sesion, usuario}) => {
                 </Col>
               </Row>
             </Card.Text>
-            <Row>{botonEntrada(concierto._id, concierto.categoria, concierto.peso)}</Row>
+            <Row>
+              {botonEntrada(concierto._id, concierto.categoria, concierto.peso)}
+            </Row>
           </Card.Body>
         </Card>
       );
@@ -226,13 +285,20 @@ const Conciertos = ({ sesion, usuario}) => {
       );
     }
   });
-  
-
-  return (
-    <Container style={{ paddingBottom: 60, paddingTop: 60 }}>
-      <CardColumns>{conciertosMostrar}</CardColumns>
-    </Container>
-  );
+  if (loading) {
+    return (
+      <Container className="d-flex flex-row align-items-center justify-content-center vh-100 text-center">
+        <h1 style={{marginRight:20}}>Cargando...</h1>
+        <Spinner animation="border" role="status"></Spinner>
+      </Container>
+    )
+  } else {
+    return (
+      <Container style={{ paddingBottom: 60, paddingTop: 60 }}>
+        <CardColumns>{conciertosMostrar}</CardColumns>
+      </Container>
+    );
+  }
 };
 
 export default Conciertos;
