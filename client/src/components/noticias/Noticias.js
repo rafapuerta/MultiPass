@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"
 import {
   Card,
   Container,
@@ -27,19 +28,20 @@ export default function Noticias() {
       })
       .then((data) => {
         setPosts(data);
-        /* setLoading(false); */
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        /* setLoading(false); */
+        setLoading(false);
       });
   }, []);
 
   if (loading) {
     return (
-      <Container className="vh-100 text-center align-content-center">
+      <Container className="d-flex flex-row align-items-center justify-content-center vh-100 text-center">
+        <h1 style={{marginRight:20}}>Cargando...</h1>
         <Spinner animation="border" role="status"></Spinner>
-        <h1 style={{ marginRight: 10 }}>Cargando</h1>
+        
       </Container>
     );
   } else {
@@ -51,11 +53,11 @@ export default function Noticias() {
           <Row>
             <Col>
               <Card.Title>
-                <h3>{post.title}</h3>
-                <h6>{`${fecha.day}/${fecha.month}/${fecha.year}`}</h6>
+                <Link style={{color:"black"}} to={"/post/"+post.slug}>{post.title}</Link>
+                <h6 style={{color:"#999999"}}>{`${fecha.day}/${fecha.month}/${fecha.year}`}</h6>
               </Card.Title>
               <Card.Body>
-                <div dangerouslySetInnerHTML={{ __html: post.summary }} />
+               {post.summary }
               </Card.Body>
             </Col>
           </Row>
