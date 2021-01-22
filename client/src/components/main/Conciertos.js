@@ -10,6 +10,11 @@ import {
   Tooltip,
   OverlayTrigger,
   Spinner,
+  InputGroup,
+  FormControl,
+  Form,
+  Dropdown,
+  DropdownButton,
 } from "react-bootstrap";
 
 //-----MEDIA------
@@ -28,6 +33,9 @@ const Conciertos = (props) => {
   const [conciertos, setConciertos] = useState([]);
   const [refresh, setRefresh] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [buscar, setBuscar] = useState("");
+  const [ordenar, setOrdenar] = useState("asc");
+  const [criterio, setCriterio] = useState("artista");
 
   var peso = 0;
   if (sesion) {
@@ -35,9 +43,6 @@ const Conciertos = (props) => {
       peso += usuario.entradas[i].peso;
     }
   }
-  
-  
-
 
   useEffect(() => {
     setLoading(true);
@@ -285,16 +290,73 @@ const Conciertos = (props) => {
       );
     }
   });
+
+  function compararValor(clave, orden) {
+    console.log("ordenando por " + clave + " en orden " + orden);
+    return function ordenar(a, b) {
+      if (!a.hasOwnProperty(clave) || !b.hasOwnProperty(clave)) {
+        return 0;
+      }
+
+      const A =
+        typeof a[clave] === "string" ? a[clave].toUpperCase() : a[clave];
+      const B =
+        typeof b[clave] === "string" ? b[clave].toUpperCase() : b[clave];
+
+      let comparacion = 0;
+      if (A > B) {
+        comparacion = 1;
+      } else if (A < B) {
+        comparacion = -1;
+      }
+      return orden === "desc" ? comparacion * -1 : comparacion;
+    };
+  }
+
   if (loading) {
     return (
       <Container className="d-flex flex-row align-items-center justify-content-center vh-100 text-center">
-        <h1 style={{marginRight:20}}>Cargando...</h1>
+        <h1 style={{ marginRight: 20 }}>Cargando...</h1>
         <Spinner animation="border" role="status"></Spinner>
       </Container>
-    )
+    );
   } else {
     return (
       <Container style={{ paddingBottom: 60, paddingTop: 60 }}>
+        <Row
+          style={{ backgroundColor: "#eeeeee", padding: 10, marginBottom: 20 }}
+        >
+          <Col>
+            <Form inline>
+              <FormControl
+                placeholder="Buscar..."
+                value={buscar}
+                onChange={(e) => {
+                  setBuscar(e.target.value);
+                }}
+              />
+              <Form.Control onChange={(e) => {
+                  setCriterio(e.target.value);
+                  conciertos.sort(compararValor(criterio, ordenar)); console.log(conciertos);
+                }}title="Criterio" as="select" size="sm">
+                <option value="artista">Artista</option>
+                <option value="fecha">Fecha</option>
+                <option value="sala">Lugar</option>
+                <option value="categoria">Categoría</option>
+                <option value="peso">Slots</option>
+              </Form.Control>
+              <Form.Control onChange={(e) => {
+                  setOrdenar(e.target.value);
+                  conciertos.sort(compararValor(criterio, ordenar)); console.log(conciertos);
+                }}
+                title="Ordenar" as="select" size="sm">
+                <option value="asc">Ascendente (A - Z )</option>
+                <option value="desc">Descendente (Z - A)</option>
+              </Form.Control>
+            </Form>
+          </Col>
+        </Row>
+        <p>{ordenar}</p>
         <CardColumns>{conciertosMostrar}</CardColumns>
       </Container>
     );
