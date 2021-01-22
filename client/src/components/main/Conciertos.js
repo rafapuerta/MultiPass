@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Card,
   Button,
-  CardColumns,
+  CardDeck,
   Container,
   Row,
   Col,
@@ -10,11 +10,8 @@ import {
   Tooltip,
   OverlayTrigger,
   Spinner,
-  InputGroup,
   FormControl,
   Form,
-  Dropdown,
-  DropdownButton,
 } from "react-bootstrap";
 
 //-----MEDIA------
@@ -192,8 +189,8 @@ const Conciertos = (props) => {
     let fecha = DateTime.fromISO(concierto.fecha);
     if (sesion) {
       return (
-        <Card key={concierto._id}>
-          <Card.Img variant="top" src={concierto.cartel} />
+        <Card key={concierto._id} style={{width: "31%", margin: 10}}>
+          <Card.Img variant="top" src={concierto.cartel} style={{height:500}}/>
           <Card.Body>
             <Card.Title>
               <Row
@@ -246,8 +243,8 @@ const Conciertos = (props) => {
       );
     } else {
       return (
-        <Card key={concierto._id}>
-          <Card.Img variant="top" src={concierto.cartel} />
+        <Card key={concierto._id} style={{width: "31%", margin: 10}}>
+          <Card.Img variant="top" src={concierto.cartel} style={{height:500}}/>
           <Card.Body>
             <Card.Title>
               <Row
@@ -292,7 +289,6 @@ const Conciertos = (props) => {
   });
 
   function compararValor(clave, orden) {
-    console.log("ordenando por " + clave + " en orden " + orden);
     return function ordenar(a, b) {
       if (!a.hasOwnProperty(clave) || !b.hasOwnProperty(clave)) {
         return 0;
@@ -337,7 +333,7 @@ const Conciertos = (props) => {
               />
               <Form.Control onChange={(e) => {
                   setCriterio(e.target.value);
-                  conciertos.sort(compararValor(e.target.value, ordenar)); console.log(conciertos);
+                  conciertos.sort(compararValor(e.target.value, ordenar));
                 }}title="Criterio" as="select" size="sm">
                 <option value="artista">Artista</option>
                 <option value="fecha">Fecha</option>
@@ -347,7 +343,7 @@ const Conciertos = (props) => {
               </Form.Control>
               <Form.Control onChange={(e) => {
                   setOrdenar(e.target.value);
-                  conciertos.sort(compararValor(criterio, e.target.value)); console.log(conciertos);
+                  conciertos.sort(compararValor(criterio, e.target.value));
                 }}
                 title="Ordenar" as="select" size="sm">
                 <option value="asc">Ascendente (A - Z )</option>
@@ -357,7 +353,9 @@ const Conciertos = (props) => {
           </Col>
         </Row>
         <p>{criterio},{ordenar}</p>
-        <CardColumns>{conciertosMostrar}</CardColumns>
+        <Container className="d-flex flex-wrap">
+        {conciertosMostrar}
+        </Container>
       </Container>
     );
   }
