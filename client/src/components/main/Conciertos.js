@@ -337,7 +337,7 @@ const Conciertos = (props) => {
               />
               <Form.Control onChange={(e) => {
                   setCriterio(e.target.value);
-                  conciertos.sort(compararValor(criterio, ordenar)); console.log(conciertos);
+                  conciertos.sort(compararValor(e.target.value, ordenar)); console.log(conciertos);
                 }}title="Criterio" as="select" size="sm">
                 <option value="artista">Artista</option>
                 <option value="fecha">Fecha</option>
@@ -347,7 +347,7 @@ const Conciertos = (props) => {
               </Form.Control>
               <Form.Control onChange={(e) => {
                   setOrdenar(e.target.value);
-                  conciertos.sort(compararValor(criterio, ordenar)); console.log(conciertos);
+                  conciertos.sort(compararValor(criterio, e.target.value)); console.log(conciertos);
                 }}
                 title="Ordenar" as="select" size="sm">
                 <option value="asc">Ascendente (A - Z )</option>
@@ -356,7 +356,7 @@ const Conciertos = (props) => {
             </Form>
           </Col>
         </Row>
-        <p>{ordenar}</p>
+        <p>{criterio},{ordenar}</p>
         <CardColumns>{conciertosMostrar}</CardColumns>
       </Container>
     );
