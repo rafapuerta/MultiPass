@@ -99,4 +99,31 @@ router.post("/eliminar", function (req, res) {
   );
 });
 
+router.post("/anyadir", function (req, res){
+  let db = req.app.locals.db;
+
+  db.collection("conciertos").insertOne(
+    {
+      artista: req.body.artista,
+      cartel: req.body.cartel,
+      fecha: req.body.fecha,
+      entradas: parseInt(req.body.entradas),
+      soldout: false,
+      sala: req.body.sala,
+      categoria: parseInt(req.body.categoria),
+      peso: parseInt(req.body.peso), 
+    },
+    function (error, datos) {
+      if (error !== null) {
+        res.send({ mensaje: "Ha habido un error. " + error });
+      } else {
+        res.send({
+          error: false,
+          mensaje: "Entrada añadida correctamente.",
+        });
+      }
+    }
+  );
+})
+
 module.exports = router;

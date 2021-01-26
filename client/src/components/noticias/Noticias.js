@@ -7,6 +7,7 @@ import {
   Row,
   Col,
   CardColumns,
+  CardDeck,
 } from "react-bootstrap";
 import Post from "./Post";
 
@@ -68,7 +69,7 @@ export default function Noticias() {
     return (
       <>
         <Container style={{ paddingBottom: 60, paddingTop: 60 }}>
-          <CardColumns>{mostrarPosts}</CardColumns>
+          <CardDeck>{mostrarPosts}</CardDeck>
         </Container>
       </>
     );

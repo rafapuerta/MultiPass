@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Card,
   Button,
-  CardDeck,
   Container,
   Row,
   Col,
@@ -27,6 +26,7 @@ const { DateTime } = require("luxon");
 const Conciertos = (props) => {
   const [usuario, setUsuario] = useState(props.usuario);
   const [sesion, setSesion] = useState(props.sesion);
+  const [conciertosRaw, setConciertosRaw] = useState([]);
   const [conciertos, setConciertos] = useState([]);
   const [refresh, setRefresh] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -47,6 +47,7 @@ const Conciertos = (props) => {
       .then((res) => res.json())
       .then((datos) => {
         setConciertos(datos);
+        setConciertosRaw(datos);
         setLoading(false);
       });
     if (props.sesion) {
@@ -189,8 +190,12 @@ const Conciertos = (props) => {
     let fecha = DateTime.fromISO(concierto.fecha);
     if (sesion) {
       return (
-        <Card key={concierto._id} style={{width: "31%", margin: 10}}>
-          <Card.Img variant="top" src={concierto.cartel} style={{height:500}}/>
+        <Card key={concierto._id} style={{ width: "31%", margin: 10 }}>
+          <Card.Img
+            variant="top"
+            src={concierto.cartel}
+            style={{ height: 500 }}
+          />
           <Card.Body>
             <Card.Title>
               <Row
@@ -227,7 +232,8 @@ const Conciertos = (props) => {
               </Row>
               <Row>
                 <Col>
-                  <strong>Lugar:</strong> {concierto.sala}
+                  <strong>Lugar:</strong> <br />
+                  {concierto.sala}
                 </Col>
                 <Col>
                   <strong>Quedan:</strong> <br />
@@ -243,8 +249,12 @@ const Conciertos = (props) => {
       );
     } else {
       return (
-        <Card key={concierto._id} style={{width: "31%", margin: 10}}>
-          <Card.Img variant="top" src={concierto.cartel} style={{height:500}}/>
+        <Card key={concierto._id} style={{ width: "31%", margin: 10 }}>
+          <Card.Img
+            variant="top"
+            src={concierto.cartel}
+            style={{ height: 500 }}
+          />
           <Card.Body>
             <Card.Title>
               <Row
@@ -268,17 +278,25 @@ const Conciertos = (props) => {
               </Row>
             </Card.Title>
             <Card.Text>
+              {" "}
               <Row>
                 <Col>
-                  Fecha: <br />
-                  <strong>{`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}</strong>
-                  <br />
-                  Lugar: <br />
-                  <strong>{concierto.sala}</strong>
+                  <strong>Fecha:</strong> <br />
+                  {`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}
                 </Col>
                 <Col>
-                  Quedan: <br />
-                  <h3>{concierto.entradas}</h3>
+                  <strong>Slots:</strong> <br />
+                  <h4>{concierto.peso}</h4>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <strong>Lugar:</strong> <br />
+                  {concierto.sala}
+                </Col>
+                <Col>
+                  <strong>Quedan:</strong> <br />
+                  <h4 style={{ color: "#FF9900" }}>{concierto.entradas}</h4>
                 </Col>
               </Row>
             </Card.Text>
@@ -287,6 +305,17 @@ const Conciertos = (props) => {
       );
     }
   });
+
+  function filtrar(clave) {
+    let filtrado = conciertosRaw.filter(
+      (concierto) =>
+        concierto.artista.toLowerCase().includes(clave.toLowerCase()) ||
+        concierto.sala.toLowerCase().includes(clave.toLowerCase()) ||
+        concierto.fecha.includes(clave)
+    );
+    setConciertos(filtrado);
+    console.log(filtrado);
+  }
 
   function compararValor(clave, orden) {
     return function ordenar(a, b) {
@@ -319,43 +348,56 @@ const Conciertos = (props) => {
   } else {
     return (
       <Container style={{ paddingBottom: 60, paddingTop: 60 }}>
-        <Row
-          style={{ backgroundColor: "#eeeeee", padding: 10, marginBottom: 20 }}
-        >
+        <Row style={{ padding: 10, marginBottom: 20 }}>
           <Col>
-            <Form inline>
+            <Form>
               <FormControl
+                as="input"
                 placeholder="Buscar..."
                 value={buscar}
                 onChange={(e) => {
                   setBuscar(e.target.value);
+                  filtrar(e.target.value);
                 }}
+                type="search"
               />
-              <Form.Control onChange={(e) => {
+            </Form>
+          </Col>
+          <Col className="d-flex justify-content-end">
+            <Form inline>
+              <Form.Label style={{ marginRight: 5 }}>Mostrar por</Form.Label>
+              <Form.Control
+                onChange={(e) => {
                   setCriterio(e.target.value);
                   conciertos.sort(compararValor(e.target.value, ordenar));
-                }}title="Criterio" as="select" size="sm">
+                }}
+                title="Criterio"
+                as="select"
+                size="sm"
+              >
                 <option value="artista">Artista</option>
                 <option value="fecha">Fecha</option>
                 <option value="sala">Lugar</option>
                 <option value="categoria">Categoría</option>
                 <option value="peso">Slots</option>
               </Form.Control>
-              <Form.Control onChange={(e) => {
+              <Form.Label style={{ marginInline: 5 }}>en orden</Form.Label>
+              <Form.Control
+                onChange={(e) => {
                   setOrdenar(e.target.value);
                   conciertos.sort(compararValor(criterio, e.target.value));
                 }}
-                title="Ordenar" as="select" size="sm">
-                <option value="asc">Ascendente (A - Z )</option>
-                <option value="desc">Descendente (Z - A)</option>
+                title="Ordenar"
+                as="select"
+                size="sm"
+              >
+                <option value="asc">ascendente</option>
+                <option value="desc">descendente</option>
               </Form.Control>
             </Form>
           </Col>
         </Row>
-        <p>{criterio},{ordenar}</p>
-        <Container className="d-flex flex-wrap">
-        {conciertosMostrar}
-        </Container>
+        <Container className="d-flex flex-wrap">{conciertosMostrar}</Container>
       </Container>
     );
   }

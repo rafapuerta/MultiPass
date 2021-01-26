@@ -2,6 +2,7 @@ import {
   Container,
   Row,
   CardColumns,
+  CardDeck,
   Card,
   Button,
   Jumbotron,
@@ -27,24 +28,31 @@ import bronze from "../../img/microphone_bronze.png";
 const { DateTime } = require("luxon");
 const QRCode = require("qrcode.react");
 
-export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout}) {
+export default function Usuario({
+  sesion,
+  setSesion,
+  usuario,
+  setUsuario,
+  logout,
+}) {
   let peso = 0;
+  let entradasMostrar;
   const [feedback, setFeedback] = useState("");
-  const [refresh, setRefresh] = useState([])
+  const [refresh, setRefresh] = useState([]);
 
-  useEffect(()=>{
-      fetch("/user/info")
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.error) {
-            console.log({ status: "Denegado"});
-            setSesion(false)
-          } else {
-            setUsuario(data);
-            setSesion(true);
-          }
-        });
-  },[refresh])
+  useEffect(() => {
+    fetch("/user/info")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log({ status: "Denegado" });
+          setSesion(false);
+        } else {
+          setUsuario(data);
+          setSesion(true);
+        }
+      });
+  }, [refresh]);
 
   const eliminarEntrada = (e) => {
     fetch("/entradas/eliminar", {
@@ -56,12 +64,12 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
     })
       .then((res) => res.json())
       .then(function (datos) {
-        setRefresh([])
+        setRefresh([]);
         setFeedback(<Alert variant="success">{datos.mensaje}</Alert>);
       });
   };
 
-  const DatosUsuario = () => {
+  function DatosUsuario() {
     const categoriaImagen = (categoria) => {
       switch (categoria) {
         case 5:
@@ -75,8 +83,24 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
       }
     };
 
+    function AdminBoton(props) {
+      if (props.admin) {
+        return (
+          <Col>
+            <Link to="/usuario/admin">
+              <Button size="sm" variant="warning">
+                Administrador
+              </Button>
+            </Link>
+          </Col>
+        );
+      }
+      return null;
+    }
+
     return (
       <BrowserRouter>
+        {usuario.admin}
         <Row>
           <Card style={{ width: "100%" }}>
             <Card.Header>
@@ -98,6 +122,7 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
                     </Button>
                   </Link>
                 </Col>
+                <AdminBoton admin={usuario.admin} />
               </Row>
             </Card.Header>
             <Card.Body>
@@ -129,24 +154,27 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
                   </Col>
                 </Row>
               </Card.Text>
-
               <Route exact path="/usuario/editar">
                 <EditarUsuario />
+              </Route>
+              <Route exact path="/usuario/admin">
+                <AdminUsuario />
               </Route>
             </Card.Body>
           </Card>
         </Row>
       </BrowserRouter>
     );
-  };
+  }
 
-  const EditarUsuario = () => {
+  function EditarUsuario() {
     const [nombre, setNombre] = useState(usuario.nombre);
     const [apellido1, setApellido1] = useState(usuario.apellido1);
     const [apellido2, setApellido2] = useState(usuario.apellido2);
     const [dni, setDni] = useState(usuario.dni);
     const [telf, setTelf] = useState(usuario.telf);
     const [categoria, setCategoria] = useState(usuario.categoria);
+    const [img, setImg] = useState(usuario.img);
 
     const editar = () => {
       fetch("/user/edit", {
@@ -162,24 +190,25 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
           telf: telf,
           email: usuario.email,
           categoria: categoria,
+          img: img,
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           if (!data.error) {
-            setFeedback(<Alert variant="success">{data.mensaje}</Alert>)
-            setRefresh([])
+            setFeedback(<Alert variant="success">{data.mensaje}</Alert>);
+            setRefresh([]);
           } else {
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
           }
         });
     };
-    
 
     return (
       <Container style={{ backgroundColor: "#EEEEEE", padding: 10 }}>
         <Form>
           <Form.Row>
+          <Image as={Col} style={{width:100, margin:20}} src={img} roundedCircle/> 
             <Form.Group as={Col} controlId="formGridName">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -234,17 +263,28 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
             </Form.Group>
           </Form.Row>
           <Form.Row>
+            <Form.Group as={Col} controlId="formGridImg">
+              <Form.Label>Img</Form.Label>
+              <Form.Control
+                as="input"
+                value={img}
+                onChange={(e) => {
+                  setImg(e.target.value);
+                }}
+                type="url"
+              />
+            </Form.Group>
+          </Form.Row>
+          <Form.Row>
             <fieldset>
               <Form.Group as={Row}>
-                <Form.Label as="legend" column sm={4}>
-                  Nivel de suscripción:
-                </Form.Label>
-                <Col sm={8}>
+                <Form.Label>Nivel de suscripción:</Form.Label>
+                <Col>
                   <Form.Check
                     type="radio"
                     label="Gold - 49.99€ / mes"
                     name="formHorizontalRadios"
-                    id="tierGroupie"
+                    id="tierGold"
                     value={15}
                     onClick={(e) => {
                       setCategoria(e.target.value);
@@ -255,19 +295,18 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
                     type="radio"
                     label="Silver - 29.99€ / mes"
                     name="formHorizontalRadios"
-                    id="tierFan"
+                    id="tierSilver"
                     value={10}
                     onClick={(e) => {
                       setCategoria(e.target.value);
                     }}
                     defaultChecked={usuario.categoria === 10}
-                    />
+                  />
                   <Form.Check
                     type="radio"
                     label="Bronze - 19.99€ / mes"
                     name="formHorizontalRadios"
-                    id="tierAficionado"
-                    value={5}
+                    id="tierBronze"
                     onClick={(e) => {
                       setCategoria(e.target.value);
                     }}
@@ -278,28 +317,232 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
             </fieldset>
           </Form.Row>
           <Form.Row>
-          <Col sm={6}>
-          <Button size="sm" onClick={editar} variant="success">
-            Guardar
-          </Button>
-          </Col>
-          <Col sm={6}>
-          <Link to="/usuario">
-            <Button size="sm" variant="danger">
-              Descartar
-            </Button>
-          </Link>
-          </Col>
+            <Col sm={6}>
+              <Button size="sm" onClick={editar} variant="success">
+                Guardar
+              </Button>
+            </Col>
+            <Col sm={6}>
+              <Link to="/usuario">
+                <Button size="sm" variant="danger">
+                  Descartar
+                </Button>
+              </Link>
+            </Col>
           </Form.Row>
         </Form>
         <Row>⠀</Row>
         {feedback}
       </Container>
-      
     );
-  };
+  }
 
-  let entradasMostrar;
+  function AdminUsuario() {
+    const [artista, setArtista] = useState("");
+    const [cartel, setCartel] = useState("");
+    const [fecha, setFecha] = useState("");
+    const [entradas, setEntradas] = useState("");
+    const [sala, setSala] = useState("");
+    const [categoria, setCategoria] = useState("");
+    const [peso, setPeso] = useState("");
+    const [feedback, setFeedback] = useState("");
+
+    const anyadir = () => {
+      console.log("llamando...");
+      fetch("/entradas/anyadir", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          artista: artista,
+          cartel: cartel,
+          fecha: fecha,
+          entradas: entradas,
+          sala: sala,
+          categoria: categoria,
+          peso: peso,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.error) {
+            console.log(data.mensaje);
+            setFeedback(<Alert variant="success">{data.mensaje}</Alert>);
+          } else {
+            console.log(data.mensaje);
+            setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
+          }
+        });
+    };
+
+    return (
+      <Container style={{ backgroundColor: "#EEEEEE", padding: 10 }}>
+        <Row>
+          <Card style={{ margin: 10 }}>
+            <Card.Img variant="top" src={cartel} style={{ height: 500 }} />
+            <Card.Body>
+              <Card.Title>
+                <Row
+                  style={{
+                    backgroundColor: "#EEEEEE",
+                    borderRadius: 2,
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                  }}
+                >
+                  <Col>{artista}</Col>
+                  <Col>{categoria}</Col>
+                </Row>
+              </Card.Title>
+              <Card.Text>
+                {" "}
+                <Row>
+                  <Col>
+                    <strong>Fecha:</strong> <br />
+                    {fecha}
+                  </Col>
+                  <Col>
+                    <strong>Slots:</strong> <br />
+                    <h4>{peso}</h4>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <strong>Lugar:</strong> <br />
+                    {sala}
+                  </Col>
+                  <Col>
+                    <strong>Quedan:</strong> <br />
+                    <h4 style={{ color: "#FF9900" }}>{entradas}</h4>
+                  </Col>
+                </Row>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+          <Form as={Col}>
+            <Form.Group controlId="formGridArtista">
+              <Form.Label>Artista</Form.Label>
+              <Form.Control
+                value={artista}
+                onChange={(e) => {
+                  setArtista(e.target.value);
+                }}
+                type="input"
+              />
+            </Form.Group>
+            <Form.Group controlId="formGrid1Cartel">
+              <Form.Label>Cartel</Form.Label>
+              <Form.Control
+                value={cartel}
+                onChange={(e) => {
+                  setCartel(e.target.value);
+                }}
+                type="input"
+              />
+            </Form.Group>
+            <Form.Group controlId="formGrid2Fecha">
+              <Form.Label>Fecha</Form.Label>
+              <Form.Control
+                as="input"
+                value={fecha}
+                onChange={(e) => {
+                  setFecha(e.target.value);
+                }}
+                type="datetime-local"
+              />
+            </Form.Group>
+            <Form.Group controlId="formGridEntradas">
+              <Form.Label>Entradas</Form.Label>
+              <Form.Control
+                value={entradas}
+                onChange={(e) => {
+                  setEntradas(e.target.value);
+                }}
+                type="input"
+              />
+            </Form.Group>
+            <Form.Group controlId="formGridSala">
+              <Form.Label>Sala</Form.Label>
+              <Form.Control
+                value={sala}
+                onChange={(e) => {
+                  setSala(e.target.value);
+                }}
+                type="input"
+              />
+            </Form.Group>
+            <fieldset>
+              <Form.Group>
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="Gold"
+                  name="formHorizontalRadios"
+                  id="tierGold"
+                  value={15}
+                  onClick={(e) => {
+                    setCategoria(e.target.value);
+                  }}
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="Silver"
+                  name="formHorizontalRadios"
+                  id="tierSilver"
+                  value={10}
+                  onClick={(e) => {
+                    setCategoria(e.target.value);
+                  }}
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="Bronze"
+                  name="formHorizontalRadios"
+                  id="tierBronze"
+                  value={5}
+                  onClick={(e) => {
+                    setCategoria(e.target.value);
+                  }}
+                />
+              </Form.Group>
+            </fieldset>
+            <Form.Group controlId="formGridPeso">
+              <Form.Label>Slots: {peso}</Form.Label>
+              <Form.Control
+                as="input"
+                value={peso}
+                onChange={(e) => {
+                  setPeso(e.target.value);
+                }}
+                type="range"
+                min="1"
+                max="10"
+              />
+            </Form.Group>
+            <Form.Row>
+              <Col sm={6}>
+                <Button block size="sm" onClick={anyadir} variant="success">
+                  Añadir
+                </Button>
+              </Col>
+              <Col sm={6}>
+                <Link to="/usuario">
+                  <Button block size="sm" variant="danger">
+                    Descartar
+                  </Button>
+                </Link>
+              </Col>
+            </Form.Row>
+          </Form>
+        </Row>
+        {feedback}
+      </Container>
+    );
+  }
+
   if (usuario.entradas) {
     const tier = (categoria) => {
       switch (categoria) {
@@ -343,8 +586,12 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
       });
 
       return (
-        <Card key={entrada.id}>
-          <Card.Img variant="top" src={entrada.cartel} />
+        <Card key={entrada.id} style={{ width: "31%", margin: 10 }}>
+          <Card.Img
+            variant="top"
+            src={entrada.cartel}
+            style={{ height: 500 }}
+          />
           <Card.Body>
             <Card.Title>
               <Row
@@ -418,9 +665,12 @@ export default function Usuario({ sesion, setSesion, usuario, setUsuario, logout
           <DatosUsuario />
           <Row>⠀</Row>
           <Row>
-            <CardColumns style={{ paddingBottom: 60 }}>
+            <Container
+              className="d-flex flex-wrap"
+              style={{ paddingBottom: 60 }}
+            >
               {entradasMostrar}
-            </CardColumns>
+            </Container>
           </Row>
         </Container>
       );

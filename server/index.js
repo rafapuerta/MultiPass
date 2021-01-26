@@ -100,7 +100,6 @@ app.post(
 app.get('/user/logout', function (req, res){
   req.session.destroy(function (err) {
     res.send({ mensaje: "Logout correcto" });
-    res.redirect('/user/info');
   });
 });
 
@@ -136,8 +135,9 @@ app.post("/user/registrar", function (req, res) {
               telf: req.body.telf,
               email: req.body.email,
               password: bcrypt.hashSync(req.body.password, 10),
-              categoria: req.body.categoria,
-              entradas: [], 
+              categoria: parseInt(req.body.categoria),
+              entradas: [],
+              img: req.body.img,
             },
             function (error, datos) {
               if (error !== null) {
@@ -165,6 +165,7 @@ app.put("/user/edit", function (req, res) {
   let dni = req.body.dni;
   let telf = req.body.telf;
   let categoria = parseInt(req.body.categoria);
+  let img = req.body.img
 
   app.locals.db.collection("usuarios").updateOne(
     { email: email },
@@ -175,7 +176,8 @@ app.put("/user/edit", function (req, res) {
         apellido2: apellido2,
         dni: dni,
         telf: telf,
-        categoria: categoria
+        categoria: categoria,
+        img: img, 
       },
     },
     function (error, datos) {

@@ -33,7 +33,7 @@ export default function Inicio() {
               />
               <br />
               <img src={logo2} height="100" alt="React Bootstrap logo" />
-              <p>Si no tenemos entrada, el concierto es en casa del Artista.</p>
+              <h4>Si no tenemos la entrada, el concierto es en casa del artista.</h4>
             </div>
           </div>
         </div>

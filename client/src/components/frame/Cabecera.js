@@ -55,7 +55,7 @@ const Cabecera = ({
           </Nav>
           <Nav>
             <Navbar.Text>
-              <Link to="/usuario"><Image style={{width:30}} src={usuario.img} roundedCircle /></Link>
+              <Link to="/usuario"><Image style={{width:50}} src={usuario.img} roundedCircle /></Link>
             </Navbar.Text>
           </Nav>
         </Navbar.Collapse>

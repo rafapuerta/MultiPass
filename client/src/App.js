@@ -8,11 +8,6 @@ import {useState} from "react"
 
 import {Cabecera, Footer, Conciertos, Inicio, Registro, Usuario, Noticias, Post} from "./components"
 
-//TODO: 
-// - Landing
-// -- Centrar el rótulo
-// encapsular vídeo y poner "noticias" debajo
-
 function App() {
   const [sesion, setSesion] = useState(false)
   const [usuario, setUsuario] =useState({})
