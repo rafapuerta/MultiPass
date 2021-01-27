@@ -166,7 +166,7 @@ function LoginForm(props) {
             Log In
           </Button>
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="text-center">
             <Form.Text>
               ¿No tienes cuenta? <Link to="/usuario/registrar" onClick={props.onHide}>Regístrate en MultiPass</Link>
             </Form.Text>

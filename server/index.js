@@ -205,32 +205,6 @@ app.delete("/user/delete", function(req, res){
   })
 })
 
-/* app.get("/user", function (req, res) {
-  if (req.isAuthenticated() === false) {
-    return res.status(401).send({ error: true, mensaje: "No logueado" });
-  }
-  res.send({ error: false, mensaje: "Login correcto" });
-}); */
-
-/* app.post("/user/register", function (req, res) {
-  app.locals.db.collection("usuarios").insertOne(
-    {
-      nombre: req.body.nombre,
-      apellido1: req.body.apellido1,
-      apellido2: req.body.apellido2,
-      dni: req.body.dni,
-      telf: req.body.telf,
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 10),
-    },
-    function (err, datos) {
-      if (err !== null) {
-        res.send(err);
-      } else {
-        res.send({ mensaje: "Registrado" });
-      }
-    }
-  );
-}); */
+console.log("Up and running!")
 
 app.listen(3001)
