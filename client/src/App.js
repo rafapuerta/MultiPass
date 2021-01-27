@@ -6,7 +6,8 @@ import {BrowserRouter, Route} from "react-router-dom"
 import {Alert} from "react-bootstrap"
 import {useState} from "react"
 
-import {Cabecera, Footer, Conciertos, Inicio, Registro, Usuario, Noticias, Post} from "./components"
+import {Cabecera, Footer, Conciertos, Inicio, Registro, Usuario, Noticias, Post, Stripe} from "./components"
+
 
 function App() {
   const [sesion, setSesion] = useState(false)
@@ -55,7 +56,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Cabecera login={login} usuario={usuario} sesion={sesion}feedback={feedback} setFeedback={setFeedback}/>
+    <Cabecera login={login} usuario={usuario} sesion={sesion} feedback={feedback} setFeedback={setFeedback}/>
     <Route exact path="/">
       <Inicio />
     </Route>
@@ -75,6 +76,9 @@ function App() {
     <Route exact path="/post/:slug">
       <Post />
       </Route>
+    <Route exact path="/stripe">
+      <Stripe />
+    </Route>
     <Footer />
     </BrowserRouter>
   );

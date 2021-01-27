@@ -1,5 +1,6 @@
 import fondo from "../../img/videoplayback.mp4";
-import { Container, Row, Col, Accordion, Card } from "react-bootstrap";
+import { Container, Row, Col, Accordion, Card, Button} from "react-bootstrap";
+import {Link} from "react-router-dom"
 
 /* --------------------MEDIA-------------------- */
 import logo from "../../img/logo.svg";
@@ -34,6 +35,8 @@ export default function Inicio() {
               <br />
               <img src={logo2} height="100" alt="React Bootstrap logo" />
               <h4>Si no tenemos la entrada, el concierto es en casa del artista.</h4>
+              <br />
+              <Link to="/usuario/registrar"><Button size="lg" variant="outline-warning">Consigue tu MultiPass</Button></Link>
             </div>
           </div>
         </div>
@@ -41,7 +44,7 @@ export default function Inicio() {
 
       <section className="py-5 tarjeta">
         <Container>
-          <Row className="d-flex justify-content-between">
+          <Row className="d-flex justify-contcenterent-between">
             <Col md={8}>
               <h1>Cientos de conciertos disponibles</h1>
               <h4>
@@ -55,6 +58,7 @@ export default function Inicio() {
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
+                style={{marginTop:30}}
               />
             </Col>
           </Row>
@@ -63,19 +67,20 @@ export default function Inicio() {
       <section className="py-5 tarjeta-par">
         <Container>
           <Row className="d-flex justify-content-between">
-            <Col className="d-flex justify-content-center"md={4}>
-              <img
-                src={pass}
-                width="150"
-                height="150"
-                alt="React Bootstrap logo"
-              />
-            </Col>
             <Col md={8}>
               <h1>Un único pase siempre a mano</h1>
               <h4>
                 Con MultiPass, tendrás cientos de entradas en la palma de tu mano
               </h4>
+            </Col>
+            <Col className="d-flex justify-content-center order-md-first " md={4}>
+              <img
+                src={pass}
+                width="150"
+                height="150"
+                alt="React Bootstrap logo"
+                style={{marginTop:30}}
+              />
             </Col>
           </Row>
         </Container>
@@ -96,6 +101,7 @@ export default function Inicio() {
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
+                style={{marginTop:30}}
               />
             </Col>
           </Row>

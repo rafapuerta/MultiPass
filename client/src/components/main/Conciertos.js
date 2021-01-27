@@ -64,7 +64,7 @@ const Conciertos = (props) => {
           }
         });
     }
-  }, [refresh]);
+  }, [refresh, props.sesion]);
 
   const comprar = (e) => {
     setLoading(true);
@@ -190,11 +190,11 @@ const Conciertos = (props) => {
     let fecha = DateTime.fromISO(concierto.fecha);
     if (sesion) {
       return (
-        <Card key={concierto._id} style={{ width: "31%", margin: 10 }}>
+        <Card key={concierto._id} style={{margin:10, maxWidth:340}}>
           <Card.Img
             variant="top"
             src={concierto.cartel}
-            style={{ height: 500 }}
+            style={{ maxWidth: 340, height: 500 }}
           />
           <Card.Body>
             <Card.Title>
@@ -249,11 +249,11 @@ const Conciertos = (props) => {
       );
     } else {
       return (
-        <Card key={concierto._id} style={{ width: "31%", margin: 10 }}>
+        <Card key={concierto._id} style={{margin:10, maxWidth:340}}>
           <Card.Img
             variant="top"
             src={concierto.cartel}
-            style={{ height: 500 }}
+            style={{ maxWidth: 340, height: 500 }}
           />
           <Card.Body>
             <Card.Title>
@@ -397,7 +397,9 @@ const Conciertos = (props) => {
             </Form>
           </Col>
         </Row>
-        <Container className="d-flex flex-wrap">{conciertosMostrar}</Container>
+        <Container className="d-flex flex-wrap" style={{ paddingBottom: 60 }}>
+          {conciertosMostrar}
+        </Container>
       </Container>
     );
   }

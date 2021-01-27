@@ -1,8 +1,6 @@
 import {
   Container,
   Row,
-  CardColumns,
-  CardDeck,
   Card,
   Button,
   Jumbotron,
@@ -13,6 +11,7 @@ import {
   Image,
   OverlayTrigger,
   ProgressBar,
+  FormControl,
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
@@ -39,6 +38,10 @@ export default function Usuario({
   let entradasMostrar;
   const [feedback, setFeedback] = useState("");
   const [refresh, setRefresh] = useState([]);
+  const [buscar, setBuscar] = useState("");
+  const [ordenar, setOrdenar] = useState("asc");
+  const [criterio, setCriterio] = useState("artista");
+  const [filtradas, setFiltradas] = useState([]);
 
   useEffect(() => {
     fetch("/user/info")
@@ -49,10 +52,12 @@ export default function Usuario({
           setSesion(false);
         } else {
           setUsuario(data);
+          setFiltradas(usuario.entradas);
           setSesion(true);
         }
       });
-  }, [refresh]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refresh, setSesion, setUsuario]);
 
   const eliminarEntrada = (e) => {
     fetch("/entradas/eliminar", {
@@ -207,8 +212,13 @@ export default function Usuario({
     return (
       <Container style={{ backgroundColor: "#EEEEEE", padding: 10 }}>
         <Form>
-          <Form.Row>
-          <Image as={Col} style={{width:100, margin:20}} src={img} roundedCircle/> 
+          <Form.Row className="d-flex align-items-center">
+            <Image
+              as={Col}
+              style={{ width: 100, margin: 20 }}
+              src={img}
+              roundedCircle
+            />
             <Form.Group as={Col} controlId="formGridName">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -543,6 +553,38 @@ export default function Usuario({
     );
   }
 
+  function filtrar(clave) {
+    let filtrado = usuario.entradas.filter(
+      (concierto) =>
+        concierto.grupo.toLowerCase().includes(clave.toLowerCase()) ||
+        concierto.sala.toLowerCase().includes(clave.toLowerCase()) ||
+        concierto.fecha.includes(clave)
+    );
+    setFiltradas(filtrado);
+    console.log(filtrado);
+  }
+
+  function compararValor(clave, orden) {
+    return function ordenar(a, b) {
+      if (!a.hasOwnProperty(clave) || !b.hasOwnProperty(clave)) {
+        return 0;
+      }
+
+      const A =
+        typeof a[clave] === "string" ? a[clave].toUpperCase() : a[clave];
+      const B =
+        typeof b[clave] === "string" ? b[clave].toUpperCase() : b[clave];
+
+      let comparacion = 0;
+      if (A > B) {
+        comparacion = 1;
+      } else if (A < B) {
+        comparacion = -1;
+      }
+      return orden === "desc" ? comparacion * -1 : comparacion;
+    };
+  }
+
   if (usuario.entradas) {
     const tier = (categoria) => {
       switch (categoria) {
@@ -570,7 +612,7 @@ export default function Usuario({
       }
     };
 
-    entradasMostrar = usuario.entradas.map((entrada) => {
+    entradasMostrar = filtradas.map((entrada) => {
       peso += entrada.peso;
       var fecha = DateTime.fromISO(entrada.fecha);
       var qr = JSON.stringify({
@@ -586,11 +628,11 @@ export default function Usuario({
       });
 
       return (
-        <Card key={entrada.id} style={{ width: "31%", margin: 10 }}>
+        <Card key={entrada.id} style={{margin:10, maxWidth:340}}>
           <Card.Img
             variant="top"
             src={entrada.cartel}
-            style={{ height: 500 }}
+            style={{ maxWidth: 340, height: 500 }}
           />
           <Card.Body>
             <Card.Title>
@@ -664,14 +706,58 @@ export default function Usuario({
           <Row>⠀</Row>
           <DatosUsuario />
           <Row>⠀</Row>
-          <Row>
-            <Container
-              className="d-flex flex-wrap"
-              style={{ paddingBottom: 60 }}
-            >
-              {entradasMostrar}
-            </Container>
+          <Row style={{ padding: 10, marginBottom: 20 }}>
+            <Col>
+              <Form>
+                <FormControl
+                  as="input"
+                  placeholder="Buscar..."
+                  value={buscar}
+                  onChange={(e) => {
+                    setBuscar(e.target.value);
+                    filtrar(e.target.value);
+                  }}
+                  type="search"
+                />
+              </Form>
+            </Col>
+            <Col className="d-flex justify-content-end">
+              <Form inline>
+                <Form.Label style={{ marginRight: 5 }}>Mostrar por</Form.Label>
+                <Form.Control
+                  onChange={(e) => {
+                    setCriterio(e.target.value);
+                    filtradas.sort(compararValor(e.target.value, ordenar));
+                  }}
+                  title="Criterio"
+                  as="select"
+                  size="sm"
+                >
+                  <option value="artista">Artista</option>
+                  <option value="fecha">Fecha</option>
+                  <option value="sala">Lugar</option>
+                  <option value="categoria">Categoría</option>
+                  <option value="peso">Slots</option>
+                </Form.Control>
+                <Form.Label style={{ marginInline: 5 }}>en orden</Form.Label>
+                <Form.Control
+                  onChange={(e) => {
+                    setOrdenar(e.target.value);
+                    filtradas.sort(compararValor(criterio, e.target.value));
+                  }}
+                  title="Ordenar"
+                  as="select"
+                  size="sm"
+                >
+                  <option value="asc">ascendente</option>
+                  <option value="desc">descendente</option>
+                </Form.Control>
+              </Form>
+            </Col>
           </Row>
+          <Container className="d-flex flex-wrap" style={{ paddingBottom: 60 }}>
+            {entradasMostrar}
+          </Container>
         </Container>
       );
     } else {

@@ -11,6 +11,9 @@ import {
   Alert,
   Image,
 } from "react-bootstrap";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import Stripe from "./Stripe";
+
 export default function Registro() {
   const [email, setEmail] = useState("");
   const [pass1, setPass1] = useState("");
@@ -89,180 +92,188 @@ export default function Registro() {
   };
 
   return (
-    <>
+    <BrowserRouter>
       <Jumbotron className="d-flex align-items-center">
         <Container>
           <h1>Bienvenido a MultiPass</h1>
           <p>
             Para empezar a utilizar MultiPass, debes crear tu cuenta de usuario
             mediante el registro. <br /> Por favor, rellena todos los campos del
-            formulario y luego pulsa el botón "Registrar"
+            formulario y luego pulsa el botón "Registrar" <br />A continuación
+            deberás realizar el pago de tu suscripción introduciendo los datos y
+            pulsando el botón "Realizar pago"
           </p>
         </Container>
       </Jumbotron>
-      <Container>
-        <Row>
-          <Form as={Col}>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  type="email"
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Label>Contraseña</Form.Label>
-                <OverlayTrigger
-                  placement="bottom"
-                  delay={{ show: 250, hide: 400 }}
-                  overlay={passAyuda}
-                >
+      <Route exact path="/usuario/registrar">
+        <Container>
+          <Row>
+            <Form as={Col}>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridEmail">
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
-                    value={pass1}
+                    value={email}
                     onChange={(e) => {
-                      setPass1(e.target.value);
+                      setEmail(e.target.value);
+                    }}
+                    type="email"
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridPassword">
+                  <Form.Label>Contraseña</Form.Label>
+                  <OverlayTrigger
+                    placement="bottom"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={passAyuda}
+                  >
+                    <Form.Control
+                      value={pass1}
+                      onChange={(e) => {
+                        setPass1(e.target.value);
+                      }}
+                      type="password"
+                      required
+                    />
+                  </OverlayTrigger>
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridPassword2">
+                  <Form.Label>Repite Contraseña</Form.Label>
+                  <Form.Control
+                    value={pass2}
+                    onChange={(e) => {
+                      setPass2(e.target.value);
                     }}
                     type="password"
                     required
                   />
-                </OverlayTrigger>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridPassword2">
-                <Form.Label>Repite Contraseña</Form.Label>
-                <Form.Control
-                  value={pass2}
-                  onChange={(e) => {
-                    setPass2(e.target.value);
-                  }}
-                  type="password"
-                  required
-                />
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridName">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control
-                  value={nombre}
-                  onChange={(e) => {
-                    setNombre(e.target.value);
-                  }}
-                  type="input"
-                />
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGrid1Apellido">
-                <Form.Label>1º Apellido</Form.Label>
-                <Form.Control
-                  value={apellido1}
-                  onChange={(e) => {
-                    setApellido1(e.target.value);
-                  }}
-                  type="input"
-                />
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGrid2Apellido">
-                <Form.Label>2º Apellido</Form.Label>
-                <Form.Control
-                  value={apellido2}
-                  onChange={(e) => {
-                    setApellido2(e.target.value);
-                  }}
-                  type="input"
-                />
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridTelf">
-                <Form.Label>Telefono:</Form.Label>
-                <Form.Control
-                  as="input"
-                  value={telf}
-                  onChange={(e) => {
-                    setTelf(e.target.value);
-                  }}
-                  type="telf"
-                />
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridDNI">
-                <Form.Label>DNI</Form.Label>
-                <Form.Control
-                  value={dni}
-                  onChange={(e) => {
-                    setDni(e.target.value);
-                  }}
-                  type="input"
-                />
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridImg">
-                <Form.Label>Foto</Form.Label>
-                <Form.Control
-                  as="input"
-                  value={img}
-                  onChange={(e) => {
-                    setImg(e.target.value);
-                  }}
-                  type="url"
-                />
-              </Form.Group>
-            </Form.Row>
-            <fieldset>
-              <Form.Group as={Row}>
-                <Form.Label as="legend" column sm={2}>
-                  Nivel de suscripción:
-                </Form.Label>
-                <Col sm={10}>
-                  <Form.Check
-                    type="radio"
-                    label="Gold - 49.99€ / mes"
-                    name="formHorizontalRadios"
-                    id="tierGroupie"
-                    value={15}
-                    onClick={(e) => {
-                      setCategoria(e.target.value);
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridName">
+                  <Form.Label>Nombre</Form.Label>
+                  <Form.Control
+                    value={nombre}
+                    onChange={(e) => {
+                      setNombre(e.target.value);
                     }}
+                    type="input"
                   />
-                  <Form.Check
-                    type="radio"
-                    label="Silver - 29.99€ / mes"
-                    name="formHorizontalRadios"
-                    id="tierFan"
-                    value={10}
-                    onClick={(e) => {
-                      setCategoria(e.target.value);
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGrid1Apellido">
+                  <Form.Label>1º Apellido</Form.Label>
+                  <Form.Control
+                    value={apellido1}
+                    onChange={(e) => {
+                      setApellido1(e.target.value);
                     }}
+                    type="input"
                   />
-                  <Form.Check
-                    type="radio"
-                    label="Bronze - 19.99€ / mes"
-                    name="formHorizontalRadios"
-                    id="tierAficionado"
-                    value={5}
-                    onClick={(e) => {
-                      setCategoria(e.target.value);
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGrid2Apellido">
+                  <Form.Label>2º Apellido</Form.Label>
+                  <Form.Control
+                    value={apellido2}
+                    onChange={(e) => {
+                      setApellido2(e.target.value);
                     }}
+                    type="input"
                   />
-                </Col>
-              </Form.Group>
-            </fieldset>
-            <Button onClick={registrar} variant="primary">
-              Registrar
-            </Button>
-            <Row>⠀</Row>
-            {feedback}
-          </Form>
-          <Col sm={1}>
-          <Image style={{width:150}} src={img} roundedCircle/>
-          </Col>
-        </Row>
-      </Container>
-    </>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridTelf">
+                  <Form.Label>Telefono:</Form.Label>
+                  <Form.Control
+                    as="input"
+                    value={telf}
+                    onChange={(e) => {
+                      setTelf(e.target.value);
+                    }}
+                    type="telf"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridDNI">
+                  <Form.Label>DNI</Form.Label>
+                  <Form.Control
+                    value={dni}
+                    onChange={(e) => {
+                      setDni(e.target.value);
+                    }}
+                    type="input"
+                  />
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridImg">
+                  <Form.Label>Foto</Form.Label>
+                  <Form.Control
+                    as="input"
+                    value={img}
+                    onChange={(e) => {
+                      setImg(e.target.value);
+                    }}
+                    type="url"
+                  />
+                </Form.Group>
+              </Form.Row>
+              <fieldset>
+                <Form.Group as={Row}>
+                  <Form.Label as="legend" column sm={2}>
+                    Nivel de suscripción:
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Check
+                      type="radio"
+                      label="Gold - 49.99€ / mes"
+                      name="formHorizontalRadios"
+                      id="tierGroupie"
+                      value={15}
+                      onClick={(e) => {
+                        setCategoria(e.target.value);
+                      }}
+                    />
+                    <Form.Check
+                      type="radio"
+                      label="Silver - 29.99€ / mes"
+                      name="formHorizontalRadios"
+                      id="tierFan"
+                      value={10}
+                      onClick={(e) => {
+                        setCategoria(e.target.value);
+                      }}
+                    />
+                    <Form.Check
+                      type="radio"
+                      label="Bronze - 19.99€ / mes"
+                      name="formHorizontalRadios"
+                      id="tierAficionado"
+                      value={5}
+                      onClick={(e) => {
+                        setCategoria(e.target.value);
+                      }}
+                    />
+                  </Col>
+                </Form.Group>
+              </fieldset>
+              <Link to="/usuario/registrar/pago" onClick={registrar}>
+                <Button variant="warning">Registrar</Button>
+              </Link>
+              <Row>⠀</Row>
+              {feedback}
+            </Form>
+            <Col sm={1}>
+              <Image style={{ width: 150 }} src={img} roundedCircle />
+            </Col>
+          </Row>
+        </Container>
+      </Route>
+      <Route exact path="/usuario/registrar/pago">
+        <Stripe />
+      </Route>
+    </BrowserRouter>
   );
 }
