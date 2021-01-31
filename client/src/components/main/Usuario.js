@@ -79,11 +79,23 @@ export default function Usuario({
     const categoriaImagen = (categoria) => {
       switch (categoria) {
         case 5:
-          return <Image style={{ width: 30 }} src={bronze} />;
+          return (
+            <>
+              <Image style={{ width: 30 }} src={bronze} />⠀<h4>Bronce</h4>
+            </>
+          );
         case 10:
-          return <Image style={{ width: 30 }} src={silver} />;
+          return (
+            <>
+              <Image style={{ width: 30 }} src={silver} />⠀<h4>Silver</h4>
+            </>
+          );
         case 15:
-          return <Image style={{ width: 30 }} src={gold} />;
+          return (
+            <>
+              <Image style={{ width: 30 }} src={gold} />⠀<h4>Gold</h4>
+            </>
+          );
         default:
           return <p>FALLO!</p>;
       }
@@ -148,8 +160,10 @@ export default function Usuario({
                 <Row>⠀</Row>
                 <Row>
                   <Col sm={4}>
-                    <strong>Categoría:</strong>{" "}
-                    {categoriaImagen(usuario.categoria)}
+                    <Row>
+                      <strong>Categoría:</strong>
+                      {categoriaImagen(usuario.categoria)}
+                    </Row>
                   </Col>
                   <Col sm={8}>
                     <strong>Pase:</strong> {peso}/{usuario.categoria}{" "}
@@ -174,6 +188,7 @@ export default function Usuario({
   }
 
   function EditarUsuario() {
+    //ANCHOR Editar Usuario
     const [nombre, setNombre] = useState(usuario.nombre);
     const [apellido1, setApellido1] = useState(usuario.apellido1);
     const [apellido2, setApellido2] = useState(usuario.apellido2);
@@ -203,9 +218,15 @@ export default function Usuario({
         .then((data) => {
           if (!data.error) {
             setFeedback(<Alert variant="success">{data.mensaje}</Alert>);
+            setTimeout(() => {
+              setFeedback("");
+            }, 5000);
             setRefresh([]);
           } else {
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
+            setTimeout(() => {
+              setFeedback("");
+            }, 5000);
           }
         });
     };
@@ -287,59 +308,126 @@ export default function Usuario({
             </Form.Group>
           </Form.Row>
           <Form.Row>
-            <fieldset>
-              <Form.Group as={Row}>
-                <Form.Label>Nivel de suscripción:</Form.Label>
-                <Col>
-                  <Form.Check
-                    type="radio"
-                    label="Gold - 49.99€ / mes"
-                    name="formHorizontalRadios"
-                    id="tierGold"
-                    value={15}
-                    onClick={(e) => {
-                      setCategoria(e.target.value);
-                    }}
-                    defaultChecked={usuario.categoria === 15}
-                  />
-                  <Form.Check
-                    type="radio"
-                    label="Silver - 29.99€ / mes"
-                    name="formHorizontalRadios"
-                    id="tierSilver"
-                    value={10}
-                    onClick={(e) => {
-                      setCategoria(e.target.value);
-                    }}
-                    defaultChecked={usuario.categoria === 10}
-                  />
-                  <Form.Check
-                    type="radio"
-                    label="Bronze - 19.99€ / mes"
-                    name="formHorizontalRadios"
-                    id="tierBronze"
-                    value={5}
-                    onClick={(e) => {
-                      setCategoria(e.target.value);
-                    }}
-                    defaultChecked={usuario.categoria === 5}
-                  />
-                </Col>
-              </Form.Group>
-            </fieldset>
+            <Container>
+              <Row
+                style={{ marginTop: 20 }}
+                className="d-flex flew-wrap justify-content-around"
+              >
+                <Card
+                  style={{ width: 320, margin: 10 }}
+                  className="text-center"
+                >
+                  <Card.Header>
+                    <h3>Bronce</h3>
+                  </Card.Header>
+                  <Card.Body className="d-flex flex-column justify-content-between ">
+                    <Card.Text>
+                      <h1 className="card-title pricing-card-title">
+                        19.99€
+                        <small className="text-muted">/ mo</small>
+                      </h1>
+                      <ul className="list-unstyled mt-3 mb-4">
+                        <li>⠀</li>
+                        <li>Eventos de categoría Bronce</li>
+                        <li>5 Slots en tu MultiPass</li>
+                        <li>Notificaciones de nuevos eventos</li>
+                        <li>⠀</li>
+                      </ul>
+                    </Card.Text>
+                    <Button
+                      onClick={() => {
+                        setCategoria(5);
+                      }}
+                      variant={usuario.categoria === 5 ? "success" : "warning"}
+                      disabled={usuario.categoria === 5}
+                    >
+                      {usuario.categoria === 5
+                        ? "Categoría actual"
+                        : "Cambiar a Bronce"}
+                    </Button>
+                  </Card.Body>
+                </Card>
+                <Card
+                  style={{ width: 320, margin: 10 }}
+                  className="text-center"
+                >
+                  <Card.Header>
+                    <h3>Silver</h3>
+                  </Card.Header>
+                  <Card.Body className="d-flex flex-column justify-content-between">
+                    <Card.Text>
+                      <h1 className="card-title pricing-card-title">
+                        29.99€
+                        <small className="text-muted">/ mo</small>
+                      </h1>
+                      <ul className="list-unstyled mt-3 mb-4">
+                        <li>⠀</li>
+                        <li>Todo lo que se incluye en Bronce</li>
+                        <li>Eventos de categoría Plata</li>
+                        <li>+5 Slots en tu MultiPass (10 en total)</li>
+                        <li>Notificaciones de nuevos eventos</li>
+                      </ul>
+                    </Card.Text>
+                    <Button
+                      onClick={() => {
+                        setCategoria(10);
+                      }}
+                      variant={usuario.categoria === 10 ? "success" : "warning"}
+                      disabled={usuario.categoria === 10}
+                    >
+                      {usuario.categoria === 10
+                        ? "Categoría actual"
+                        : "Cambiar a Silver"}
+                    </Button>
+                  </Card.Body>
+                </Card>
+                <Card
+                  style={{ width: 320, margin: 10 }}
+                  className="text-center"
+                >
+                  <Card.Header>
+                    <h3>Gold</h3>
+                  </Card.Header>
+                  <Card.Body className="d-flex flex-column justify-content-between">
+                    <Card.Text>
+                      <h1 className="card-title pricing-card-title">
+                        49.99€
+                        <small className="text-muted">/ mo</small>
+                      </h1>
+                      <ul className="list-unstyled mt-3 mb-4">
+                        <li>Todo lo que se incluye en Plata</li>
+                        <li>Acceso a todos los eventos</li>
+                        <li>+10 Slots en tu MultiPass (15 en total)</li>
+                        <li>Notificaciones de nuevos eventos</li>
+                        <li>Acceso prioritario a las entradas</li>
+                      </ul>
+                    </Card.Text>
+                    <Button
+                      onClick={() => {
+                        setCategoria(15);
+                      }}
+                      variant={usuario.categoria === 15 ? "success" : "warning"}
+                      disabled={usuario.categoria === 15}
+                    >
+                      {usuario.categoria === 15
+                        ? "Categoría actual"
+                        : "Cambiar a Gold"}
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Row>
+            </Container>
           </Form.Row>
           <Form.Row>
             <Col sm={6}>
-              <Button size="sm" onClick={editar} variant="success">
+              <Button block size="sm" onClick={editar} variant="success">
                 Guardar
               </Button>
             </Col>
             <Col sm={6}>
-              <Link to="/usuario">
-                <Button size="sm" variant="danger">
-                  Descartar
-                </Button>
-              </Link>
+              <Button as={Link} to="/usuario" block size="sm" variant="danger">
+                Descartar
+              </Button>
             </Col>
           </Form.Row>
         </Form>
@@ -350,6 +438,7 @@ export default function Usuario({
   }
 
   function AdminUsuario() {
+    //ANCHOR Admin Usuario
     const [artista, setArtista] = useState("");
     const [cartel, setCartel] = useState("");
     const [fecha, setFecha] = useState("");
@@ -381,9 +470,16 @@ export default function Usuario({
           if (!data.error) {
             console.log(data.mensaje);
             setFeedback(<Alert variant="success">{data.mensaje}</Alert>);
+            setTimeout(() => {
+              setFeedback("");
+            }, 5000);
+            setRefresh([]);
           } else {
             console.log(data.mensaje);
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
+            setTimeout(() => {
+              setFeedback("");
+            }, 5000);
           }
         });
     };
@@ -545,11 +641,15 @@ export default function Usuario({
                 </Button>
               </Col>
               <Col sm={6}>
-                <Link to="/usuario">
-                  <Button block size="sm" variant="danger">
-                    Descartar
-                  </Button>
-                </Link>
+                <Button
+                  as={Link}
+                  to="/usuario"
+                  block
+                  size="sm"
+                  variant="danger"
+                >
+                  Descartar
+                </Button>
               </Col>
             </Form.Row>
           </Form>
