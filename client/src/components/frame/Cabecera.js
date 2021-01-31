@@ -1,17 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button, Nav, Navbar, Modal, Form, Image, } from "react-bootstrap";
+import { HashLink as Link } from "react-router-hash-link";
+import { Button, Nav, Navbar, Modal, Form, Image } from "react-bootstrap";
 
 import logo from "../../img/logo.svg";
 import logo2 from "../../img/logo2.svg";
 
-const Cabecera = ({
-  sesion,
-  usuario,
-  login,
-  feedback,
-  setFeedback,
-}) => {
+const Cabecera = ({ sesion, usuario, login, feedback, setFeedback }) => {
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -28,34 +22,51 @@ const Cabecera = ({
 
   if (sesion) {
     return (
-      <Navbar sticky="top" collapseOnSelect
-      expand="sm" bg="dark" variant="dark">
+      <Navbar
+        sticky="top"
+        collapseOnSelect
+        expand="sm"
+        bg="dark"
+        variant="dark"
+      >
         <Navbar.Brand>
           <Link to="/">
-          <img
-            src={logo}
-            width="40"
-            height="40"
-            className="d-inline-block align-top"
-            alt="MultiPass logo"
-          />
-          <img
-            src={logo2}
-            height="40"
-            className="d-inline-block align-top"
-            alt="React Bootstrap logo"
-          />
+            <img
+              src={logo}
+              width="40"
+              height="40"
+              className="d-inline-block align-top"
+              alt="MultiPass logo"
+            />
+            <img
+              src={logo2}
+              height="40"
+              className="d-inline-block align-top"
+              alt="React Bootstrap logo"
+            />
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/conciertos">Conciertos</Nav.Link>
-              <Nav.Link as={Link} to="/noticias">Noticias</Nav.Link>
+            <Nav.Link as={Link} to="/conciertos">
+              Conciertos
+            </Nav.Link>
+            <Nav.Link as={Link} to="/noticias">
+              Noticias
+            </Nav.Link>
+            <Nav.Link as={Link} to="/#precios">
+              Precios
+            </Nav.Link>
+            <Nav.Link as={Link} to="/#faq">
+              FAQ
+            </Nav.Link>
           </Nav>
           <Nav>
             <Navbar.Text>
-              <Link to="/usuario"><Image style={{width:50}} src={usuario.img} roundedCircle /></Link>
+              <Link to="/usuario">
+                <Image style={{ width: 50 }} src={usuario.img} roundedCircle />
+              </Link>
             </Navbar.Text>
           </Nav>
         </Navbar.Collapse>
@@ -73,30 +84,36 @@ const Cabecera = ({
         >
           <Navbar.Brand>
             <Link to="/">
-            <img
-              src={logo}
-              width="40"
-              height="40"
-              className="d-inline-block align-top"
-              alt="MultiPass logo"
-            />
-            <img
-              src={logo2}
-              height="40"
-              className="d-inline-block align-top"
-              alt="React Bootstrap logo"
-            />
+              <img
+                src={logo}
+                width="40"
+                height="40"
+                className="d-inline-block align-top"
+                alt="MultiPass logo"
+              />
+              <img
+                src={logo2}
+                height="40"
+                className="d-inline-block align-top"
+                alt="React Bootstrap logo"
+              />
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/conciertos">Conciertos</Nav.Link>
-              <Nav.Link as={Link} to="/noticias">Noticias</Nav.Link>
+              <Nav.Link as={Link} to="/conciertos">
+                Conciertos
+              </Nav.Link>
+              <Nav.Link as={Link} to="/noticias">
+                Noticias
+              </Nav.Link>
             </Nav>
             <Nav>
               <Navbar.Text>
-                <Button onClick={() => setModalShow(true)} variant="warning">Iniciar sesión</Button>
+                <Button onClick={() => setModalShow(true)} variant="warning">
+                  Iniciar sesión
+                </Button>
               </Navbar.Text>
             </Nav>
           </Navbar.Collapse>
@@ -138,7 +155,8 @@ function LoginForm(props) {
             <Form.Control
               type="email"
               placeholder="Introduzca email"
-              required autoFocus
+              required
+              autoFocus
               value={props.email}
               onChange={props.handleMail}
             />
@@ -156,19 +174,23 @@ function LoginForm(props) {
           </Form.Group>
           <Form.Text className="text-muted">{props.feedback}</Form.Text>
           <Form.Group>
-          <Button block
-            variant="warning"
-            size="sm"
-            onClick={() => {
-              props.login(props.email, props.pass);
-            }}
-          >
-            Log In
-          </Button>
+            <Button
+              block
+              variant="warning"
+              size="sm"
+              onClick={() => {
+                props.login(props.email, props.pass);
+              }}
+            >
+              Log In
+            </Button>
           </Form.Group>
           <Form.Group className="text-center">
             <Form.Text>
-              ¿No tienes cuenta? <Link to="/usuario/registrar" onClick={props.onHide}>Regístrate en MultiPass</Link>
+              ¿No tienes cuenta?{" "}
+              <Link to="/usuario/registrar" onClick={props.onHide}>
+                Regístrate en MultiPass
+              </Link>
             </Form.Text>
           </Form.Group>
         </Form>

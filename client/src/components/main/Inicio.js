@@ -1,13 +1,13 @@
 import fondo from "../../img/videoplayback.mp4";
-import { Container, Row, Col, Accordion, Card, Button} from "react-bootstrap";
-import {Link} from "react-router-dom"
+import { Container, Row, Col, Accordion, Card, Button } from "react-bootstrap";
+import { HashLink as Link } from "react-router-hash-link";
 
 /* --------------------MEDIA-------------------- */
 import logo from "../../img/logo.svg";
 import logo2 from "../../img/logo2.svg";
-import list from "../../img/list.png"
-import pass from "../../img/pass.png"
-import size from "../../img/size.png"
+import list from "../../img/list.png";
+import pass from "../../img/pass.png";
+import size from "../../img/size.png";
 /* --------------------------------------------- */
 
 export default function Inicio() {
@@ -34,9 +34,15 @@ export default function Inicio() {
               />
               <br />
               <img src={logo2} height="100" alt="React Bootstrap logo" />
-              <h4>Si no tenemos la entrada, el concierto es en casa del artista.</h4>
+              <h4>
+                Si no tenemos la entrada, el concierto es en casa del artista.
+              </h4>
               <br />
-              <Link to="/usuario/registrar"><Button size="lg" variant="outline-warning">Consigue tu MultiPass</Button></Link>
+              <Link to="/usuario/registrar">
+                <Button size="lg" variant="outline-warning">
+                  Consigue tu MultiPass
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -58,7 +64,7 @@ export default function Inicio() {
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
-                style={{marginTop:30}}
+                style={{ marginTop: 30 }}
               />
             </Col>
           </Row>
@@ -70,16 +76,20 @@ export default function Inicio() {
             <Col md={8}>
               <h1>Un único pase siempre a mano</h1>
               <h4>
-                Con MultiPass, tendrás cientos de entradas en la palma de tu mano
+                Con MultiPass, tendrás cientos de entradas en la palma de tu
+                mano
               </h4>
             </Col>
-            <Col className="d-flex justify-content-center order-md-first " md={4}>
+            <Col
+              className="d-flex justify-content-center order-md-first "
+              md={4}
+            >
               <img
                 src={pass}
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
-                style={{marginTop:30}}
+                style={{ marginTop: 30 }}
               />
             </Col>
           </Row>
@@ -91,7 +101,8 @@ export default function Inicio() {
             <Col md={8}>
               <h1>Una tarifa plana de tu tamaño</h1>
               <h4>
-                MultiPass tiene diferentes tamaños para diferentes personas <br/>
+                MultiPass tiene diferentes tamaños para diferentes personas{" "}
+                <br />
                 ¡Elige el tamaño más adecuado para ti!
               </h4>
             </Col>
@@ -101,13 +112,109 @@ export default function Inicio() {
                 width="150"
                 height="150"
                 alt="React Bootstrap logo"
-                style={{marginTop:30}}
+                style={{ marginTop: 30 }}
               />
             </Col>
           </Row>
         </Container>
       </section>
-      <section className="py-5">
+      <section id="precios" className="py-5">
+        <Container>
+          <Row className="d-flex justify-content-center">
+            <Col className="py-4 text-center">
+              <h1>Precios</h1>
+            </Col>
+          </Row>
+          <Row className=" justify-content-center text-center">
+            <Col sm={8}>
+              <p>
+                MultiPass tiene diferentes categorías que se ajustan a tu
+                bolsillo, a tu disponibilidad para asistir a los conciertos o
+                incluso al tipo de conciertos a los que quieres asistir.
+                <br /> Si sólo te gustan los artistas independientes en locales
+                pequeños, tenemos lo que buscas y si lo tuyo es más los
+                conciertos de super estrellas, o los festivales de verano,
+                ¡MultiPass tiene lo que necesitas!
+              </p>
+            </Col>
+          </Row>
+          <Row
+            style={{ marginTop: 20 }}
+            className="d-flex flew-wrap justify-content-around"
+          >
+            <Card style={{ width: 320, margin: 10 }} className="text-center">
+              <Card.Header>
+                <h3>Bronce</h3>
+              </Card.Header>
+              <Card.Body className="d-flex flex-column justify-content-between ">
+                <Card.Text>
+                  <h1 className="card-title pricing-card-title">
+                    19.99€
+                    <small className="text-muted">/ mo</small>
+                  </h1>
+                  <ul className="list-unstyled mt-3 mb-4">
+                    <li>⠀</li>
+                    <li>Eventos de categoría Bronce</li>
+                    <li>5 Slots en tu MultiPass</li>
+                    <li>Notificaciones de nuevos eventos</li>
+                    <li>⠀</li>
+                  </ul>
+                </Card.Text>
+                <Button as={Link} to="/usuario/registrar" variant="warning">
+                  ¡Suscríbete!
+                </Button>
+              </Card.Body>
+            </Card>
+            <Card style={{ width: 320, margin: 10 }} className="text-center">
+              <Card.Header>
+                <h3>Silver</h3>
+              </Card.Header>
+              <Card.Body className="d-flex flex-column justify-content-between">
+                <Card.Text>
+                  <h1 className="card-title pricing-card-title">
+                    29.99€
+                    <small className="text-muted">/ mo</small>
+                  </h1>
+                  <ul className="list-unstyled mt-3 mb-4">
+                    <li>⠀</li>
+                    <li>Todo lo que se incluye en Bronce</li>
+                    <li>Eventos de categoría Plata</li>
+                    <li>+5 Slots en tu MultiPass (10 en total)</li>
+                    <li>Notificaciones de nuevos eventos</li>
+                  </ul>
+                </Card.Text>
+                <Button as={Link} to="/usuario/registrar" variant="warning">
+                  ¡Suscríbete!
+                </Button>
+              </Card.Body>
+            </Card>
+            <Card style={{ width: 320, margin: 10 }} className="text-center">
+              <Card.Header>
+                <h3>Gold</h3>
+              </Card.Header>
+              <Card.Body className="d-flex flex-column justify-content-between">
+                <Card.Text>
+                  <h1 className="card-title pricing-card-title">
+                    49.99€
+                    <small className="text-muted">/ mo</small>
+                  </h1>
+                  <ul className="list-unstyled mt-3 mb-4">
+                    <li>Todo lo que se incluye en Plata</li>
+                    <li>Acceso a todos los eventos</li>
+                    <li>+10 Slots en tu MultiPass (15 en total)</li>
+                    <li>Notificaciones de nuevos eventos</li>
+                    <li>Acceso prioritario a las entradas</li>
+                  </ul>
+                </Card.Text>
+                <Button as={Link} to="/usuario/registrar" variant="warning">
+                  ¡Suscríbete!
+                </Button>
+              </Card.Body>
+            </Card>
+          </Row>
+        </Container>
+      </section>
+      <section id="faq" className="py-5" style={{ marginTop: -60 }}>
         <Container>
           <Row className="d-flex justify-content-center">
             <Col className="py-4 text-center">
@@ -115,7 +222,7 @@ export default function Inicio() {
             </Col>
           </Row>
           <Row className="d-flex justify-content-center">
-            <Col lg={8}>
+            <Col className="text-center">
               <Accordion defaultActiveKey="0">
                 <Card>
                   <Accordion.Toggle as={Card.Header} eventKey="0">
