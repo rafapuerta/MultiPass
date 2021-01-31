@@ -180,6 +180,7 @@ function LoginForm(props) {
               size="sm"
               onClick={() => {
                 props.login(props.email, props.pass);
+                props.onHide();
               }}
             >
               Log In
