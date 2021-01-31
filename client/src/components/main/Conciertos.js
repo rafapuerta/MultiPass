@@ -116,35 +116,7 @@ const Conciertos = (props) => {
             No queda espacio en tu pase!
           </Button>
         );
-      } else if (usuario.categoria === "15") {
-        return (
-          <Button
-            size="sm"
-            value={id}
-            variant="warning"
-            block
-            onClick={comprar}
-          >
-            Añadir
-          </Button>
-        );
-      } else if (usuario.categoria === 10 && categoria !== 15) {
-        return (
-          <Button
-            size="sm"
-            value={id}
-            variant="warning"
-            block
-            onClick={comprar}
-          >
-            Añadir
-          </Button>
-        );
-      } else if (
-        usuario.categoria === 5 &&
-        categoria !== 10 &&
-        categoria !== 15
-      ) {
+      } else {
         return (
           <Button
             size="sm"
@@ -190,7 +162,7 @@ const Conciertos = (props) => {
     let fecha = DateTime.fromISO(concierto.fecha);
     if (sesion) {
       return (
-        <Card key={concierto._id} style={{margin:10, maxWidth:340}}>
+        <Card key={concierto._id} style={{ margin: 10, maxWidth: 340 }}>
           <Card.Img
             variant="top"
             src={concierto.cartel}
@@ -249,7 +221,7 @@ const Conciertos = (props) => {
       );
     } else {
       return (
-        <Card key={concierto._id} style={{margin:10, maxWidth:340}}>
+        <Card key={concierto._id} style={{ margin: 10, maxWidth: 340 }}>
           <Card.Img
             variant="top"
             src={concierto.cartel}

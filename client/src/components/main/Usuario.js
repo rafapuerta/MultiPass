@@ -75,6 +75,7 @@ export default function Usuario({
   };
 
   function DatosUsuario() {
+    //ANCHOR Perfil de usuario
     const categoriaImagen = (categoria) => {
       switch (categoria) {
         case 5:
@@ -252,7 +253,7 @@ export default function Usuario({
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridTelf">
-              <Form.Label>Telefono:</Form.Label>
+              <Form.Label>Telefono</Form.Label>
               <Form.Control
                 value={telf}
                 onChange={(e) => {
@@ -274,7 +275,7 @@ export default function Usuario({
           </Form.Row>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridImg">
-              <Form.Label>Img</Form.Label>
+              <Form.Label>Foto de perfil</Form.Label>
               <Form.Control
                 as="input"
                 value={img}
@@ -317,6 +318,7 @@ export default function Usuario({
                     label="Bronze - 19.99€ / mes"
                     name="formHorizontalRadios"
                     id="tierBronze"
+                    value={5}
                     onClick={(e) => {
                       setCategoria(e.target.value);
                     }}
@@ -389,8 +391,12 @@ export default function Usuario({
     return (
       <Container style={{ backgroundColor: "#EEEEEE", padding: 10 }}>
         <Row>
-          <Card style={{ margin: 10 }}>
-            <Card.Img variant="top" src={cartel} style={{ height: 500 }} />
+          <Card style={{ margin: 10, maxWidth: 340 }}>
+            <Card.Img
+              variant="top"
+              src={cartel}
+              style={{ maxWidth: 340, height: 500 }}
+            />
             <Card.Body>
               <Card.Title>
                 <Row
@@ -613,6 +619,7 @@ export default function Usuario({
     };
 
     entradasMostrar = filtradas.map((entrada) => {
+      // TODO Crear componente Entrada, pasando el elemento entrada del .map por props. Dentro generar un Modal individual con el QR generado que salte al tocar el qr original y se cierre al tocar el modal
       peso += entrada.peso;
       var fecha = DateTime.fromISO(entrada.fecha);
       var qr = JSON.stringify({
@@ -628,7 +635,7 @@ export default function Usuario({
       });
 
       return (
-        <Card key={entrada.id} style={{margin:10, maxWidth:340}}>
+        <Card key={entrada.id} style={{ margin: 10, maxWidth: 340 }}>
           <Card.Img
             variant="top"
             src={entrada.cartel}
