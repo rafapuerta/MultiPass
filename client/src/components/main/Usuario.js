@@ -751,7 +751,9 @@ export default function Usuario({
                   paddingBottom: 5,
                 }}
               >
-                <Col>{entrada.grupo}</Col>
+                <Col>
+                  <h4 style={{ fontWeight: 600 }}>{entrada.grupo}</h4>
+                </Col>
                 <Col sm={2}>
                   <OverlayTrigger
                     placement="bottom"

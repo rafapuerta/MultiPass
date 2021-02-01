@@ -223,7 +223,7 @@ export default function Inicio() {
           </Row>
           <Row className="d-flex justify-content-center">
             <Col className="text-center">
-              <Accordion defaultActiveKey="0">
+              <Accordion>
                 <Card>
                   <Accordion.Toggle as={Card.Header} eventKey="0">
                     <h3>¿Qué es MultiPass?</h3>

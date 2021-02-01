@@ -178,7 +178,9 @@ const Conciertos = (props) => {
                   paddingBottom: 5,
                 }}
               >
-                <Col>{concierto.artista}</Col>
+                <Col>
+                  <h4 style={{ fontWeight: 600 }}>{concierto.artista}</h4>
+                </Col>
                 <Col sm={2}>
                   <OverlayTrigger
                     placement="bottom"
@@ -237,7 +239,9 @@ const Conciertos = (props) => {
                   paddingBottom: 5,
                 }}
               >
-                <Col>{concierto.artista}</Col>
+                <Col>
+                  <h4 style={{ fontWeight: 600 }}>{concierto.artista}</h4>
+                </Col>
                 <Col sm={2}>
                   <OverlayTrigger
                     placement="bottom"
