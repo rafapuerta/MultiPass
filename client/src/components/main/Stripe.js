@@ -1,39 +1,43 @@
-import React, {useState} from 'react';
-import {loadStripe} from '@stripe/stripe-js';
-import {CardElement, Elements, useElements, useStripe} from '@stripe/react-stripe-js';
-import {Container, Form, FormGroup, Row, Col,} from "react-bootstrap"
-import '../../App.css';
-import { Link } from 'react-router-dom';
-
+import React, { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { Container, Form, FormGroup, Row, Col } from "react-bootstrap";
+import "../../App.css";
+import { Link } from "react-router-dom";
 
 const CARD_OPTIONS = {
-  iconStyle: 'solid',
+  iconStyle: "solid",
   style: {
     base: {
-      iconColor: '#1B729D',
-      color: '#000000',
+      iconColor: "#1B729D",
+      color: "#000000",
       fontWeight: 500,
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-      fontSize: '16px',
-      fontSmoothing: 'antialiased',
-      ':-webkit-autofill': {
-        color: '#fce883',
+      fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
+      fontSize: "16px",
+      fontSmoothing: "antialiased",
+      ":-webkit-autofill": {
+        color: "#fce883",
       },
-      '::placeholder': {
-        color: '#bbbbbb',
+      "::placeholder": {
+        color: "#bbbbbb",
       },
     },
     invalid: {
-      iconColor: '#c82333',
-      color: '#c82333',
+      iconColor: "#c82333",
+      color: "#c82333",
     },
   },
 };
 
-const CardField = ({onChange}) => (
+const CardField = ({ onChange }) => (
   <Form.Row>
     <CardElement options={CARD_OPTIONS} onChange={onChange} />
-    </Form.Row>
+  </Form.Row>
 );
 
 const Field = ({
@@ -47,9 +51,7 @@ const Field = ({
   onChange,
 }) => (
   <Form.Row>
-    <Form.Label htmlFor={id}>
-      {label}
-    </Form.Label>
+    <Form.Label htmlFor={id}>{label}</Form.Label>
     <Form.Control
       className="FormRowInput"
       id={id}
@@ -63,17 +65,17 @@ const Field = ({
   </Form.Row>
 );
 
-const SubmitButton = ({processing, error, children, disabled}) => (
+const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
-    className={`SubmitButton ${error ? 'SubmitButton--error' : ''}`}
+    className={`SubmitButton ${error ? "SubmitButton--error" : ""}`}
     type="submit"
     disabled={processing || disabled}
   >
-    {processing ? 'Processing...' : children}
+    {processing ? "Processing..." : children}
   </button>
 );
 
-const ErrorMessage = ({children}) => (
+const ErrorMessage = ({ children }) => (
   <div className="ErrorMessage" role="alert">
     <svg width="16" height="16" viewBox="0 0 17 17">
       <path
@@ -89,7 +91,7 @@ const ErrorMessage = ({children}) => (
   </div>
 );
 
-const ResetButton = ({onClick}) => (
+const ResetButton = ({ onClick }) => (
   <button type="button" className="ResetButton" onClick={onClick}>
     <svg width="32px" height="32px" viewBox="0 0 32 32">
       <path
@@ -108,9 +110,9 @@ const CheckoutForm = () => {
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [billingDetails, setBillingDetails] = useState({
-    email: '',
-    phone: '',
-    name: '',
+    email: "",
+    phone: "",
+    name: "",
   });
 
   const handleSubmit = async (event) => {
@@ -123,7 +125,7 @@ const CheckoutForm = () => {
     }
 
     if (error) {
-      elements.getElement('card').focus();
+      elements.getElement("card").focus();
       return;
     }
 
@@ -132,7 +134,7 @@ const CheckoutForm = () => {
     }
 
     const payload = await stripe.createPaymentMethod({
-      type: 'card',
+      type: "card",
       card: elements.getElement(CardElement),
       billing_details: billingDetails,
     });
@@ -146,7 +148,7 @@ const CheckoutForm = () => {
     }
   };
 
-  const reset = () => {
+  /* const reset = () => {
     setError(null);
     setProcessing(false);
     setPaymentMethod(null);
@@ -155,7 +157,7 @@ const CheckoutForm = () => {
       phone: '',
       name: '',
     });
-  };
+  }; */
 
   return paymentMethod ? (
     <div className="Result">
@@ -164,9 +166,12 @@ const CheckoutForm = () => {
       </div>
       <div className="ResultMessage">
         Gracias por suscribirte a MultiPass. <br />
-        No se ha realizado el cobro real, pero se ha generado un hash de pago simulado: <strong>{paymentMethod.id}</strong>
+        No se ha realizado el cobro real, pero se ha generado un hash de pago
+        simulado: <strong>{paymentMethod.id}</strong>
       </div>
-      <Link to="/"><ResetButton /></Link>
+      <Link to="/">
+        <ResetButton />
+      </Link>
     </div>
   ) : (
     <Form onSubmit={handleSubmit}>
@@ -180,7 +185,7 @@ const CheckoutForm = () => {
           autoComplete="name"
           value={billingDetails.name}
           onChange={(e) => {
-            setBillingDetails({...billingDetails, name: e.target.value});
+            setBillingDetails({ ...billingDetails, name: e.target.value });
           }}
         />
         <Field
@@ -192,7 +197,7 @@ const CheckoutForm = () => {
           autoComplete="email"
           value={billingDetails.email}
           onChange={(e) => {
-            setBillingDetails({...billingDetails, email: e.target.value});
+            setBillingDetails({ ...billingDetails, email: e.target.value });
           }}
         />
         <Field
@@ -204,7 +209,7 @@ const CheckoutForm = () => {
           autoComplete="tel"
           value={billingDetails.phone}
           onChange={(e) => {
-            setBillingDetails({...billingDetails, phone: e.target.value});
+            setBillingDetails({ ...billingDetails, phone: e.target.value });
           }}
         />
       </FormGroup>
@@ -227,27 +232,27 @@ const CheckoutForm = () => {
 const ELEMENTS_OPTIONS = {
   fonts: [
     {
-      cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+      cssSrc: "https://fonts.googleapis.com/css?family=Roboto",
     },
   ],
 };
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
 const Stripe = () => {
-    return (
-      <Container style={{marginBottom: 40}}>
-        <Row className="justify-content-center">
-          <Col sm={4}>
-        <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
-          <CheckoutForm />
-        </Elements>
+  return (
+    <Container style={{ marginBottom: 40 }}>
+      <Row className="justify-content-center">
+        <Col sm={4}>
+          <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
+            <CheckoutForm />
+          </Elements>
         </Col>
-        </Row>
-      </Container>
-    );
-  };
+      </Row>
+    </Container>
+  );
+};
 
-export default Stripe
+export default Stripe;
