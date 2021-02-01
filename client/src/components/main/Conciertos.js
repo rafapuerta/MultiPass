@@ -11,6 +11,7 @@ import {
   Spinner,
   FormControl,
   Form,
+  InputGroup,
 } from "react-bootstrap";
 
 //-----MEDIA------
@@ -327,16 +328,23 @@ const Conciertos = (props) => {
         <Row style={{ padding: 10, marginBottom: 20 }}>
           <Col>
             <Form>
-              <FormControl
-                as="input"
-                placeholder="Buscar..."
-                value={buscar}
-                onChange={(e) => {
-                  setBuscar(e.target.value);
-                  filtrar(e.target.value);
-                }}
-                type="search"
-              />
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text>
+                    <span className="mdi mdi-magnify"></span>
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  as="input"
+                  placeholder="Buscar..."
+                  value={buscar}
+                  onChange={(e) => {
+                    setBuscar(e.target.value);
+                    filtrar(e.target.value);
+                  }}
+                  type="search"
+                />
+              </InputGroup>
             </Form>
           </Col>
           <Col className="d-flex justify-content-end">

@@ -38,25 +38,36 @@ const Footer = () => {
               </Row>
               <Row>
                 <Col>
-                  <span
-                    style={{ fontSize: 30 }}
-                    className="mdi mdi-instagram"
-                  ></span>{" "}
-                  MultiPass
+                  <a style={{ color: "black" }} href="#">
+                    <span
+                      style={{ fontSize: 30 }}
+                      className="mdi mdi-instagram"
+                    />
+                  </a>
                 </Col>
                 <Col>
-                  <span
-                    style={{ fontSize: 30 }}
-                    className="mdi mdi-facebook "
-                  ></span>{" "}
-                  MultiPass
+                  <a style={{ color: "black" }} href="#">
+                    <span
+                      style={{ fontSize: 30 }}
+                      className="mdi mdi-facebook "
+                    />
+                  </a>
                 </Col>
                 <Col>
-                  <span
-                    style={{ fontSize: 30 }}
-                    className="mdi mdi-twitter "
-                  ></span>{" "}
-                  MultiPass_
+                  <a style={{ color: "black" }} href="#">
+                    <span
+                      style={{ fontSize: 30 }}
+                      className="mdi mdi-twitter "
+                    />
+                  </a>
+                </Col>
+                <Col>
+                  <a style={{ color: "black" }} href="#">
+                    <span
+                      style={{ fontSize: 30 }}
+                      className="mdi mdi-email-outline "
+                    />
+                  </a>
                 </Col>
               </Row>
             </Col>

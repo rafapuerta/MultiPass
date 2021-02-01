@@ -108,6 +108,12 @@ const Cabecera = ({ sesion, usuario, login, feedback, setFeedback }) => {
               <Nav.Link as={Link} to="/noticias">
                 Noticias
               </Nav.Link>
+              <Nav.Link as={Link} to="/#precios">
+                Precios
+              </Nav.Link>
+              <Nav.Link as={Link} to="/#faq">
+                FAQ
+              </Nav.Link>
             </Nav>
             <Nav>
               <Navbar.Text>

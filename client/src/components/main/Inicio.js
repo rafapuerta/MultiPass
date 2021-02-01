@@ -3,8 +3,7 @@ import { Container, Row, Col, Accordion, Card, Button } from "react-bootstrap";
 import { HashLink as Link } from "react-router-hash-link";
 
 /* --------------------MEDIA-------------------- */
-import logo from "../../img/logo3.svg";
-import logo2 from "../../img/logo2.svg";
+import logo from "../../img/logo.svg";
 import list from "../../img/list.png";
 import pass from "../../img/pass.png";
 import size from "../../img/size.png";
@@ -28,18 +27,16 @@ export default function Inicio() {
             <div className="w-100 text-white">
               <img
                 src={logo}
-                width="150"
-                height="150"
+                width="200"
+                height="200"
                 alt="React Bootstrap logo"
               />
-              <br />
-              <img src={logo2} height="100" alt="React Bootstrap logo" />
-              <h4>
-                Si no tenemos la entrada, el concierto es en casa del artista.
-              </h4>
+              <p style={{ fontWeight: 700, fontSize: "4rem" }}>
+                Si no tenemos la entrada, <br /> es en casa del artista.
+              </p>
               <br />
               <Link to="/usuario/registrar">
-                <Button size="lg" variant="outline-warning">
+                <Button size="lg" variant="warning">
                   Consigue tu MultiPass
                 </Button>
               </Link>
@@ -231,7 +228,10 @@ export default function Inicio() {
                   <Accordion.Collapse eventKey="0">
                     <Card.Body>
                       MultiPass es un sistema de suscripción mensual que te
-                      permite acceder a todos los conciertos que quieras.
+                      permite acceder a todos los conciertos que quieras. Con tu
+                      App, tendrás a tu alcance todas las entradas que hayas
+                      agregado a tu MultiPass listas para entrar a cualquier
+                      concierto.
                     </Card.Body>
                   </Accordion.Collapse>
                 </Card>
