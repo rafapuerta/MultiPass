@@ -3,7 +3,7 @@ import { Container, Row, Col, Accordion, Card, Button } from "react-bootstrap";
 import { HashLink as Link } from "react-router-hash-link";
 
 /* --------------------MEDIA-------------------- */
-import logo from "../../img/logo.svg";
+import logo from "../../img/logo3.svg";
 import logo2 from "../../img/logo2.svg";
 import list from "../../img/list.png";
 import pass from "../../img/pass.png";
