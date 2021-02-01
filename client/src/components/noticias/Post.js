@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Spinner,
-  Pagination,
-} from "react-bootstrap";
+import { Container, Row, Col, Spinner, Pagination } from "react-bootstrap";
 
 const { DateTime } = require("luxon");
 
@@ -21,7 +15,6 @@ export default function Post() {
 
   useEffect(() => {
     setLoading(true);
-    console.log("llamando...")
     fetch("/noticias/post/" + slug)
       .then((response) => {
         if (response.status === 200) {
@@ -56,10 +49,12 @@ export default function Post() {
         <Row>
           <Col>
             <h1>{post.title}</h1>
-            <p style={{color:"#999999"}}>{`${fecha.day}/${fecha.month}/${fecha.year}`}</p>
+            <p
+              style={{ color: "#999999" }}
+            >{`${fecha.day}/${fecha.month}/${fecha.year}`}</p>
           </Col>
         </Row>
-        <Row style={{marginTop: 30}}>
+        <Row style={{ marginTop: 30 }}>
           <Col>
             <div dangerouslySetInnerHTML={{ __html: post.body }} />
           </Col>
@@ -67,7 +62,7 @@ export default function Post() {
         <Row className="d-flex flex-row align-items-center justify-content-center">
           <Pagination>
             <Pagination.Prev
-            disabled={prev === null}
+              disabled={prev === null}
               onClick={() => {
                 setSlug(prev.slug);
               }}
@@ -75,12 +70,10 @@ export default function Post() {
               Anterior
             </Pagination.Prev>
             <Pagination.Item>
-              <Link to="/noticias">
-                Volver
-              </Link>
+              <Link to="/noticias">Volver</Link>
             </Pagination.Item>
             <Pagination.Next
-            disabled={next === null}
+              disabled={next === null}
               onClick={() => {
                 setSlug(next.slug);
               }}
