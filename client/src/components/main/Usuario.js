@@ -55,7 +55,7 @@ export default function Usuario({
         } else {
           console.log("usuario refrescado");
           setUsuario(data);
-          setFiltradas(usuario.entradas);
+          setFiltradas(data.entradas);
           setSesion(true);
         }
       });
