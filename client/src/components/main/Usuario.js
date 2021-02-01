@@ -9,12 +9,13 @@ import {
   Alert,
   Tooltip,
   Image,
-  OverlayTrigger,
   ProgressBar,
   FormControl,
+  InputGroup,
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Link, Redirect, Route } from "react-router-dom";
+import Entrada from "./Entrada";
 
 //-----MEDIA------
 
@@ -34,16 +35,17 @@ export default function Usuario({
   setUsuario,
   logout,
 }) {
-  let peso = 0;
   let entradasMostrar;
+  let peso = 0;
   const [feedback, setFeedback] = useState("");
-  const [refresh, setRefresh] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [buscar, setBuscar] = useState("");
   const [ordenar, setOrdenar] = useState("asc");
   const [criterio, setCriterio] = useState("artista");
   const [filtradas, setFiltradas] = useState([]);
 
   useEffect(() => {
+    console.log("llamando...");
     fetch("/user/info")
       .then((response) => response.json())
       .then((data) => {
@@ -51,6 +53,7 @@ export default function Usuario({
           console.log({ status: "Denegado" });
           setSesion(false);
         } else {
+          console.log("usuario refrescado");
           setUsuario(data);
           setFiltradas(usuario.entradas);
           setSesion(true);
@@ -69,7 +72,7 @@ export default function Usuario({
     })
       .then((res) => res.json())
       .then(function (datos) {
-        setRefresh([]);
+        setRefresh(!refresh);
         setFeedback(<Alert variant="success">{datos.mensaje}</Alert>);
       });
   };
@@ -106,7 +109,7 @@ export default function Usuario({
         return (
           <Col>
             <Link to="/usuario/admin">
-              <Button size="sm" variant="warning">
+              <Button style={{ margin: 10 }} size="sm" variant="warning">
                 Administrador
               </Button>
             </Link>
@@ -128,14 +131,19 @@ export default function Usuario({
                 </Col>
                 <Col>
                   <Link to="/">
-                    <Button size="sm" variant="warning" onClick={logout}>
+                    <Button
+                      style={{ margin: 10 }}
+                      size="sm"
+                      variant="warning"
+                      onClick={logout}
+                    >
                       Cerrar sesión
                     </Button>
                   </Link>
                 </Col>
                 <Col>
                   <Link to="/usuario/editar">
-                    <Button size="sm" variant="warning">
+                    <Button style={{ margin: 10 }} size="sm" variant="warning">
                       Editar datos
                     </Button>
                   </Link>
@@ -221,7 +229,7 @@ export default function Usuario({
             setTimeout(() => {
               setFeedback("");
             }, 5000);
-            setRefresh([]);
+            setRefresh(!refresh);
           } else {
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
             setTimeout(() => {
@@ -343,7 +351,7 @@ export default function Usuario({
                     >
                       {usuario.categoria === 5
                         ? "Categoría actual"
-                        : "Cambiar a Bronce"}
+                        : "Cambiar a Bronce*"}
                     </Button>
                   </Card.Body>
                 </Card>
@@ -377,7 +385,7 @@ export default function Usuario({
                     >
                       {usuario.categoria === 10
                         ? "Categoría actual"
-                        : "Cambiar a Silver"}
+                        : "Cambiar a Silver*"}
                     </Button>
                   </Card.Body>
                 </Card>
@@ -411,22 +419,43 @@ export default function Usuario({
                     >
                       {usuario.categoria === 15
                         ? "Categoría actual"
-                        : "Cambiar a Gold"}
+                        : "Cambiar a Gold*"}
                     </Button>
                   </Card.Body>
                 </Card>
               </Row>
+              <Row>
+                <Col>
+                  <p className="text-muted">
+                    *Tu cambio de categoría se hará efectivo el día 1 del mes
+                    siguiente
+                  </p>
+                </Col>
+              </Row>
             </Container>
           </Form.Row>
-          <Form.Row>
-            <Col sm={6}>
-              <Button block size="sm" onClick={editar} variant="success">
-                Guardar
+
+          <Form.Row
+            style={{ marginTop: 20 }}
+            className="justify-content-center"
+          >
+            <Col sm={3}>
+              <Button
+                block
+                size="sm"
+                onClick={editar}
+                variant="outline-success"
+              >
+                <span className="mdi mdi-content-save">Guardar</span>
               </Button>
-            </Col>
-            <Col sm={6}>
-              <Button as={Link} to="/usuario" block size="sm" variant="danger">
-                Descartar
+              <Button
+                as={Link}
+                to="/usuario"
+                block
+                size="sm"
+                variant="outline-danger"
+              >
+                <span className="mdi mdi-close-thick">Descartar</span>
               </Button>
             </Col>
           </Form.Row>
@@ -449,7 +478,6 @@ export default function Usuario({
     const [feedback, setFeedback] = useState("");
 
     const anyadir = () => {
-      console.log("llamando...");
       fetch("/entradas/anyadir", {
         method: "POST",
         headers: {
@@ -473,7 +501,7 @@ export default function Usuario({
             setTimeout(() => {
               setFeedback("");
             }, 5000);
-            setRefresh([]);
+            setRefresh(!refresh);
           } else {
             console.log(data.mensaje);
             setFeedback(<Alert variant="danger">{data.mensaje}</Alert>);
@@ -719,10 +747,11 @@ export default function Usuario({
     };
 
     entradasMostrar = filtradas.map((entrada) => {
+      console.log(entrada);
       // TODO Crear componente Entrada, pasando el elemento entrada del .map por props. Dentro generar un Modal individual con el QR generado que salte al tocar el qr original y se cierre al tocar el modal
       peso += entrada.peso;
-      var fecha = DateTime.fromISO(entrada.fecha);
-      var qr = JSON.stringify({
+      /*var fecha = DateTime.fromISO(entrada.fecha);
+        var qr = JSON.stringify({
         email: usuario.email,
         dni: usuario.dni,
         entrada: {
@@ -732,10 +761,20 @@ export default function Usuario({
           lugar: entrada.sala,
           fecha: entrada.fecha,
         },
-      });
+      }); */
 
       return (
-        <Card key={entrada.id} style={{ margin: 10, maxWidth: 340 }}>
+        <>
+          <Entrada
+            usuario={usuario}
+            entrada={entrada}
+            DateTime={DateTime}
+            QRCode={QRCode}
+            eliminarEntrada={eliminarEntrada}
+            categoria={categoria}
+            tier={tier}
+          />
+          {/* <Card key={entrada.id} style={{ margin: 10, maxWidth: 340 }}>
           <Card.Img
             variant="top"
             src={entrada.cartel}
@@ -801,7 +840,8 @@ export default function Usuario({
               Eliminar
             </Button>
           </Card.Body>
-        </Card>
+        </Card> */}
+        </>
       );
     });
   }
@@ -818,16 +858,23 @@ export default function Usuario({
           <Row style={{ padding: 10, marginBottom: 20 }}>
             <Col>
               <Form>
-                <FormControl
-                  as="input"
-                  placeholder="Buscar..."
-                  value={buscar}
-                  onChange={(e) => {
-                    setBuscar(e.target.value);
-                    filtrar(e.target.value);
-                  }}
-                  type="search"
-                />
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Text>
+                      <span className="mdi mdi-magnify"></span>
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <FormControl
+                    as="input"
+                    placeholder="Buscar..."
+                    value={buscar}
+                    onChange={(e) => {
+                      setBuscar(e.target.value);
+                      filtrar(e.target.value);
+                    }}
+                    type="search"
+                  />
+                </InputGroup>
               </Form>
             </Col>
             <Col className="d-flex justify-content-end">
