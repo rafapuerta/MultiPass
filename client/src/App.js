@@ -1,19 +1,28 @@
-import './App.css';
+import "./App.css";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@mdi/font/css/materialdesignicons.min.css";
 
-import {BrowserRouter, Route} from "react-router-dom"
-import {Alert} from "react-bootstrap"
-import {useState} from "react"
+import { BrowserRouter, Route } from "react-router-dom";
+import { Alert } from "react-bootstrap";
+import { useState } from "react";
 
-import {Cabecera, Footer, Conciertos, Inicio, Registro, Usuario, Noticias, Post, Stripe} from "./components"
-
+import {
+  Cabecera,
+  Footer,
+  Conciertos,
+  Inicio,
+  Registro,
+  Usuario,
+  Noticias,
+  Post,
+  Stripe,
+} from "./components";
 
 function App() {
-  const [sesion, setSesion] = useState(false)
-  const [usuario, setUsuario] =useState({})
-  const [feedback, setFeedback] = useState("")
-
+  const [sesion, setSesion] = useState(false);
+  const [usuario, setUsuario] = useState({});
+  const [feedback, setFeedback] = useState("");
 
   const login = (email, pass) => {
     fetch("/user/login", {
@@ -29,9 +38,9 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.log({ status: "Denegado"});
+          console.log({ status: "Denegado" });
           setFeedback(<Alert variant="danger">Datos incorrectos</Alert>);
-          setSesion(false)
+          setSesion(false);
         } else {
           setUsuario(data);
           setSesion(true);
@@ -52,34 +61,44 @@ function App() {
       });
   };
 
-
-
   return (
     <BrowserRouter>
-    <Cabecera login={login} usuario={usuario} sesion={sesion} feedback={feedback} setFeedback={setFeedback}/>
-    <Route exact path="/">
-      <Inicio />
-    </Route>
-    
-    <Route exact path="/usuario">
-      <Usuario usuario={usuario} setUsuario={setUsuario} sesion={sesion} setSesion={setSesion} logout={logout}/>
-    </Route>
-    <Route exact path="/usuario/registrar">
-      <Registro />
-    </Route>
-    <Route exact path="/conciertos">
-      <Conciertos usuario={usuario} sesion={sesion}/>
-    </Route>
-    <Route exact path="/noticias">
-      <Noticias />
-    </Route>
-    <Route exact path="/post/:slug">
-      <Post />
+      <Cabecera
+        login={login}
+        usuario={usuario}
+        sesion={sesion}
+        feedback={feedback}
+        setFeedback={setFeedback}
+      />
+      <Route exact path="/">
+        <Inicio />
       </Route>
-    <Route exact path="/stripe">
-      <Stripe />
-    </Route>
-    <Footer />
+
+      <Route exact path="/usuario">
+        <Usuario
+          usuario={usuario}
+          setUsuario={setUsuario}
+          sesion={sesion}
+          setSesion={setSesion}
+          logout={logout}
+        />
+      </Route>
+      <Route exact path="/usuario/registrar">
+        <Registro />
+      </Route>
+      <Route exact path="/conciertos">
+        <Conciertos usuario={usuario} sesion={sesion} />
+      </Route>
+      <Route exact path="/noticias">
+        <Noticias />
+      </Route>
+      <Route exact path="/post/:slug">
+        <Post />
+      </Route>
+      <Route exact path="/stripe">
+        <Stripe />
+      </Route>
+      <Footer />
     </BrowserRouter>
   );
 }
