@@ -290,8 +290,11 @@ const Conciertos = (props) => {
         concierto.sala.toLowerCase().includes(clave.toLowerCase()) ||
         concierto.fecha.includes(clave)
     );
+    console.log(
+      "🚀 ~ file: Conciertos.js ~ line 293 ~ filtrar ~ filtrado",
+      filtrado
+    );
     setConciertos(filtrado);
-    console.log(filtrado);
   }
 
   function compararValor(clave, orden) {
