@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, Container, Spinner, Row, Col, CardColumns } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  Spinner,
+  Row,
+  Col,
+  CardColumns,
+} from "react-bootstrap";
 
 const { DateTime } = require("luxon");
 
@@ -39,24 +46,33 @@ export default function Noticias() {
     const mostrarPosts = posts.data.map((post) => {
       let fecha = DateTime.fromISO(post.published);
       return (
-        <Card >
-          <Card.Img
-            variant="top"
-            src={post.featured_image}
-          />
-          <Row>
-            <Col>
-              <Card.Title>
+        <Card key={post.slug} style={{ margin: 10, maxWidth: 340 }}>
+          <Card.Img variant="top" src={post.featured_image} />
+          <Card.Body>
+            <Card.Title>
+              <Row
+                style={{
+                  paddingTop: 5,
+                }}
+              >
+                <small class="text-muted">{`${fecha.day}/${fecha.month}/${fecha.year}`}</small>
+              </Row>
+              <Row
+                style={{
+                  paddingBottom: 5,
+                }}
+              >
                 <Link style={{ color: "black" }} to={"/post/" + post.slug}>
-                  {post.title}
+                  <h3>{post.title}</h3>
                 </Link>
-                <h6
-                  style={{ color: "#999999" }}
-                >{`${fecha.day}/${fecha.month}/${fecha.year}`}</h6>
-              </Card.Title>
-              <Card.Body>{post.summary}</Card.Body>
-            </Col>
-          </Row>
+              </Row>
+            </Card.Title>
+            <Card.Text>
+              <Row className="d-flex justify-content-center">
+                <Col>{post.summary}</Col>
+              </Row>
+            </Card.Text>
+          </Card.Body>
         </Card>
       );
     });
