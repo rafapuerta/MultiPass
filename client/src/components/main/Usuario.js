@@ -37,6 +37,7 @@ export default function Usuario({
 }) {
   let entradasMostrar;
   let peso = 0;
+  let sumado = 0;
   const [feedback, setFeedback] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [buscar, setBuscar] = useState("");
@@ -746,23 +747,12 @@ export default function Usuario({
       }
     };
 
-    entradasMostrar = filtradas.map((entrada) => {
-      console.log(entrada);
-      // TODO Crear componente Entrada, pasando el elemento entrada del .map por props. Dentro generar un Modal individual con el QR generado que salte al tocar el qr original y se cierre al tocar el modal
+    sumado = usuario.entradas.map((entrada) => {
       peso += entrada.peso;
-      /*var fecha = DateTime.fromISO(entrada.fecha);
-        var qr = JSON.stringify({
-        email: usuario.email,
-        dni: usuario.dni,
-        entrada: {
-          id: entrada.id,
-          artista: entrada.grupo,
-          entrada: entrada.numero,
-          lugar: entrada.sala,
-          fecha: entrada.fecha,
-        },
-      }); */
+      return peso;
+    });
 
+    entradasMostrar = filtradas.map((entrada) => {
       return (
         <>
           <Entrada
@@ -774,73 +764,6 @@ export default function Usuario({
             categoria={categoria}
             tier={tier}
           />
-          {/* <Card key={entrada.id} style={{ margin: 10, maxWidth: 340 }}>
-          <Card.Img
-            variant="top"
-            src={entrada.cartel}
-            style={{ maxWidth: 340, height: 500 }}
-          />
-          <Card.Body>
-            <Card.Title>
-              <Row
-                style={{
-                  backgroundColor: "#EEEEEE",
-                  borderRadius: 2,
-                  paddingTop: 5,
-                  paddingBottom: 5,
-                }}
-              >
-                <Col>
-                  <h4 style={{ fontWeight: 600 }}>{entrada.grupo}</h4>
-                </Col>
-                <Col sm={2}>
-                  <OverlayTrigger
-                    placement="bottom"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={tier(entrada.categoria)}
-                  >
-                    {categoria(entrada.categoria)}
-                  </OverlayTrigger>
-                </Col>
-              </Row>
-            </Card.Title>
-            <Card.Text>
-              <Row>
-                <Col>
-                  <strong>Fecha:</strong> <br />
-                  {`${fecha.day}/${fecha.month}/${fecha.year} @${fecha.hour}:${fecha.minute}`}
-                </Col>
-                <Col>
-                  <strong>Slots:</strong> <br />
-                  <h4>{entrada.peso}</h4>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <strong>Lugar:</strong> {entrada.sala}
-                </Col>
-                <Col>
-                  <strong>Entrada:</strong> <br />
-                  <h4 style={{ color: "#FF9900" }}>{entrada.numero}</h4>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={{ span: 4, offset: 3 }}>
-                  <QRCode value={qr} />
-                </Col>
-              </Row>
-            </Card.Text>
-            <Button
-              size="sm"
-              variant="warning"
-              value={entrada.id}
-              onClick={eliminarEntrada}
-              block
-            >
-              Eliminar
-            </Button>
-          </Card.Body>
-        </Card> */}
         </>
       );
     });

@@ -9,7 +9,6 @@ const Cabecera = ({ sesion, usuario, login, feedback, setFeedback }) => {
   const [modalShow, setModalShow] = useState(false);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-
   const handleFeedback = () => {
     setFeedback("");
   };
