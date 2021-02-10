@@ -81,7 +81,7 @@ export default function Entrada({
               </Col>
             </Row>
             <Row>
-              <Col md={{ span: 4, offset: 3 }}>
+              <Col className="d-flex justify-content-center">
                 <Link to="/usuario" onClick={handleShow}>
                   <QRCode value={qr} />
                 </Link>

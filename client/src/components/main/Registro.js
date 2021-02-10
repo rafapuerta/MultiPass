@@ -266,7 +266,11 @@ export default function Registro() {
               {feedback}
             </Form>
             <Col sm={1}>
-              <Image style={{ width: 150 }} src={img} roundedCircle />
+              <Image
+                style={{ height: 95, width: 100 }}
+                src={img}
+                roundedCircle
+              />
             </Col>
           </Row>
         </Container>

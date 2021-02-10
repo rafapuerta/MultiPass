@@ -8,7 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Container, Form, FormGroup, Row, Col } from "react-bootstrap";
 import "../../App.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const CARD_OPTIONS = {
   iconStyle: "solid",
@@ -170,7 +170,7 @@ const CheckoutForm = () => {
         simulado: <strong>{paymentMethod.id}</strong>
       </div>
       <Link to="/">
-        <ResetButton />
+        <ResetButton onClick={() => <Redirect to="/" />} />
       </Link>
     </div>
   ) : (

@@ -4,9 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
+Orden.js
 
 # testing
 /coverage
+./Orden.js
 
 # production
 /build

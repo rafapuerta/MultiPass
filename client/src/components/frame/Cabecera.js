@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HashLink as Link } from "react-router-hash-link";
 import { Button, Nav, Navbar, Modal, Form, Image } from "react-bootstrap";
 
@@ -18,6 +18,10 @@ const Cabecera = ({ sesion, usuario, login, feedback, setFeedback }) => {
   const handlePass = (e) => {
     setPass(e.target.value);
   };
+
+  useEffect(() => {
+    console.log(feedback);
+  }, [feedback]);
 
   if (sesion) {
     return (
@@ -177,7 +181,7 @@ function LoginForm(props) {
               onChange={props.handlePass}
             />
           </Form.Group>
-          <Form.Text className="text-muted">{props.feedback}</Form.Text>
+          {props.feedback}
           <Form.Group>
             <Button
               block
@@ -185,7 +189,9 @@ function LoginForm(props) {
               size="sm"
               onClick={() => {
                 props.login(props.email, props.pass);
-                props.onHide();
+                setTimeout(() => {
+                  props.onHide();
+                }, 3000);
               }}
             >
               Log In
