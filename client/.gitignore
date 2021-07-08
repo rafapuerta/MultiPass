@@ -8,7 +8,8 @@ Orden.js
 
 # testing
 /coverage
-./Orden.js
+/src/Orden.js
+
 
 # production
 /build
