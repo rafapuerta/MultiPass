@@ -1,17 +1,31 @@
 const express = require("express");
-const MongoClient = require("mongodb").MongoClient;
 const app = express();
 const cors = require("cors");
+const session = require("express-session");
+
+const MongoClient = require("mongodb").MongoClient;
+
 const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const config = require("./config.json");
 
 let entradas = require("./entradas");
 let noticias = require("./noticias");
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
+
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/entradas", entradas);
 app.use("/noticias", noticias);
@@ -28,19 +42,6 @@ MongoClient.connect(
 );
 
 //----------------PASSPORT------------------- //
-const session = require("express-session");
-
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-const LocalStrategy = require("passport-local").Strategy;
 
 passport.use(
   new LocalStrategy(
