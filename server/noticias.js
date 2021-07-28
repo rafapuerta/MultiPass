@@ -23,9 +23,8 @@ router.get("/posts", function (req, res) {
 });
 
 router.get("/post/:slug", function (req, res) {
-  let slug = req.params.slug;
   butter.post
-    .retrieve(slug)
+    .retrieve(req.params.slug)
     .then(function (resp) {
       res.send(resp.data);
     })

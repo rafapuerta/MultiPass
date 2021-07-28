@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "version": "0.1.1",
+  "name": "multipass-client",
+  "version": "0.1.5",
   "private": true,
   "dependencies": {
     "@mdi/font": "^5.9.55",
